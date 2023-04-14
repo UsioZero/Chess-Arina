@@ -13,12 +13,38 @@ struct Move {
     uint8_t flag;             // Флаг
 
     // Конструктор за замовчуванням
-    Move() : from(0), to(0), pieceSide(0), pieceType(0), attackedPieceType(0), attackedSide(0), flag(0) {}
+    Move(){
+        this->from = 0;
+        this->to=0;
+        this->pieceSide=0;
+        this->pieceType = 0;
+        this->attackedPieceType = 0;
+        this->attackedSide = 0;
+        this->flag = 0;
+    }
 
     // Конструктор з параметрами
     Move(uint8_t f, uint8_t t, uint8_t ps, uint8_t pt, uint8_t apt, uint8_t as, uint8_t fl = Flag::Default)
-        : from(f), to(t), pieceSide(ps), pieceType(pt), attackedPieceType(apt), attackedSide(as), flag(fl) {}
-
+    {
+        this->from = f;
+        this->to=t;
+        this->pieceSide=ps;
+        this->pieceType = pt;
+        this->attackedPieceType = apt;
+        this->attackedSide = as;
+        this->flag = fl;
+    }
+        
+    Move (Move &other)
+    {
+        this->from = other.from;
+        this->to = other.to;
+        this->pieceSide = other.pieceSide;
+        this->pieceType = other.pieceType;
+        this->attackedPieceType = other.attackedPieceType;
+        this->attackedSide = other.attackedSide;
+        this->flag = other.flag;
+    }
     // Перевантаження оператора ==
     bool operator==(const Move& other) const {
         return from == other.from &&
