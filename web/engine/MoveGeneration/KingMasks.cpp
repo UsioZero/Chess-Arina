@@ -36,8 +36,3 @@ namespace KingMasks {
 
     static const std::array<Bitboard, 64> Masks = KingMasks::calc_masks();
 }
-
-int main(){
-    BitboardOperations::print(KingMasks::Masks[61]);
-    return 0;
-}
