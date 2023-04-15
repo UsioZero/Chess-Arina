@@ -1,6 +1,7 @@
+#include <map>
+#include <functional>
 #include "../PositionRepresentation/Bitboard.cpp"
 #include "Direction.cpp"
-
 
 #pragma once
 
@@ -14,17 +15,23 @@ namespace SlidersMasks {
         int8_t x = p % 8;
         int8_t y = p / 8;
 
-        for (; ;) {
-            switch (direction) {
-                case Direction::North: y = y + 1; break;
-                case Direction::South: y = y - 1; break;
-                case Direction::West: x = x - 1; break;
-                case Direction::East: x = x + 1; break;
+        std::map<int8_t, std::pair<int, int>> direction_map {
+            {Direction::North, {0, 1}},
+            {Direction::South, {0, -1}},
+            {Direction::West, {-1, 0}},
+            {Direction::East, {1, 0}},
+            {Direction::NorthWest, {-1, 1}},
+            {Direction::NorthEast, {1, 1}},
+            {Direction::SouthWest, {-1, -1}},
+            {Direction::SouthEast, {1, -1}}
+        };
 
-                case Direction::NorthWest: y = y + 1; x = x - 1; break;
-                case Direction::NorthEast: y = y + 1; x = x + 1; break;
-                case Direction::SouthWest: y = y - 1; x = x - 1; break;
-                case Direction::SouthEast: y = y - 1; x = x + 1; break;
+        for (; ;) {
+
+            auto it = direction_map.find(direction);
+            if (it != direction_map.end()) {
+                x += it->second.first;
+                y += it->second.second;
             }
 
             if (x > 7 || x < 0 || y > 7 || y < 0) break;
