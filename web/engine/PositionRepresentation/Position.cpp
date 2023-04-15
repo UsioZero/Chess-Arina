@@ -91,10 +91,10 @@ void Position::move(Move move) {
 
     std::map<uint8_t, std::function<void()>> flag_actions = {
         {Flag::Default, []{}},
-        {Flag::PawnLongMove, [this, &move] {
+        {Flag::PawnLongMove, [this, move] {
             this->change_en_passant((move.from + move.to) / 2);
         }},
-        {Flag::EnPassantCapture, [this, &move] {
+        {Flag::EnPassantCapture, [this, move] {
             if (move.pieceSide == Pieces::White) 
                 this->remove_piece(move.to - 8, Pieces::Pawn, Pieces::Black);
             else 
@@ -106,6 +106,7 @@ void Position::move(Move move) {
             this->white_castling_happened = true;
         }},
         {Flag::WhiteShortCastling, [this] {
+            
             this->remove_piece(7, Pieces::Rook, Pieces::White);
             this->add_piece(5, Pieces::Rook, Pieces::White);
             this->white_castling_happened = true;
@@ -120,24 +121,27 @@ void Position::move(Move move) {
             this->add_piece(61, Pieces::Rook, Pieces::Black);
             this->black_castling_happened = true;
         }},
-        {Flag::PromoteToKnight, [this, &move] {
+        {Flag::PromoteToKnight, [this, move] {
             this->remove_piece(move.to, Pieces::Pawn, move.pieceSide);
             this->add_piece(move.to, Pieces::Knight, move.pieceSide);
         }},
-        {Flag::PromoteToBishop, [this, &move] {
+        {Flag::PromoteToBishop, [this, move] {
             this->remove_piece(move.to, Pieces::Pawn, move.pieceSide);
             this->add_piece(move.to, Pieces::Bishop, move.pieceSide);
         }},
-        {Flag::PromoteToRook, [this, &move] {
+        {Flag::PromoteToRook, [this, move] {
             this->remove_piece(move.to, Pieces::Pawn, move.pieceSide);
             this->add_piece(move.to, Pieces::Rook, move.pieceSide);
         }},
-        {Flag::PromoteToQueen, [this, &move] {
+        {Flag::PromoteToQueen, [this, move] {
             this->remove_piece(move.to, Pieces::Pawn, move.pieceSide);
             this->add_piece(move.to, Pieces::Queen, move.pieceSide);
         }}
     };
-    flag_actions[move.flag];
+
+    if(flag_actions.count(move.flag) > 0){
+        flag_actions[move.flag]();
+    }
 
     this->pieces.update_bitboards();
 
@@ -151,7 +155,10 @@ void Position::move(Move move) {
         {60, [this]() { this->remove_b_l_castling(); this->remove_b_s_castling(); }},
         {63, [this]() { this->remove_b_s_castling(); }}
     };
-    position_map[move.from];
+
+    if (position_map.count(move.from) > 0) {
+        position_map[move.from]();
+    }
 
     this->update_move_ctr();
 
@@ -207,30 +214,3 @@ void Position::update_fifty_moves_ctr(bool break_event) {
     if (break_event) this->fifty_moves_ctr = 0;
     else this->fifty_moves_ctr = this->fifty_moves_ctr + 0.5f;
 }
-
-// int main()
-// {
-//     Position pos("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", 0, true, true, true, true, 0.0);
-//     std::cout<<pos;
-//     pos.move(Move(12, 28, 0, 0, 255, 1, 1));
-//     std::cout<<pos;
-//     pos.move(Move(51, 35, 1, 0, 255, 0, 1));
-//     std::cout<<pos;
-//     pos.move(Move(6, 21, 0, 1, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(35, 27, 1, 0, 255, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(5, 12, 0, 2, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(27, 19, 1, 0, 255, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(4, 6, 0, 5, 255, 1, 4));
-//     std::cout<<pos;
-//     pos.move(Move(19, 12, 1, 0, 2, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(28, 36, 0, 0, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(12, 3, 1, 0, 4, 0, 10));
-//     std::cout<<pos;
-//     return 0;
-// }
