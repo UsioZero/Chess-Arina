@@ -164,9 +164,9 @@ void Position::move(Move move) {
 
     this->update_move_ctr();
 
-    this->update_fifty_moves_ctr(move.pieceType == Pieces::Pawn or move.attackedPieceType != 255);
+    this->update_fifty_moves_ctr(move.pieceType == Pieces::Pawn || move.attackedPieceType != 255);
 
-    if (move.pieceType == Pieces::Pawn or move.attackedPieceType != 255) this->repetition_history.clear();
+    if (move.pieceType == Pieces::Pawn || move.attackedPieceType != 255) this->repetition_history.clear();
     this->repetition_history.add_position(this->hash);
 }
 void Position::add_piece(uint8_t square, uint8_t type, uint8_t side) {
@@ -217,29 +217,3 @@ void Position::update_fifty_moves_ctr(bool break_event) {
     else this->fifty_moves_ctr = this->fifty_moves_ctr + 0.5f;
 }
 
-// int main()
-// {
-//     Position pos("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", 0, true, true, true, true, 0.0);
-//     std::cout<<pos;
-//     pos.move(Move(12, 28, 0, 0, 255, 1, 1));
-//     std::cout<<pos;
-//     pos.move(Move(51, 35, 1, 0, 255, 0, 1));
-//     std::cout<<pos;
-//     pos.move(Move(6, 21, 0, 1, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(35, 27, 1, 0, 255, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(5, 12, 0, 2, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(27, 19, 1, 0, 255, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(4, 6, 0, 5, 255, 1, 4));
-//     std::cout<<pos;
-//     pos.move(Move(19, 12, 1, 0, 2, 0, 0));
-//     std::cout<<pos;
-//     pos.move(Move(28, 36, 0, 0, 255, 1, 0));
-//     std::cout<<pos;
-//     pos.move(Move(12, 3, 1, 0, 4, 0, 10));
-//     std::cout<<pos;
-//     return 0;
-// }
