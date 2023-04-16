@@ -3,8 +3,12 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <!-- Link your script.js file -->
+  <script src="script.js"></script>
    <link rel="stylesheet" type="text/css" href="styles.css" />
+
 </head>
 
 <body>
@@ -13,7 +17,6 @@
         <img id = "logo-img" src="../img/logo_transparent.png" alt="Logo">
     </div>
     <div class="buttons">
-      <!-- Buttons content goes here -->
       <div id="btn1-container" class="menu-button-container">
         <div class="button-icon">
             <img src="../img/avatars/Avatar2.png" alt="Button 1 Icon">
@@ -61,12 +64,24 @@
     </div>
   </div>
   <div class="top">
-    <!-- Top strip content goes here -->
+    <h3 id="strip-title">Chess history: Creation of chess</h3>
   </div>
   <div class="content">
-    <div class="image">
-        <img src="../img/Frog_main.png" alt="Main_menu_frog">
+    <div id="button-row" class="button-row">
+        <button id="btn6" class="round-button" href="#">
+        </button>
+        <button id="btn7" class="round-button" href="#">
+        </button>
     </div>
+    <div id="dialog-image">
+        <img src="../img/dialog/dialog1.png" id="content-image-3">
+      </div>
+      <div class="image">
+        <img src="../img/Frog_main.png" alt="Main_menu_frog">
+    <img id="content-image-1" class="content-image" src="../img/main_img/1.png" alt="Content Image 1">
+    <img id="content-image-2" class="content-image" src="../img/main_img/2.png" alt="Content Image 2">
+    </div>
+
   </div>
 </body>
 

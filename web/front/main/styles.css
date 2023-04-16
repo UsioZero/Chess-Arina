@@ -44,7 +44,8 @@ body {
 .top {
   grid-area: top;
   height: 150px;
-  background-color: greenyellow;
+  background-color: #FFB142;
+  ;
   /* Set the height and background color of the top strip */
 }
 
@@ -138,3 +139,73 @@ body {
     background: #00B2FF;
     border-right: 3px solid #000000;
 }
+
+#strip-title {
+    /* Add appropriate styles for the strip title */
+    text-align: center;
+    margin: 0;
+}
+.top{
+    /* Add appropriate styles for the top strip */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+#dialog-image {
+    position: absolute;
+    bottom: 400px;
+    right: 500px;
+    height: 418px;
+    width: auto;
+}
+.content-image {
+    border-radius: 30px;
+    position: absolute;
+
+    border: 5px #FFB142 solid;
+}
+  
+#content-image-1 {
+    width: 300px;
+    height: 300px;
+    bottom: 420px;
+    right: 100px;
+
+}
+
+#content-image-2 {
+    width: 250px;
+    height: 250px;
+    bottom: 150px;
+    right: 1200px;
+}
+.button-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px; /* adjust as needed */
+  }
+  
+  .round-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center center;
+    margin: 0 5px; /* adjust as needed */
+  }
+  #btn6 {
+    /* Add unique styles for button 6 */
+    background-image: url('../img/icons/previous.png');
+  }
+  
+  #btn7 {
+    /* Add unique styles for button 7 */
+    background-image: url('../img/icons/next.png');
+  }
+
