@@ -1,7 +1,9 @@
-// Тип фігури на клітині, куди зроблено хід 
-
-#include <iostream>
+#include <cstdint>
 #include "Flag.cpp"
+
+#pragma once
+
+
 // Структура Move
 struct Move {
     uint8_t from;              // Координата клітинки початку
@@ -13,12 +15,29 @@ struct Move {
     uint8_t flag;             // Флаг
 
     // Конструктор за замовчуванням
-    Move() : from(0), to(0), pieceSide(0), pieceType(0), attackedPieceType(0), attackedSide(0), flag(0) {}
+    Move(){
+        this->from = 0;
+        this->to=0;
+        this->pieceSide=0;
+        this->pieceType = 0;
+        this->attackedPieceType = 0;
+        this->attackedSide = 0;
+        this->flag = 0;
+    }
 
     // Конструктор з параметрами
-    Move(uint8_t f, uint8_t t, uint8_t ps, uint8_t pt, uint8_t apt, uint8_t as, uint8_t fl = Flag::Default)
-        : from(f), to(t), pieceSide(ps), pieceType(pt), attackedPieceType(apt), attackedSide(as), flag(fl) {}
-
+    Move(uint8_t f, uint8_t t, uint8_t pt, uint8_t ps, uint8_t apt,
+     uint8_t as, uint8_t fl = Flag::Default)
+    {
+        this->from = f;
+        this->to=t;
+        this->pieceSide=ps;
+        this->pieceType = pt;
+        this->attackedPieceType = apt;
+        this->attackedSide = as;
+        this->flag = fl;
+    }
+        
     // Перевантаження оператора ==
     bool operator==(const Move& other) const {
         return from == other.from &&
@@ -30,3 +49,4 @@ struct Move {
                flag == other.flag;
     }
 };
+

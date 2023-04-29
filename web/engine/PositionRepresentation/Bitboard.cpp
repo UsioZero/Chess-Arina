@@ -76,3 +76,59 @@ namespace BitboardOperations {
         return BitboardOperations::BitScanTable[(bb * 0x03f79d71b4cb0a89) >> 58];
     }
 }
+
+
+namespace BitboardRows {
+    static const std::array<Bitboard, 8> calc_rows() {
+        std::array<Bitboard, 8> rows{};
+
+        for (uint8_t y = 0; y < 8; y = y + 1) {
+            for (uint8_t x = 0; x < 8; x = x + 1) BitboardOperations::set_1(rows[y], y * 8 + x);
+        }
+
+        return rows;
+    }
+
+
+    static const std::array<Bitboard, 8> Rows = BitboardRows::calc_rows();
+
+
+    static const std::array<Bitboard, 8> calc_inversion_rows() {
+        std::array<Bitboard, 8> inversion_rows{};
+
+        for (uint8_t i = 0; i < 8; i = i + 1) inversion_rows[i] = ~Rows[i];
+
+        return inversion_rows;
+    }
+
+
+    static const std::array<Bitboard, 8> InversionRows = BitboardRows::calc_inversion_rows();
+}
+
+
+namespace BitboardColumns {
+    static const std::array<Bitboard, 8> calc_columns() {
+        std::array<Bitboard, 8> columns{};
+
+        for (uint8_t x = 0; x < 8; x = x + 1) {
+            for (uint8_t y = 0; y < 8; y = y + 1) BitboardOperations::set_1(columns[x], y * 8 + x);
+        }
+
+        return columns;
+    }
+
+
+    static const std::array<Bitboard, 8> Columns = BitboardColumns::calc_columns();
+
+
+    static const std::array<Bitboard, 8> calc_inversion_columns() {
+        std::array<Bitboard, 8> inversion_columns{};
+
+        for (uint8_t i = 0; i < 8; i = i + 1) inversion_columns[i] = ~Columns[i];
+
+        return inversion_columns;
+    }
+
+
+    static const std::array<Bitboard, 8> InversionColumns = BitboardColumns::calc_inversion_columns();
+}
