@@ -281,12 +281,12 @@ int32_t AI::alpha_beta_max_only_captures(const Position& position, int32_t alpha
     return alpha;
 }
 
-int main(){
-    AI ai("../opening_book.txt");
-    Move bm = ai.best_move(Position("rnbqkbnr/pppp1ppp/8/4p3/3P4/8/PPP1PPPP/RNBQKBNR",44,1,1,1,1,2), 0, 1000, 10000);
-    std::cout<<unsigned(bm.from)<<" "<<unsigned(bm.to)<<" "<<unsigned(bm.pieceType);
+// int main(){
+//     AI ai("../opening_book.txt");
+//     Move bm = ai.best_move(Position("rnbqkbnr/pppp1ppp/8/4p3/3P4/8/PPP1PPPP/RNBQKBNR",44,1,1,1,1,2), 0, 1000, 10000);
+//     std::cout<<unsigned(bm.from)<<" "<<unsigned(bm.to)<<" "<<unsigned(bm.pieceType);
 
-    Move bm2 = ai.best_move(Position("rnbqkbnr/pppp1ppp/8/4P3/8/8/PPP1PPPP/RNBQKBNR",255,1,1,1,1,2.5), 1, 1000, 10000);
-    std::cout<<unsigned(bm2.from)<<" "<<unsigned(bm2.to)<<" "<<unsigned(bm2.pieceType);
-    return 0;
-}
+//     Move bm2 = ai.best_move(Position("rnbqkbnr/pppp1ppp/8/4P3/8/8/PPP1PPPP/RNBQKBNR",255,1,1,1,1,2.5), 1, 1000, 10000);
+//     std::cout<<unsigned(bm2.from)<<" "<<unsigned(bm2.to)<<" "<<unsigned(bm2.pieceType);
+//     return 0;
+// }
