@@ -3,8 +3,17 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
+const credentials = require('./middleware/credentials');
+const { logger } = require('./middleware/logger');
 // set port equal to 3000
 const PORT = process.env.PORT || 3000;
+
+//logger
+app.use(logger);
+
+// cors + credentinals
+app.use(credentials);
+app.use(cors(corsOptions));
 
 // jshow json and etc
 app.use(express.urlencoded({ extended: false }));
@@ -12,9 +21,14 @@ app.use(express.json());
 
 // access static data
 app.use(express.static(path.join(__dirname, '/public')));
+app.use('/settings', express.static(path.join(__dirname, '/public')));
+app.use('/profile', express.static(path.join(__dirname, '/public')));
+app.use('/game', express.static(path.join(__dirname, '/public')));
 
 // router
 app.use('/', require('./routes/root'));
+app.use('/game', require('./routes/game'));
+app.use('/settings', require('./routes/settings'));
 // api
 // auth
 // 404
