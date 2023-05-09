@@ -53,7 +53,7 @@ body {
   .content {
     grid-area: content;
     /* The content area will fill the remaining space in the grid container */
-    background-image: url('../img/bgs/bg.png');
+    background-image: url('img/bgs/bg.png');
     background-size: cover;
     background-position: top left; /* Adjust the values here to cut the image from desired part */
     /* Set the background color of the content area */
@@ -161,21 +161,21 @@ body {
   }
   #btnprev {
     /* Add unique styles for button 6 */
-    background-image: url('../img/icons/previous.png');
+    background-image: url('img/icons/previous.png');
   }
   
   #btnnext {
     /* Add unique styles for button 7 */
-    background-image: url('../img/icons/next.png');
+    background-image: url('img/icons/next.png');
   }
   #btnprevprev {
     /* Add unique styles for button 6 */
-    background-image: url('../img/icons/Previous++.png');
+    background-image: url('img/icons/Previous++.png');
   }
   
   #btnnextnext {
     /* Add unique styles for button 7 */
-    background-image: url('../img/icons/Next++.png');
+    background-image: url('img/icons/Next++.png');
   }
   .move-text-container{
     height: 400px;
@@ -327,7 +327,7 @@ td.cell {
   .board-table {
     width: 720px;
     height: 720px;
-    background-image: url('../img/board.png');
+    background-image: url('img/board.png');
     background-repeat: no-repeat;
     border-collapse: collapse;
     border-spacing: 0;

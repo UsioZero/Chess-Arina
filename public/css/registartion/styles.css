@@ -52,7 +52,7 @@ body {
 .content {
   grid-area: content;
   /* The content area will fill the remaining space in the grid container */
-  background-image: url('../img/bgs/bg.png');
+  background-image: url('img/bgs/bg.png');
   background-size: cover;
   background-position: top left; /* Adjust the values here to cut the image from desired part */
   /* Set the background color of the content area */
@@ -184,7 +184,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('../img/bgs/bg.png');
+  background-image: url('img/bgs/bg.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;

@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', function () {
     // Define the dataArray with the image URLs
-    var dataArray = ["../img/avatars/Avatar7.png", "../img/bgs/bg1.png"];
+    var dataArray = ["img/avatars/Avatar7.png", "img/bgs/bg1.png"];
 
     // Get a reference to the img element inside the td element with class "avatar-td"
     const avatarImgs = document.querySelectorAll('.avatar-td img');

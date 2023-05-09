@@ -145,10 +145,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (fenSpaces2[i] !== " ") {
               const pieceType = fenSpaces2[i].toLowerCase();
               const isWhite = fenSpaces2[i] === fenSpaces2[i].toUpperCase();
-              const src = `../img/pieces/pak1/${pieceType}${isWhite ? "" : "2"}.png`;
+              const src = `img/pieces/pak1/${pieceType}${isWhite ? "" : "2"}.png`;
               img.setAttribute("src", src);
             } else {
-              const src = `../img/pieces/pak1/N${(i%8 + Math.floor(i / 8))% 2 === 1 ? "even" : "odd"}.png`;
+              const src = `img/pieces/pak1/N${(i%8 + Math.floor(i / 8))% 2 === 1 ? "even" : "odd"}.png`;
               img.setAttribute("src", src);
             }
           }
