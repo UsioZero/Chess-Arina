@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 // set port equal to 3000
 const PORT = process.env.PORT || 3000;
 
-// i don know wtf is it but it required
+// jshow json and etc
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -14,12 +15,13 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // router
 app.use('/', require('./routes/root'));
-
+// api
+// auth
 // 404
 app.all('*', (req, res) => {
   res.status(404);
   if (req.accepts('html')) {
-    res.sendFile(path.join(__dirname, 'views', '404.html'));
+    res.sendFile(path.join(__dirname, 'views', '404', 'index.html'));
   } else if (req.accepts('json')) {
     res.json({ error: "404 Not Found" });
   } else {
@@ -28,5 +30,5 @@ app.all('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  console.log(`Server running on port ${PORT}`);
+});
