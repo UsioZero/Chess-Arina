@@ -3,33 +3,33 @@ $(document).ready(function() {
   var patterns = [
     {
       title: "Chess history: Creation of chess",
-      img1: "../img/main_img/1.png",
-      img2: "../img/main_img/2.png",
-      dialog: "../img/dialog/dialog1.png"
+      img1: "img/main_img/1.png",
+      img2: "img/main_img/2.png",
+      dialog: "img/dialog/dialog1.png"
     },
     {
       title: "Chess history: Chess in Europe",
-      img1: "../img/main_img/3.png",
-      img2: "../img/main_img/4.png",
-      dialog: "../img/dialog/dialog2.png"
+      img1: "img/main_img/3.png",
+      img2: "img/main_img/4.png",
+      dialog: "img/dialog/dialog2.png"
     },
     {
       title: "Chess history: Chess rules change",
-      img1: "../img/main_img/5.png",
-      img2: "../img/main_img/6.png",
-      dialog: "../img/dialog/dialog3.png"
+      img1: "img/main_img/5.png",
+      img2: "img/main_img/6.png",
+      dialog: "img/dialog/dialog3.png"
     },
     {
       title: "Chess history: Chess as sport",
-      img1: "../img/main_img/7.png",
-      img2: "../img/main_img/8.png",
-      dialog: "../img/dialog/dialog4.png"
+      img1: "img/main_img/7.png",
+      img2: "img/main_img/8.png",
+      dialog: "img/dialog/dialog4.png"
     },
     {
       title: "Chess history: Modern chess",
-      img1: "../img/main_img/9.png",
-      img2: "../img/main_img/10.png",
-      dialog: "../img/dialog/dialog5.png"
+      img1: "img/main_img/9.png",
+      img2: "img/main_img/10.png",
+      dialog: "img/dialog/dialog5.png"
     }
   ];
 

@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     var dataArray = [
-        "../img/avatars/Avatar3.png",
-        "../img/bgs/bg1.png",
+        "img/avatars/Avatar3.png",
+        "img/bgs/bg1.png",
         "Іво Бобул",
         "ibobyl",
         "Ukraine",
@@ -15,22 +15,22 @@ window.addEventListener('DOMContentLoaded', function () {
     var lastGames = [
         ["22.03",
         "11:30",
-        "../img/avatars/Avatar2.png",
+        "img/avatars/Avatar2.png",
         1/2,
         "15|10",
-        "../img/avatars/Avatar1.png"],
+        "img/avatars/Avatar1.png"],
         ["22.03",
         "11:10",
-        "../img/avatars/Avatar3.png",
+        "img/avatars/Avatar3.png",
         1,
         "10|5",
-        "../img/avatars/Avatar2.png"],
+        "img/avatars/Avatar2.png"],
         ["22.03",
         "11:00",
-        "../img/avatars/Avatar4.png",
+        "img/avatars/Avatar4.png",
         1,
         "3|2",
-        "../img/avatars/Avatar2.png"]
+        "img/avatars/Avatar2.png"]
     ]     
     const backgroundImg = document.querySelector('.background-image');
     backgroundImg.src = dataArray[1];
@@ -88,7 +88,7 @@ window.addEventListener('DOMContentLoaded', function () {
       if (dataArray[6] == true) {
         let premiumAdImg = document.querySelector('.premium-ad-img');
         if (premiumAdImg) {
-            premiumAdImg.src = '../img/Premium_no_ad.png';
+            premiumAdImg.src = 'img/Premium_no_ad.png';
         }
     }
 });
