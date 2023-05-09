@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
             // Set the image source based on the FEN string
             if (fenSpaces2[i] !== " ") {
-              const pieceType = fenSpaces2[i].toLowerCase();
+              const pieceType = fenSpaces2[i].toUpperCase();
               const isWhite = fenSpaces2[i] === fenSpaces2[i].toUpperCase();
               const src = `img/pieces/pak1/${pieceType}${isWhite ? "" : "2"}.png`;
               img.setAttribute("src", src);
