@@ -5,6 +5,10 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const credentials = require('./middleware/credentials');
 const { logger } = require('./middleware/logger');
+
+// firebase init
+const firebaseapp = require('./config/firebaseInit');
+
 // set port equal to 3000
 const PORT = process.env.PORT || 3000;
 
