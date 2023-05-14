@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -6,8 +7,11 @@ const corsOptions = require('./config/corsOptions');
 const credentials = require('./middleware/credentials');
 const { logger } = require('./middleware/logger');
 
-// firebase init
-const firebaseapp = require('./config/firebaseInit');
+const cookieParser = require('cookie-parser');
+
+// db import
+// const mongoose = require('mongoose');
+// const connectDB = require('./config/dbConn');
 
 // set port equal to 3000
 const PORT = process.env.PORT || 3000;
@@ -23,6 +27,9 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+//middleware for cookies
+app.use(cookieParser());
+
 // access static data
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/settings', express.static(path.join(__dirname, '/public')));
@@ -35,6 +42,7 @@ app.use('/game', require('./routes/game'));
 app.use('/settings', require('./routes/settings'));
 // api
 // auth
+app.use('/auth', require('./routes/auth/'));
 // 404
 app.all('*', (req, res) => {
   res.status(404);
