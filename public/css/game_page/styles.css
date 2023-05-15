@@ -18,6 +18,7 @@ body {
     /* Set the width and background color of the menu strip */
     display: grid;
     grid-template-rows: 280px auto 300px;
+    
     /* Set the grid template rows for the logo area, buttons, and ad area */
   }
   
@@ -254,7 +255,7 @@ body {
 }
 .player-info-table
 {
-    width: 1080px;
+    width: 760px;
     height: 90px;
     background: #E7A158;
     border: #8F6233 2px solid;
@@ -331,12 +332,16 @@ td.cell {
     background-repeat: no-repeat;
     border-collapse: collapse;
     border-spacing: 0;
+    margin-left: 20px;
   }
   .board-table td{
     padding: 0;
+    margin-right: 150px;
+    
   }
   .table-container
   {
     max-height: 100%;
+    margin-left: 150px;
   }
  

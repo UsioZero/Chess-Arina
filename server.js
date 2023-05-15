@@ -42,7 +42,7 @@ app.use('/game', require('./routes/game'));
 app.use('/settings', require('./routes/settings'));
 // api
 // auth
-app.use('/auth', require('./routes/auth/'));
+app.use('/auth', require('./routes/auth'));
 // 404
 app.all('*', (req, res) => {
   res.status(404);
