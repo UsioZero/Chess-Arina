@@ -10,11 +10,14 @@ const { logger } = require('./middleware/logger');
 const cookieParser = require('cookie-parser');
 
 // db import
-// const mongoose = require('mongoose');
-// const connectDB = require('./config/dbConn');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
 
 // set port equal to 3000
 const PORT = process.env.PORT || 3000;
+
+// connect to DB
+connectDB();
 
 //logger
 app.use(logger);
@@ -55,6 +58,9 @@ app.all('*', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+mongoose.connection.once('open', () => {
+  console.log('Connected to DB');
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
