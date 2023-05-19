@@ -22,9 +22,25 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
-    options_id: {
-        type: String,
-        require: false
+    options: {
+        real_name: String,
+        location: {
+            country: String,
+            state: String,
+            city: String
+        },
+        theme: {
+            type: Number,
+            default: 1
+        },
+        connections: {
+            google: Boolean,
+            twitter: Boolean
+        },
+        is_profile_visible: {
+            type: Boolean,
+            default: true
+        }
     },    
     refreshToken: String,
     refreshTokenMobile: String

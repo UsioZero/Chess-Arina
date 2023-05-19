@@ -49,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
             && !emails.includes(email) 
             && isValidEmail(email) 
             && isValidUsername(username)) {
-            //console.log(email, " ", password, " ", confirmPassword);
+            console.log(email, " ", username, " ",  password, " ", confirmPassword);
 
             const response = await fetch('/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 'user': email, 'pwd': password, 'email': email})
+                body: JSON.stringify({ 'user': username, 'pwd': password, 'email': email})
             });
 
             const data = await response.json();
