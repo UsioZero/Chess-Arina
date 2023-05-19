@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: {
         type: String,
+        require: false
+    },
+    email: {
+        type: String,
         require: true
     },
     roles: {
@@ -11,13 +15,17 @@ const userSchema = new Schema({
             type: Number,
             default: 2001
         },
-        Editor: Number,
+        Premium: Number,
         Admin: Number
     },
     password: {
         type: String,
         require: true
     },
+    options_id: {
+        type: String,
+        require: false
+    },    
     refreshToken: String,
     refreshTokenMobile: String
 });

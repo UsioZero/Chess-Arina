@@ -31,16 +31,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelector('.register-btn').addEventListener('click', () => {
+    document.querySelector('.register-btn').addEventListener('click', async () => {
         const email = document.querySelector('#email').value;
+        const username = document.querySelector('#username').value;
         const password = document.querySelector('#password').value;
         const confirmPassword = document.querySelector('#confirm-password').value;
+
         function isValidEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
-        if (password === confirmPassword && !emails.includes(email) && isValidEmail(email)) {
-            console.log(email, " ", password, " ", confirmPassword);
+        function isValidUsername(user) {
+            return user.length >= 8 && user.length <= 16;
+        }
+
+        if (password === confirmPassword 
+            && !emails.includes(email) 
+            && isValidEmail(email) 
+            && isValidUsername(username)) {
+            //console.log(email, " ", password, " ", confirmPassword);
+
+            const response = await fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'user': email, 'pwd': password, 'email': email})
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                //localStorage.setItem('accessToken', data.accessToken);
+                //window.location.href = '/regpage/login';
+                console.log(data);
+            } else {
+                alert(data.message ?? "Error. Try again later");
+            }
         }
         else {
             console.log("false");
