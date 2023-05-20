@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-router.get('^/$|index(.html)?', (req, res) => {
+router.get('^/$|index', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'game_page', 'index.html'));
 });
 
