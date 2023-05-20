@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const isAuthorized = require('../middleware/isAuthorized');
 
 router.get('^/$|index(.html)?', 
     // add when authorized /main/index.html
-    (req, res) => { 
+    (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'index.html'));
 }); 
 
