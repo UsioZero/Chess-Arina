@@ -2,7 +2,6 @@
 #include "PositionRepresentation/Move.cpp"
 #include "MoveGeneration/MoveList.cpp"
 #include "MoveGeneration/LegalMoveGeneration.cpp"
-#include "AI/AI.cpp"
 
 int main()
 {
@@ -21,6 +20,7 @@ int main()
     int dt;
     int ds;
     int flag;
+
     std::cin >> get_short_fen;
     std::cin >> en_passant;
     // std::cout << unsigned(std::uint8_t(en_passant));
@@ -36,9 +36,6 @@ int main()
     std::cin >> dt;
     std::cin >> ds;
     std::cin >> flag;
-    const std::string short_fen = get_short_fen;
-    Position position(short_fen, unsigned(std::uint8_t(en_passant)), w_l_castling, w_s_castling, b_l_castling, b_s_castling, move_ctr);
-
     bool side;
     int intPart = static_cast<int>(move_ctr);
     if (std::abs(move_ctr - intPart) < 0.0001)
@@ -50,6 +47,8 @@ int main()
     {
         side = 1;
     }
+    const std::string short_fen = get_short_fen;
+    Position position(short_fen, unsigned(std::uint8_t(en_passant)), w_l_castling, w_s_castling, b_l_castling, b_s_castling, move_ctr);
     Move cm(to, from, at, as, dt, ds, flag);
     position.move(cm);
     side = !side;
@@ -61,11 +60,8 @@ int main()
     //  std::cout<<b_l_castling;
     //  std::cout<<b_s_castling;
     //  std::cout<<move_ctr;
+   
 
-    AI ai("opening_book.txt");
-    Move bm = ai.best_move(position, side, 1000, 3500);
-    position.move(bm);
-    side = !side;
     std::cout << position.pieces.getShortFEN() << '\n';
     std::cout << unsigned(position.en_passant) << '\n';
     std::cout << position.w_l_castling << '\n';
