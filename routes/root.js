@@ -28,4 +28,9 @@ router.get('^/$|login(.html)?', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'registartion', 'index.html'));
 });
 
+//premium purchase
+router.get('^/$|premium(.html)?', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'premium', 'index.html'));
+});
+
 module.exports = router;
