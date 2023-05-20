@@ -28,6 +28,11 @@ router.get('^/$|login(.html)?', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'registartion', 'index.html'));
 });
 
+// login1, no registr pop up
+router.get('^/$|login1(.html)?', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'registartion', 'login.html'));
+});
+
 //premium purchase
 router.get('^/$|premium(.html)?', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'premium', 'index.html'));
