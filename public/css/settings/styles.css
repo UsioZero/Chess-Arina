@@ -261,6 +261,11 @@ body {
 {
     background: #CCAE62; 
 }
+.inactive-button a, .active-button a
+{
+    text-decoration: none;
+    color: black;
+}
 .button-upload
 {
     text-align: center;
