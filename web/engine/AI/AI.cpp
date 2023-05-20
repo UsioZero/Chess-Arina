@@ -51,21 +51,21 @@ AI::AI(const std::string& opening_book_path) {
     this->opening_book = {opening_book_path};
 }
 Move AI::best_move(const Position& position, uint8_t side, int32_t min_ms, int32_t max_ms) {
-    std::cout << std::endl;
-    StaticEvaluator::evaluate(position.pieces, position.w_l_castling, position.w_s_castling, position.b_l_castling, position.b_s_castling, position.white_castling_happened, position.black_castling_happened, true);
+    //std::cout << std::endl;
+    StaticEvaluator::evaluate(position.pieces, position.w_l_castling, position.w_s_castling, position.b_l_castling, position.b_s_castling, position.white_castling_happened, position.black_castling_happened, false);
 
     int64_t time_start = nsecs;
     stop_search = false;
     TranspositionTable tt;
 
     std::tuple<Move, int32_t> opening_book_result = this->opening_book.try_to_find_move(position);
-    std::cout << ANSI::Green << "Number of available moves in the opening book: " << std::get<1>(opening_book_result) << "." << ANSI::End << std::endl;
+    //std::cout << ANSI::Green << "Number of available moves in the opening book: " << std::get<1>(opening_book_result) << "." << ANSI::End << std::endl;
     if (std::get<1>(opening_book_result)) {
         usleep(std::max((int64_t)0, (min_ms - (nsecs - time_start) / (int64_t)1e+6) * (int64_t)1e+3));
         return std::get<0>(opening_book_result);
     }
 
-    std::cout << ANSI::Green << "Search started." << std::endl;
+   // std::cout << ANSI::Green << "Search started." << std::endl;
 
     int32_t best_move_evaluation;
     Move best_move;
@@ -95,14 +95,14 @@ Move AI::best_move(const Position& position, uint8_t side, int32_t min_ms, int32
             break;
         }
 
-        std::cout << "Base depth: " << std::setw(4) << i << ". Maximal depth: " << std::setw(4) << maximal_depth << ". Evaluation: " << std::setw(6) << (float)best_move_evaluation / 100.0f << " pawns. Evaluated (this iteration): " << std::setw(10) << evaluated << ". TT cutoffs (this iteration): " << std::setw(10) << tt_cutoffs << ". Time (full search): " << std::setw(10) << (nsecs - time_start) / (int32_t)1e+6 << " ms." << std::endl;
+        //std::cout << "Base depth: " << std::setw(4) << i << ". Maximal depth: " << std::setw(4) << maximal_depth << ". Evaluation: " << std::setw(6) << (float)best_move_evaluation / 100.0f << " pawns. Evaluated (this iteration): " << std::setw(10) << evaluated << ". TT cutoffs (this iteration): " << std::setw(10) << tt_cutoffs << ". Time (full search): " << std::setw(10) << (nsecs - time_start) / (int32_t)1e+6 << " ms." << std::endl;
 
         if (best_move_evaluation > AI::Infinity::Positive - 2000 or best_move_evaluation < AI::Infinity::Negative + 2000) break;
     }
 
     usleep(std::max((int64_t)0, (min_ms - (nsecs - time_start) / (int64_t)1e+6) * (int64_t)1e+3));
 
-    std::cout << "Search finished." << std::endl << ANSI::End;
+    //std::cout << "Search finished." << std::endl << ANSI::End;
 
     return best_move;
 }
