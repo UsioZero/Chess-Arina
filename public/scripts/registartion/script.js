@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     timers.forEach(timer => { timer.addEventListener('click', () => { timers.forEach(timer2 => timer2.classList.remove("active-option")); timer.classList.add("active-option") }) });
 
 
-
+    
     startGameButton.addEventListener('click', () => {
         const activeButtons = document.querySelectorAll(".active-option");
         activeButtons.forEach((button, index) => {
@@ -202,6 +202,9 @@ document.addEventListener('DOMContentLoaded', function () {
         startGameData.push(thirdButtonInnerHTML);
 
         console.log(startGameData);
+        const link = document.querySelector(".start-game-button a");
+        link.href = "http://localhost:3000/game";
+        link.click();
     });
 
 });
