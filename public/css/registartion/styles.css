@@ -390,3 +390,7 @@ td {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.qr-img{
+  width: 300px;
+  height: 300px;
+}
