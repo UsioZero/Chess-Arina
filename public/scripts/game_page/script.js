@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function openModal() {
     if (showModal) {
-      var modal = document.getElementById("myModal");
+      var modal = document.getElementById("myModal1");
       modal.style.display = "block";
     }
   }
@@ -37,15 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
     timers[0].innerHTML = formatTime(blackSeconds);
     timers[1].innerHTML = formatTime(whiteSeconds);
   }
+  const endgame = document.querySelector(".modal1-content h4");
   setInterval(() => {
     // Виконується код або функція кожну секунду
     if (isWhite) {
       whiteSeconds--;
-      if (whiteSeconds == 0) { showModal = true; openModal();}
+      if (whiteSeconds == 0) { showModal = true; openModal(); endgame.innerHTML = "Black wins."}
 
     } else {
       blackSeconds--;
-      if (blackSeconds == 0) {  showModal = true; openModal();}
+      if (blackSeconds == 0) {  showModal = true; openModal(); endgame.innerHTML = "White wins."}
     }
     refreshTimers(whiteSeconds, blackSeconds);
   }, 1000);
