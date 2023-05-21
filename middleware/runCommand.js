@@ -1,4 +1,5 @@
 const { execSync } = require('child_process');
+const { response } = require('express');
 const path = require('path');
 
 const runCommand = async (req, res) => {
@@ -12,6 +13,7 @@ const runCommand = async (req, res) => {
     console.log('command starts');
     const result = execSync(command);
     console.log(result.toString());
+    res.json({result:result.toString()});
 }
 
 module.exports = runCommand;

@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     function getPieceInfo(type) {
       const side = type.endsWith('2') ? 1 : 0;
       let pieceType;
-      switch (type[19].toUpperCase()) {
+      switch (type[16].toUpperCase()) {
         case 'P':
           pieceType = 0;
           break;
@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const startCell = document.getElementById(`cell${move[0]}`);
         const startCellId = parseInt(startCell.id.substring(4));
         const filename = getImageSrc(endCellId).substring(getImageSrc(endCellId).lastIndexOf('/') + 1);
+        //console.log(startCell.firstChild.getAttribute('src'));
         const { side, pieceType } = getPieceInfo(startCell.firstChild.getAttribute('src'));
         const { apieceType, aside } = getAtteckedPieceInfo(filename);
         endCell.style.border = '2px solid red';
@@ -327,7 +328,7 @@ document.addEventListener('DOMContentLoaded', async function () {
           else { blackSeconds += timerInv; }
           isWhite = !isWhite;
           const comPath = '../web/engine';
-          const com = './a'
+          const com = 'a'
           const result = fetch('/runComm', {
             method: 'POST',
             headers: {
@@ -335,7 +336,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             },
             body: JSON.stringify({path: comPath, com: com, args: base})
           });
-          console.log(result.toString());
+          console.log(result.json());
           Moves.push(getMove(startCellId, endCellId, pieceType));
           let formattedString = "";
 
