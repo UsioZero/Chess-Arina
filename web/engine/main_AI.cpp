@@ -51,7 +51,7 @@ int main(int argc, const char *argv[])
     {
         side = 1;
     }
-    Move cm(to, from, at, as, dt, ds, flag);
+    Move cm(from, to, as, at, dt, ds, flag);
     position.move(cm);
     side = !side;
     // std::cout << position;
