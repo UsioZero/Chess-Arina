@@ -3,9 +3,10 @@ const router = express.Router();
 const path = require('path');
 const verifyJWT = require('../middleware/verifyJWT');
 const isAuthorized = require('../middleware/isAuthorized');
+const runCommand = require('../middleware/runCommand');
 
 router.get('/', (req, res) => {
-    if(!isAuthorized(req)) res.
+    //if(!isAuthorized(req)) res.
     res.sendFile(path.join(__dirname, '../views/main', 'index.html'));
 });
 
@@ -45,6 +46,11 @@ router.get('/login-qr', (req, res) => {
 //premium purchase
 router.get('/premium', verifyJWT, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'premium', 'index.html'));
+});
+
+// verify
+router.post('/runComm', (req, res) => {
+    runCommand(req);
 });
 
 module.exports = router;

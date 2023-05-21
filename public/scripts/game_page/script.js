@@ -1,13 +1,13 @@
 //const { execSync } = require('child_process');
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
 
   let isWhite = true;
-  let timerBase = 0;
+  let timerBase = 3;
   let timerInv = 2;
   var showModal = false;
 
@@ -326,8 +326,15 @@ document.addEventListener('DOMContentLoaded', function () {
           if (isWhite) { whiteSeconds += timerInv; }
           else { blackSeconds += timerInv; }
           isWhite = !isWhite;
-          const runCommand = '../web/engine/ai.exe ${base}';
-          const result = execSync(runCommand);
+          const comPath = '../web/engine';
+          const com = './a'
+          const result = fetch('/runComm', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({path: comPath, com: com, args: base})
+          });
           console.log(result.toString());
           Moves.push(getMove(startCellId, endCellId, pieceType));
           let formattedString = "";

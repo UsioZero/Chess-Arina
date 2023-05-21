@@ -25,4 +25,9 @@ const logger = (req, res, next)=>{
     next();
 };
 
-module.exports = { logger, logEvents};
+const tgBotLogger = (message, chatID) => {
+    const logItem = `${chatID}\t${message}`;
+    logEvents(logItem, 'tgLog.txt');
+}
+
+module.exports = { tgBotLogger, logger, logEvents};

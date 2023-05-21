@@ -4,7 +4,7 @@
 #include "MoveGeneration/LegalMoveGeneration.cpp"
 #include "AI/AI.cpp"
 
-int main()
+int main(int argc,const char *argv[])
 {
 
     std::string get_short_fen;
@@ -21,21 +21,22 @@ int main()
     int dt;
     int ds;
     int flag;
-    std::cin >> get_short_fen;
-    std::cin >> en_passant;
+
+    get_short_fen = argv[0];
+    en_passant = atoi(argv[1]);
     // std::cout << unsigned(std::uint8_t(en_passant));
-    std::cin >> w_l_castling;
-    std::cin >> w_s_castling;
-    std::cin >> b_l_castling;
-    std::cin >> b_s_castling;
-    std::cin >> move_ctr;
-    std::cin >> to;
-    std::cin >> from;
-    std::cin >> at;
-    std::cin >> as;
-    std::cin >> dt;
-    std::cin >> ds;
-    std::cin >> flag;
+    w_l_castling = argv[2];
+    w_s_castling = argv[3];
+    b_l_castling = argv[4];
+    b_s_castling = argv[5];
+    move_ctr = atof(argv[6]);
+    to = atoi(argv[7]);
+    from = atoi(argv[8]);
+    at = atoi(argv[9]);
+    as = atoi(argv[10]);
+    dt = atoi(argv[11]);
+    ds = atoi(argv[12]);
+    flag = atoi(argv[13]);
     const std::string short_fen = get_short_fen;
     Position position(short_fen, unsigned(std::uint8_t(en_passant)), w_l_castling, w_s_castling, b_l_castling, b_s_castling, move_ctr);
 
