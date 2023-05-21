@@ -10,6 +10,19 @@
 </head>
 
 <body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <h4>Modal Title</h4>
+            <p>This is the modal body.</p>
+            <div class="modal-footer">
+                <!-- Add link to main -->
+                <button type="button" ><a href="/main">To Main Menu</a></button>
+                <!-- Add open new modal -->
+                <button type="button" onclick="nextGame()">Next Game</button>
+            </div>
+        </div>
+    </div>
+
     <div class="menu">
         <div class="logo">
             <img id="logo-img" src="img/logo_transparent.png" alt="Logo">
@@ -89,54 +102,70 @@
                                         <td>
                                             <table class="defeated-figures">
                                                 <tr>
-                                                    <td id="defeated-figures-container-1-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-1-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-2-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-2-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-3-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-3-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-4-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-4-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-5-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-5-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-6-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-6-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-7-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-7-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-8-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-8-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P.png" alt="">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td id="defeated-figures-container-9-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-9-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/R.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-10-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-10-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/N.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-11-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-11-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/B.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-12-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-12-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/Q.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-13-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-13-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/K.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-14-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-14-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/B.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-15-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-15-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/N.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-16-1" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-16-1"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/R.png" alt="">
                                                     </td>
                                                 </tr>
@@ -265,54 +294,70 @@
                                         <td>
                                             <table class="defeated-figures">
                                                 <tr>
-                                                    <td id="defeated-figures-container-1-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-1-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-2-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-2-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-3-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-3-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-4-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-4-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-5-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-5-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-6-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-6-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-7-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-7-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-8-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-8-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/P2.png" alt="">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td id="defeated-figures-container-9-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-9-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/R2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-10-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-10-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/N2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-11-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-11-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/B2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-12-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-12-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/Q2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-13-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-13-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/K2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-14-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-14-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/B2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-15-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-15-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/N2.png" alt="">
                                                     </td>
-                                                    <td id="defeated-figures-container-16-0" class="defeated-figures-container">
+                                                    <td id="defeated-figures-container-16-0"
+                                                        class="defeated-figures-container">
                                                         <img src="img/pieces/pak1/R2.png" alt="">
                                                     </td>
                                                 </tr>
