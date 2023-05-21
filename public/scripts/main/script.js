@@ -1,4 +1,21 @@
-$(document).ready(function() {
+$(document).ready(async function() {
+
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(accessToken);
+
+  const response = await fetch('/', {
+      headers: {
+          Authorization: `Bearer ${accessToken}`,
+      },
+  });
+
+  if (response.ok) {
+      //const data = await response.json().catch((err) => console.log(err));
+      console.log(response);
+  } else {
+      console.log('request failed');
+  }
+
   // Define an array of patterns for text and images
   var patterns = [
     {

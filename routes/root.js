@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const isAuthorized = require('../middleware/isAuthorized');
 const verifyJWT = require('../middleware/verifyJWT');
+const isAuthorized = require('../middleware/isAuthorized');
 
-router.get('^/$|index', verifyJWT,
-    // add when authorized /main/index.html
-    (req, res) => {
-        if(req.user){
-            res.sendFile(path.join(__dirname, '../views/main/index.html', 'index.html'));
-        } else {
-            res.sendFile(path.join(__dirname, '../views', 'index.html'));
-        }
-}); 
+router.get('/', (req, res) => {
+    if(!isAuthorized(req)) res.
+    res.sendFile(path.join(__dirname, '../views/main', 'index.html'));
+});
+
+router.get('/unauth', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'index.html'));
+});
 
 // mobile
 router.get('/mobile', (req, res) => {
@@ -44,7 +43,7 @@ router.get('/login-qr', (req, res) => {
 });
 
 //premium purchase
-router.get('/premium', verifyJWT ,(req, res) => {
+router.get('/premium', verifyJWT, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'premium', 'index.html'));
 });
 
