@@ -1,10 +1,44 @@
-const { execSync } = require('child_process');
+//const { execSync } = require('child_process');
 
 document.addEventListener('DOMContentLoaded', function () {
   let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
+
+  let isWhite = true;
+  let timerBase = 3;
+  let timerInv = 2;
+
+  const timers = document.querySelectorAll(".timer-text a");
+  // timers.forEach(timer => console.log(timer.innerHTML));
+  // const [int1, int2] = timers[0].innerHTML.split(':').map((num) => parseInt(num, 10));
+  // let blackSeconds = int1 * 60 + int2;
+  // const [int3, int4] = timers[1].innerHTML.split(':').map((num) => parseInt(num, 10));
+  // let whiteSeconds = int3 * 60 + int4;
+  let blackSeconds = 3 * 60;
+  let whiteSeconds = 3 * 60;
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  }
+  function refreshTimers(whiteSeconds, blackSeconds) {
+    timers[0].innerHTML = formatTime(blackSeconds);
+    timers[1].innerHTML = formatTime(whiteSeconds);
+  }
+  setInterval(() => {
+    // Виконується код або функція кожну секунду
+    if (isWhite) {
+      whiteSeconds--;
+      if (whiteSeconds==0) {alert("Black win");}
+
+    } else {
+      blackSeconds--;
+      if (blackSeconds==0) {alert("White win");}
+    }
+    refreshTimers(whiteSeconds, blackSeconds);
+  }, 1000);
   //let side = 'w';
   // if (move_ctr % 1 === 0)
   // {
@@ -278,6 +312,10 @@ document.addEventListener('DOMContentLoaded', function () {
         endCell.addEventListener('click', function () {
           let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${startCellId} ${endCellId} ${side} ${pieceType} ${aside} ${apieceType} ${move[2]}`
           console.log(base);
+          if (isWhite){whiteSeconds+=timerInv;}
+          else
+          {blackSeconds+=timerInv;}
+          isWhite = !isWhite;
           const runCommand = '../web/engine/ai.exe ${base}';
           const result = execSync(runCommand);
           console.log(result.toString());
