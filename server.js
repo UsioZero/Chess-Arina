@@ -66,94 +66,158 @@ bot.on('message', (message) => {
 
   if (message.text) {
     const messageText = message.text;
-    // Обробка команди /start
-    if (messageText.startsWith('/start')) {
-      bot.onText(/\/start/, (msg) => {
-        const chatId = msg.chat.id;
-        const response = 'Вітаю! Бот запущено.';
-        bot.sendMessage(chatId, response);
-      });
-    }
-    else {
-      //Обробка команди main
-      if (messageText.startsWith('/main')) {
-        bot.onText(/\/main/, (msg) => {
-          const chatId = msg.chat.id;
-          const response = 'Звичайно, от посилання на наш сайт: [chess-arena.com](https://chess-arena.com)';
-          bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
-        });
-      } else {
-        // Перевірка, чи отримано команду /spectate
-        if (messageText.startsWith('/spectate')) {
-          bot.onText(/\/spectate/, async (msg) => {
-            try {
-              const activeGames = 2; // Кількість активних ігор (приклад)
 
-              if (activeGames === 0) {
-                bot.sendMessage(msg.chat.id, 'Активних ігор немає, спробуйте пізніше');
-              } else {
-                const gameMessages = [];
-                for (let i = 0; i < activeGames; i++) {
-                  const gameId = i + 1;
-                  const gameMessage = `Наразі активна гра ${gameId}`;
-                  gameMessages.push(gameMessage);
-                }
+    if (messageText.startsWith('/help') || messageText.startsWith('/commands')) {
+      if (messageText === '/help' || messageText === '/commands') {
+        // Відправити список команд
+        const commandList = [
+          '/spectate - Переглянути активні ігри',
+          '/main - Отримати посилання на сайт'
+          // Додайте інші команди за потреби
+        ];
+        const gifPath = path.join(__dirname, 'public', 'img', 'gif4.mp4');
 
-                // Відправка повідомлень про активні ігри
-                const sentMessages = await Promise.all(gameMessages.map((message) =>
-                  bot.sendMessage(msg.chat.id, message, {
-                    reply_markup: {
-                      inline_keyboard: [
-                        [
-                          {
-                            text: 'Отримати посилання',
-                            callback_data: 'get_link',
-                          },
-                          {
-                            text: '👍',
-                            callback_data: 'rate_up',
-                          },
-                          {
-                            text: '👎',
-                            callback_data: 'rate_down',
-                          },
-                        ],
-                      ],
-                    },
-                  })
-                ));
-
-                // Обробка натискання кнопок
-                sentMessages.forEach((message) => {
-                  const chatId = message.chat.id;
-                  const messageId = message.message_id;
-                  bot.on('callback_query', (callbackQuery) => {
-                    const data = callbackQuery.data;
-                    if (data === 'get_link') {
-                      const gameId = message.text.match(/активна гра (\d+)/)[1];
-                      const link = `http://localhost:3000/game?${gameId}`;
-                      bot.answerCallbackQuery(callbackQuery.id, link);
-                    } else if (data === 'rate_up' || data === 'rate_down') {
-                      // Інкрементування значення оцінки гри
-                      // Ваша логіка для збереження оцінки гри
-                      bot.answerCallbackQuery(callbackQuery.id, 'Дякуємо за вашу оцінку!');
-                    }
-                  });
-                });
-              }
-            } catch (err) {
-              console.log('Помилка при обробці команди /spectate', err);
-            }
-          });
-        } else {
-          // Відправити стікер у відповідь
-          bot.sendSticker(chatId, 'CAACAgIAAxUAAWRpw0rTHtPrD1Lph43vVIWKHso5AAK4HQACw5hRS486FBTmugxlLwQ')
+          // Відправка GIF-зображення як документу
+          bot.sendDocument(chatId, gifPath)
             .then(() => {
-              console.log('Стікер відправлено');
+              console.log('GIF-зображення відправлено');
             })
             .catch((err) => {
-              console.log('Помилка при відправленні стікера', err);
+              console.log('Помилка при відправленні GIF-зображення', err);
             });
+        const commandListText = commandList.join('\n');
+        bot.sendMessage(chatId, commandListText)
+          .then(() => {
+            console.log('Список команд відправлено');
+          })
+          .catch((err) => {
+            console.log('Помилка при відправленні списку команд', err);
+          });
+      }
+    }
+    else {
+      // Обробка команди /start
+      if (messageText.startsWith('/start')) {
+        bot.onText(/\/start/, (msg) => {
+          const chatId = msg.chat.id;
+
+          // Шлях до GIF-зображення
+          const gifPath = path.join(__dirname, 'public', 'img', 'gif2.mp4');
+
+          // Відправка GIF-зображення як документу
+          bot.sendDocument(chatId, gifPath)
+            .then(() => {
+              console.log('GIF-зображення відправлено');
+            })
+            .catch((err) => {
+              console.log('Помилка при відправленні GIF-зображення', err);
+            });
+          const response = 'Вітаю! Бот запущено. Для перекляду команд використайте /help або /commands .';
+          bot.sendMessage(chatId, response);
+        });
+      }
+      else {
+        //Обробка команди main
+        if (messageText.startsWith('/main')) {
+          bot.onText(/\/main/, (msg) => {
+            const chatId = msg.chat.id;
+            const gifPath = path.join(__dirname, 'public', 'img', 'gif5.mp4');
+
+            // Відправка GIF-зображення як документу
+            bot.sendDocument(chatId, gifPath)
+              .then(() => {
+                console.log('GIF-зображення відправлено');
+              })
+              .catch((err) => {
+                console.log('Помилка при відправленні GIF-зображення', err);
+              });
+            const response = 'Звичайно, от посилання на наш сайт: [chess-arena.com](https://chess-arena.com)';
+            bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
+          });
+        } else {
+          // Перевірка, чи отримано команду /spectate
+          if (messageText.startsWith('/spectate')) {
+            bot.onText(/\/spectate/, async (msg) => {
+              try {
+
+                const gifPath = path.join(__dirname, 'public', 'img', 'gif3.mp4');
+
+                // Відправка GIF-зображення як документу
+                bot.sendDocument(chatId, gifPath)
+                  .then(() => {
+                    console.log('GIF-зображення відправлено');
+                  })
+                  .catch((err) => {
+                    console.log('Помилка при відправленні GIF-зображення', err);
+                  });
+                const activeGames = 2; // Кількість активних ігор (приклад)
+
+                if (activeGames === 0) {
+                  bot.sendMessage(msg.chat.id, 'Активних ігор немає, спробуйте пізніше');
+                } else {
+                  const gameMessages = [];
+                  for (let i = 0; i < activeGames; i++) {
+                    const gameId = i + 1;
+                    const gameMessage = `Наразі активна гра ${gameId}`;
+                    gameMessages.push(gameMessage);
+                  }
+
+                  // Відправка повідомлень про активні ігри
+                  const sentMessages = await Promise.all(gameMessages.map((message) =>
+                    bot.sendMessage(msg.chat.id, message, {
+                      reply_markup: {
+                        inline_keyboard: [
+                          [
+                            {
+                              text: 'Отримати посилання',
+                              callback_data: 'get_link',
+                            },
+                            {
+                              text: '👍',
+                              callback_data: 'rate_up',
+                            },
+                            {
+                              text: '👎',
+                              callback_data: 'rate_down',
+                            },
+                          ],
+                        ],
+                      },
+                    })
+                  ));
+
+                  // Обробка натискання кнопок
+                  sentMessages.forEach((message) => {
+                    const chatId = message.chat.id;
+                    const messageId = message.message_id;
+                    bot.on('callback_query', (callbackQuery) => {
+                      const data = callbackQuery.data;
+                      if (data === 'get_link') {
+                        const gameId = message.text.match(/активна гра (\d+)/)[1];
+                        const link = `http://localhost:3000/game?${gameId}`;
+                        bot.answerCallbackQuery(callbackQuery.id, link);
+                      } else if (data === 'rate_up' || data === 'rate_down') {
+                        // Інкрементування значення оцінки гри
+                        // Ваша логіка для збереження оцінки гри
+                        bot.answerCallbackQuery(callbackQuery.id, 'Дякуємо за вашу оцінку!');
+                      }
+                    });
+                  });
+                }
+              } catch (err) {
+                console.log('Помилка при обробці команди /spectate', err);
+              }
+            });
+          } else {
+            // Відправити стікер у відповідь
+            bot.sendSticker(chatId, 'CAACAgIAAxUAAWRpw0rTHtPrD1Lph43vVIWKHso5AAK4HQACw5hRS486FBTmugxlLwQ')
+              .then(() => {
+                console.log('Стікер відправлено');
+              })
+              .catch((err) => {
+                console.log('Помилка при відправленні стікера', err);
+              });
+          }
         }
       }
     }
