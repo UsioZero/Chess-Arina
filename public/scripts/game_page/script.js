@@ -321,22 +321,25 @@ document.addEventListener('DOMContentLoaded', async function () {
         const { side, pieceType } = getPieceInfo(startCell.firstChild.getAttribute('src'));
         const { apieceType, aside } = getAtteckedPieceInfo(filename);
         endCell.style.border = '2px solid red';
-        endCell.addEventListener('click', function () {
+        endCell.addEventListener('click', async function () {
           let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${startCellId} ${endCellId} ${side} ${pieceType} ${aside} ${apieceType} ${move[2]}`
           console.log(base);
           if (isWhite) { whiteSeconds += timerInv; }
           else { blackSeconds += timerInv; }
           isWhite = !isWhite;
+
           const comPath = '../web/engine';
-          const com = 'a'
-          const result = fetch('/runComm', {
+          const com = './a'
+          const responceCOM = await fetch('/runComm', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({path: comPath, com: com, args: base})
           });
-          console.log(result.json());
+          const resData = await responceCOM.json();
+          console.log(resData.result);
+
           Moves.push(getMove(startCellId, endCellId, pieceType));
           let formattedString = "";
 

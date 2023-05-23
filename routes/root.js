@@ -49,8 +49,8 @@ router.get('/premium', verifyJWT, (req, res) => {
 });
 
 // verify
-router.post('/runComm', (req, res) => {
-    runCommand(req);
-});
+router.post('/runComm', (req, res) =>
+    runCommand(req, res)
+);
 
 module.exports = router;
