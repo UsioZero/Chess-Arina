@@ -49,7 +49,7 @@ app.use('/game', express.static(path.join(__dirname, '/public')));
 
 // router
 app.use('/', require('./routes/root'));
-app.use('/game', verifyJWT, require('./routes/game'));
+app.use('/game', require('./routes/game'));
 app.use('/settings', verifyJWT, require('./routes/settings'));
 // api
 // auth
