@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   }, 1000);
 
 
-  const legalMoves = [
+  let legalMoves = [
     [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
     [8, 24, 1], [9, 25, 1], [10, 26, 1], [11, 27, 1], [12, 28, 1], [13, 29, 1], [14, 30, 1], [15, 31, 1],
     [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
@@ -237,7 +237,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     legalMoves.forEach(move => { console.log(move[0]); if (move[0] === id) { return true; } })
     return false;
   }
-   function refreshBoard(fen, side, legalMoves) {
+
+  refreshBoard(fen, 'w', legalMoves);
+  function refreshBoard(fen, side, legalMoves) {
     addDefeatedPieces(countPieces(fen));
     const fenSpaces = fen.replace(/\//g, "").replace(/\d/g, (d) => " ".repeat(parseInt(d, 10)));
     let fenRows2 = [];
@@ -274,13 +276,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         img.setAttribute("src", src);
       }
     }
+  }
+  
+ 
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
 
     // Додавання обробників подій на кожну клітину
     cells.forEach(function (cell) {
-      cell.addEventListener('click', async function () {
+      async function clickHandler() {
         var cellId = parseInt(this.id.replace('cell', '')); // Отримання індексу клітини
 
         if (clickSequence.length === 0) {
@@ -335,21 +340,39 @@ document.addEventListener('DOMContentLoaded', async function () {
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
             const resData = await responceCOM.json();
-        
+
             const dataArr = resData.result.split("\n").map(el => el.replace("\r", ""));
             console.log(dataArr); // Виведення ходу в консоль
-
-            clickSequence = []; // Скидання послідовності кліків
+            fen = dataArr[0];
+            en_passant = dataArr[1];
+            for (let i = 0; i < 4; i++) {
+              castlings[i] = dataArr[i + 2];
+            }
+            move_ctr = dataArr[6];
+            legalMoves = [];
+            for (let i = 7; i < dataArr.length - 1; i++) {
+              var values = dataArr[i].match(/\d+/g);
+              var newArray = [parseInt(values[0]), parseInt(values[1]), parseInt(values[2])];
+              legalMoves.push(newArray);
+            }
+            
+            clickSequence = [];
+            cells.forEach(function(cell) {
+              cell.removeEventListener('click', clickHandler);
+            });
+            refreshBoard(fen, 'w', legalMoves);
+            console.log("aaaa");
+            
           } else {
-            clickSequence = []; // Скидання послідовності кліків
+            clickSequence = []; 
 
-            // Прибирання бордера з усіх клітин
             cells.forEach(function (cell) {
               cell.style.border = '';
             });
           }
         }
-      });
+      }
+      cell.addEventListener('click', clickHandler);
     });
 
 
@@ -357,9 +380,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-
-  }
-  refreshBoard(fen, 'w', legalMoves);
 
 });
 
