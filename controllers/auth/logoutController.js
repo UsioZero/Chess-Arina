@@ -20,6 +20,7 @@ const handleLogout = async (req, res,next) => {
     console.log(result);
 
     res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true}); // secure: true - only server on https
+    res.clearCookie('accessToken', {httpOnly: true, sameSite: 'None', secure: true}); // secure: true - only server on https
     res.sendStatus(204);
 }
 

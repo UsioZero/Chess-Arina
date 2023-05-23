@@ -3,11 +3,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
-    const { email, user, pwd } = req.body;
-    if (!(email || user) || !pwd) return res.status(400).json({ 'message': 'Email or username and password are required.' });
+    const { email, pwd } = req.body;
+    if (!email  || !pwd) return res.status(400).json({ 'message': 'Email or username and password are required.' });
     
     let foundUser = await User.findOne({ email: email }).exec(); 
-    if (user) { foundUser = await User.findOne({ username: user }).exec(); }
+    if (!foundUser) foundUser = await User.findOne({ username: email }).exec(); 
     if (!foundUser) return res.status(401).json({ 'message': 'No such user' });
 
     const match = bcrypt.compare(pwd, foundUser.password);
@@ -23,7 +23,7 @@ const handleLogin = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15s' } //Change to 5-15 min
+            { expiresIn: '15m' } //Change to 5-15 min
         );
         //create JWTs
         const refreshToken = jwt.sign(
@@ -34,9 +34,10 @@ const handleLogin = async (req, res) => {
         //Saving refresh token with cur user
         foundUser.refreshToken = refreshToken;
         result = await foundUser.save();
-        console.log(result);
+        //console.log(result);
 
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 60 * 60 * 1000 })
         res.json({ accessToken })
     } else {
         res.sendStatus(401);
