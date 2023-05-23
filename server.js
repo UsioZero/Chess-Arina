@@ -9,6 +9,8 @@ const { logger } = require('./middleware/logger');
 
 const cookieParser = require('cookie-parser');
 
+const verifyJWT = require('./middleware/verifyJWT');
+
 // tg bot
 //const botOn = require('./middleware/telegramBot');
 
@@ -47,8 +49,8 @@ app.use('/game', express.static(path.join(__dirname, '/public')));
 
 // router
 app.use('/', require('./routes/root'));
-app.use('/game', require('./routes/game'));
-app.use('/settings', require('./routes/settings'));
+app.use('/game', verifyJWT, require('./routes/game'));
+app.use('/settings', verifyJWT, require('./routes/settings'));
 // api
 // auth
 app.use('/auth', require('./routes/auth'));

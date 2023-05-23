@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const verifyJWT = require('../middleware/verifyJWT');
-const isAuthorized = require('../middleware/isAuthorized');
 const runCommand = require('../middleware/runCommand');
 
-router.get('/', (req, res) => {
+router.get('/', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
     res.sendFile(path.join(__dirname, '../views/main', 'index.html'));
 });
@@ -20,11 +19,11 @@ router.get('/mobile', (req, res) => {
 });
 
 // profile
-router.get('/profile', (req, res) => {
+router.get('/profile', verifyJWT, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'profile', 'index.html'));
 });
 
-router.get('/profile/info', (req, res) => {
+router.get('/profile/info', verifyJWT, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'see_more', 'index.html'));
 });
 
