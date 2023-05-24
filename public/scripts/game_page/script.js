@@ -1,24 +1,22 @@
-//const { execSync } = require('child_process');
-
 document.addEventListener('DOMContentLoaded', async function () {
-  let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
-
+  let isAI = false;
   let isWhite = true;
-  let timerBase = 3;
-  let timerInv = 2;
+  let isWhiteMove = true;
+  let timerBase = 10;
+  let timerInv = 5;
   var showModal = false;
 
-  function openModal() {
+  function openModal(result) {
     if (showModal) {
       var modal = document.getElementById("myModal1");
       modal.style.display = "block";
+      endgame.innerHTML = result;
     }
   }
-
-
 
   const timers = document.querySelectorAll(".timer-text a");
   let blackSeconds = timerBase * 60 + timerInv;
@@ -35,23 +33,18 @@ document.addEventListener('DOMContentLoaded', async function () {
   const endgame = document.querySelector(".modal1-content h4");
   setInterval(() => {
     // Виконується код або функція кожну секунду
-    if (isWhite) {
+    if (isWhiteMove) {
       whiteSeconds--;
-      if (whiteSeconds == 0) { showModal = true; openModal(); endgame.innerHTML = "Black wins." }
+      if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
 
     } else {
       blackSeconds--;
-      if (blackSeconds == 0) { showModal = true; openModal(); endgame.innerHTML = "White wins." }
+      if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
     }
     refreshTimers(whiteSeconds, blackSeconds);
   }, 1000);
 
 
-  const legalMoves = [
-    [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
-    [8, 24, 1], [9, 25, 1], [10, 26, 1], [11, 27, 1], [12, 28, 1], [13, 29, 1], [14, 30, 1], [15, 31, 1],
-    [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
-  ];
 
   function countPieces(fen) {
     const pieces = ['P', 'N', 'B', 'R', 'Q', 'K', 'p', 'n', 'b', 'r', 'q', 'k'];
@@ -150,6 +143,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   function getPieceInfo(type) {
+    type = type.slice(0, -4);
+
     const side = type.endsWith('2') ? 1 : 0;
     let pieceType;
     switch (type[16].toUpperCase()) {
@@ -178,26 +173,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     return { side, pieceType };
   }
 
-  function getImageSrc(i) {
-    const cell = document.getElementById(`cell${i}`);
-    const img = cell.querySelector('img');
-    return img.src;
-  }
-  function getMove(start, end, pieceType) {
-    const fileNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const startCol = start % 8;
-    const startRow = Math.floor(start / 8);
-    const endCol = end % 8;
-    const endRow = Math.floor(end / 8);
-    const pieceCodes = ['', 'N', 'B', 'R', 'Q', 'K'];
-    const pieceCode = pieceCodes[pieceType];
-    const startSquare = fileNames[startCol] + (1 + startRow);
-    const endSquare = fileNames[endCol] + (1 + endRow);
-    return pieceCode + " " + startSquare + " " + endSquare + "\n";
-  }
 
 
   function getAtteckedPieceInfo(filename) {
+    filename = filename.split('/')[filename.split('/').length - 1];
     if (filename == "Neven.png" || filename == "Nodd.png") {
       const aside = 255;
       const apieceType = 255;
@@ -233,11 +212,45 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
 
-  function checkForMoves(id) {
-    legalMoves.forEach(move => { console.log(move[0]); if (move[0] === id) { return true; } })
-    return false;
+  let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+  let legalMoves = [
+    [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
+    [8, 24, 1], [9, 25, 1], [10, 26, 1], [11, 27, 1], [12, 28, 1], [13, 29, 1], [14, 30, 1], [15, 31, 1],
+    [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
+  ];
+
+  if (isAI) {
+    if (isWhite) {
+      refreshBoard(fen, 'w', legalMoves);
+      addEventToCells(true);
+    }
+    else {
+      fen = "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR";
+      move_ctr = 1.5;
+      isWhiteMove = !isWhiteMove;
+      legalMoves = [[48, 40, 0], [49, 41, 0], [50, 42, 0], [51, 43, 0], [52, 44, 0], [53, 45, 0], [54, 46, 0], [55, 47, 0], [48, 32, 1], [49, 33, 1], [50, 34, 1], [51, 35, 1], [52, 36, 1], [53, 37, 1], [54, 38, 1], [55, 39, 1], [57, 40, 0], [57, 42, 0], [62, 45, 0], [62, 47, 0]]
+      refreshBoard(fen, 'w', legalMoves);
+      addEventToCells(true);
+    }
   }
-   function refreshBoard(fen, side, legalMoves) {
+  else {
+    refreshBoard(fen, 'w', legalMoves);
+    addEventToCellsHuman(true);
+  }
+  const gub = document.querySelector("#give-up-button");
+  gub.addEventListener('click', () => {
+    if (side == 'w') {
+      showModal = true;
+      openModal("White wins.");
+    }
+    else {
+      showModal = true;
+      openModal("Black wins.");
+    }
+  });
+
+
+  function refreshBoard(fen, side, legalMoves) {
     addDefeatedPieces(countPieces(fen));
     const fenSpaces = fen.replace(/\//g, "").replace(/\d/g, (d) => " ".repeat(parseInt(d, 10)));
     let fenRows2 = [];
@@ -274,13 +287,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         img.setAttribute("src", src);
       }
     }
+  }
+
+  function addEventToCells(isFirst) {
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
 
     // Додавання обробників подій на кожну клітину
     cells.forEach(function (cell) {
-      cell.addEventListener('click', async function () {
+      async function clickHandler() {
         var cellId = parseInt(this.id.replace('cell', '')); // Отримання індексу клітини
 
         if (clickSequence.length === 0) {
@@ -324,9 +340,30 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
             const { side, pieceType } = getPieceInfo(document.getElementById(`cell${start}`).firstChild.getAttribute('src'));
             const { apieceType, aside } = getAtteckedPieceInfo(document.getElementById(`cell${end}`).firstChild.getAttribute('src'));
+
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
+
+            document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
+            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+            if (validMove[2] == 3) {
+              document.getElementById('cell3').firstChild.src = document.getElementById('cell0').firstChild.src;
+              document.getElementById('cell0').firstChild.src = `img/pieces/pak1/Nodd.png`;
+            }
+            if (validMove[2] == 4) {
+              document.getElementById('cell5').firstChild.src = document.getElementById('cell7').firstChild.src;
+              document.getElementById('cell7').firstChild.src = `img/pieces/pak1/Neven.png`;
+            }
+            if (validMove[2] == 5) {
+              document.getElementById('cell59').firstChild.src = document.getElementById('cell56').firstChild.src;
+              document.getElementById('cell56').firstChild.src = `img/pieces/pak1/Neven.png`;
+            }
+            if (validMove[2] == 6) {
+              document.getElementById('cell61').firstChild.src = document.getElementById('cell63').firstChild.src;
+              document.getElementById('cell63').firstChild.src = `img/pieces/pak1/Nodd.png`;
+            }
             const comPath = '../web/engine';
-            const com = 'a'
+            const com = 'a';
+            isWhiteMove = !isWhiteMove;
             const responceCOM = await fetch('/runComm', {
               method: 'POST',
               headers: {
@@ -335,31 +372,215 @@ document.addEventListener('DOMContentLoaded', async function () {
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
             const resData = await responceCOM.json();
-        
+
             const dataArr = resData.result.split("\n").map(el => el.replace("\r", ""));
-            console.log(dataArr); // Виведення ходу в консоль
+            fen = dataArr[0];
+            en_passant = dataArr[1];
+            for (let i = 0; i < 4; i++) {
+              castlings[i] = dataArr[i + 2];
+            }
+            move_ctr = dataArr[6];
+            legalMoves = [];
+            for (let i = 7; i < dataArr.length - 1; i++) {
+              var values = dataArr[i].match(/\d+/g);
+              var newArray = [parseInt(values[0]), parseInt(values[1]), parseInt(values[2])];
+              legalMoves.push(newArray);
+            }
+            //let isCheck = dataArr[dataArr.length-1]
 
-            clickSequence = []; // Скидання послідовності кліків
+            clickSequence = [];
+            cells.forEach(function (cell) {
+              cell.removeEventListener('click', clickHandler);
+            });
+            console.log(dataArr);
+            //console.log (isCheck);
+            isWhiteMove = !isWhiteMove;
+            refreshBoard(fen, 'w', legalMoves);
+            addEventToCells(false);
+            if (dataArr.length == 8) {
+              if (dataArr[7] == 1) {
+                if (!isWhite) {
+                  showModal = true;
+                  openModal("White wins.");
+                }
+                else {
+                  showModal = true;
+                  openModal("Black wins.");
+                }
+
+              }
+              else {
+                showModal = true;
+                openModal("Draw by stalemate.");
+              }
+            }
+
           } else {
-            clickSequence = []; // Скидання послідовності кліків
+            clickSequence = [];
 
-            // Прибирання бордера з усіх клітин
             cells.forEach(function (cell) {
               cell.style.border = '';
             });
           }
         }
-      });
+      }
+      if (isFirst) {
+        cell.onclick = clickHandler;
+      }
+      else {
+        cell.onclick = null;
+        cell.onclick = clickHandler;
+      }
+
     });
-
-
-
-
-
-
-
   }
-  refreshBoard(fen, 'w', legalMoves);
+  function addEventToCellsHuman(isFirst) {
+    var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
+
+    var clickSequence = []; // Послідовність кліків користувача
+
+    // Додавання обробників подій на кожну клітину
+    cells.forEach(function (cell) {
+      async function clickHandler() {
+        var cellId = parseInt(this.id.replace('cell', '')); // Отримання індексу клітини
+
+        if (clickSequence.length === 0) {
+          clickSequence.push(cellId);
+          legalMoves.forEach(move => {
+            if (clickSequence[0] == move[0]) {
+              var startCell = document.getElementById('cell' + clickSequence[0]);
+              startCell.style.border = '2px solid red';
+              var possibleMoves = legalMoves.filter(function (move) {
+                return move[0] === clickSequence[0];
+              });
+              possibleMoves.forEach(function (move) {
+                var endCell = document.getElementById('cell' + move[1]);
+                endCell.style.border = '2px solid red';
+              });
+            }
+          })
+
+          //this.style.border = '2px solid red'; // Виділення початкової клітини червоним бордером
+        } else if (clickSequence.length === 1) {
+          var start = clickSequence[0];
+          var end = cellId;
+
+          // Перевірка, чи відповідає послідовність кліків умовам з legalMoves
+          var isValidMove = false;
+          var validMove = null;
+          for (var i = 0; i < legalMoves.length; i++) {
+            if (legalMoves[i][0] === start && legalMoves[i][1] === end) {
+              isValidMove = true;
+              validMove = legalMoves[i];
+              break;
+            }
+          }
+
+          if (isValidMove) {
+            clickSequence.push(cellId);
+
+            // Прибирання бордера з усіх клітин
+            cells.forEach(function (cell) {
+              cell.style.border = '';
+            });
+            const { side, pieceType } = getPieceInfo(document.getElementById(`cell${start}`).firstChild.getAttribute('src'));
+            const { apieceType, aside } = getAtteckedPieceInfo(document.getElementById(`cell${end}`).firstChild.getAttribute('src'));
+
+            let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
+
+            document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
+            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+            if (validMove[2] == 3) {
+              document.getElementById('cell3').firstChild.src = document.getElementById('cell0').firstChild.src;
+              document.getElementById('cell0').firstChild.src = `img/pieces/pak1/Nodd.png`;
+            }
+            if (validMove[2] == 4) {
+              document.getElementById('cell5').firstChild.src = document.getElementById('cell7').firstChild.src;
+              document.getElementById('cell7').firstChild.src = `img/pieces/pak1/Neven.png`;
+            }
+            if (validMove[2] == 5) {
+              document.getElementById('cell59').firstChild.src = document.getElementById('cell56').firstChild.src;
+              document.getElementById('cell56').firstChild.src = `img/pieces/pak1/Neven.png`;
+            }
+            if (validMove[2] == 6) {
+              document.getElementById('cell61').firstChild.src = document.getElementById('cell63').firstChild.src;
+              document.getElementById('cell63').firstChild.src = `img/pieces/pak1/Nodd.png`;
+            }
+            const comPath = '../web/engine';
+            const com = 'm';
+            isWhiteMove = !isWhiteMove;
+            const responceCOM = await fetch('/runComm', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ path: comPath, com: com, args: base })
+            });
+            const resData = await responceCOM.json();
+
+            const dataArr = resData.result.split("\n").map(el => el.replace("\r", ""));
+            fen = dataArr[0];
+            en_passant = dataArr[1];
+            for (let i = 0; i < 4; i++) {
+              castlings[i] = dataArr[i + 2];
+            }
+            move_ctr = dataArr[6];
+            legalMoves = [];
+            for (let i = 7; i < dataArr.length - 1; i++) {
+              var values = dataArr[i].match(/\d+/g);
+              var newArray = [parseInt(values[0]), parseInt(values[1]), parseInt(values[2])];
+              legalMoves.push(newArray);
+            }
+            //let isCheck = dataArr[dataArr.length-1]
+
+            clickSequence = [];
+            cells.forEach(function (cell) {
+              cell.removeEventListener('click', clickHandler);
+            });
+            console.log(dataArr);
+            if (dataArr.length == 8) {
+              if (dataArr[7] == 1) {
+                if (move_ctr % 1 === 0) {
+                  showModal = true;
+                  openModal("Black wins.");
+                }
+                else {
+                  showModal = true;
+                  openModal("White wins.");
+                }
+
+              }
+              else {
+                showModal = true;
+                openModal("Draw by stalemate.");
+              }
+            }
+            //console.log (isCheck);
+            isWhiteMove = !isWhiteMove;
+            refreshBoard(fen, 'w', legalMoves);
+            addEventToCellsHuman(false);
+            addDefeatedPieces();
+
+
+          } else {
+            clickSequence = [];
+
+            cells.forEach(function (cell) {
+              cell.style.border = '';
+            });
+          }
+        }
+      }
+      if (isFirst) {
+        cell.onclick = clickHandler;
+      }
+      else {
+        cell.onclick = null;
+        cell.onclick = clickHandler;
+      }
+
+    });
+  }
 
 });
 
