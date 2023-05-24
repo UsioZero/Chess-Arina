@@ -64,7 +64,7 @@ int main(int argc, const char *argv[])
     //  std::cout<<move_ctr;
 
     AI ai("opening_book.txt");
-    Move bm = ai.best_move(position, side, 1000, 3500);
+    Move bm = ai.best_move(position, side, 300, 1500);
     position.move(bm);
     side = !side;
     std::cout << position.pieces.getShortFEN() << '\n';
@@ -79,6 +79,7 @@ int main(int argc, const char *argv[])
     {
         std::cout << unsigned(legalmoves[i].from) << " " << unsigned(legalmoves[i].to) << " " << unsigned(legalmoves[i].flag) << '\n';
     }
+    std::cout <<PseudoLegalMoveMaskGeneration::in_danger(position.pieces,BitboardOperations::bsf(position.pieces.pieceBitboards[side][Pieces::King]), side);
 
     return 0;
 }

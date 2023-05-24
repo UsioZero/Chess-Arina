@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', async function () {
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
-
+  let isAI = true;
   let isWhite = true;
   let timerBase = 3;
   let timerInv = 2;
   var showModal = false;
 
-  function openModal() {
+  function openModal(result) {
     if (showModal) {
       var modal = document.getElementById("myModal1");
       modal.style.display = "block";
@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     refreshTimers(whiteSeconds, blackSeconds);
   }, 1000);
-
 
   let legalMoves = [
     [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
@@ -198,6 +197,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
   function getAtteckedPieceInfo(filename) {
+    filename = filename.split('/')[filename.split('/').length-1];
     if (filename == "Neven.png" || filename == "Nodd.png") {
       const aside = 255;
       const apieceType = 255;
@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   refreshBoard(fen, 'w', legalMoves);
+  addEventToCells(true);
   function refreshBoard(fen, side, legalMoves) {
     addDefeatedPieces(countPieces(fen));
     const fenSpaces = fen.replace(/\//g, "").replace(/\d/g, (d) => " ".repeat(parseInt(d, 10)));
@@ -278,7 +279,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   }
   
- 
+  function addEventToCells(isFirst){
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
@@ -330,8 +331,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             const { side, pieceType } = getPieceInfo(document.getElementById(`cell${start}`).firstChild.getAttribute('src'));
             const { apieceType, aside } = getAtteckedPieceInfo(document.getElementById(`cell${end}`).firstChild.getAttribute('src'));
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
+
+            document.getElementById('cell'+validMove[1]).firstChild.src =  document.getElementById('cell'+validMove[0]).firstChild.src;
+            document.getElementById('cell'+validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+           // if (validMove[2]==)
             const comPath = '../web/engine';
-            const com = 'a'
+            const com = 'a';
+            console.log (`Sent: ${base}`);
             const responceCOM = await fetch('/runComm', {
               method: 'POST',
               headers: {
@@ -342,7 +348,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             const resData = await responceCOM.json();
 
             const dataArr = resData.result.split("\n").map(el => el.replace("\r", ""));
-            console.log(dataArr); // Виведення ходу в консоль
             fen = dataArr[0];
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
@@ -355,13 +360,28 @@ document.addEventListener('DOMContentLoaded', async function () {
               var newArray = [parseInt(values[0]), parseInt(values[1]), parseInt(values[2])];
               legalMoves.push(newArray);
             }
+            //let isCheck = dataArr[dataArr.length-1]
             
             clickSequence = [];
             cells.forEach(function(cell) {
               cell.removeEventListener('click', clickHandler);
             });
+            console.log (dataArr);
+            //console.log (isCheck);
+
             refreshBoard(fen, 'w', legalMoves);
-            console.log("aaaa");
+            addEventToCells(false);
+            if (dataArr.length == 8) {
+              if (dataArr[7]==1){
+                console.log(1);
+                openModal("White wins");
+              }
+              else
+              {
+                console.log(2);
+                openModal("Draw by stalemate");
+              }
+            }
             
           } else {
             clickSequence = []; 
@@ -372,9 +392,17 @@ document.addEventListener('DOMContentLoaded', async function () {
           }
         }
       }
-      cell.addEventListener('click', clickHandler);
+      if (isFirst){
+        cell.onclick = clickHandler;
+      }
+      else
+      {
+        cell.onclick = null;
+        cell.onclick = clickHandler;
+      }
+      
     });
-
+  }
 
 
 
