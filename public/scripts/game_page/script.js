@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
-  
+
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
@@ -35,16 +35,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Виконується код або функція кожну секунду
     if (isWhiteMove) {
       whiteSeconds--;
-      if (whiteSeconds == 0) { showModal = true; openModal("Black wins");}
+      if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
 
     } else {
       blackSeconds--;
-      if (blackSeconds == 0) { showModal = true; openModal("White wins.");}
+      if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
     }
     refreshTimers(whiteSeconds, blackSeconds);
   }, 1000);
 
-  
+
 
   function countPieces(fen) {
     const pieces = ['P', 'N', 'B', 'R', 'Q', 'K', 'p', 'n', 'b', 'r', 'q', 'k'];
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function getPieceInfo(type) {
     type = type.slice(0, -4);
-    
+
     const side = type.endsWith('2') ? 1 : 0;
     let pieceType;
     switch (type[16].toUpperCase()) {
@@ -173,23 +173,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     return { side, pieceType };
   }
 
-  function getImageSrc(i) {
-    const cell = document.getElementById(`cell${i}`);
-    const img = cell.querySelector('img');
-    return img.src;
-  }
-  function getMove(start, end, pieceType) {
-    const fileNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const startCol = start % 8;
-    const startRow = Math.floor(start / 8);
-    const endCol = end % 8;
-    const endRow = Math.floor(end / 8);
-    const pieceCodes = ['', 'N', 'B', 'R', 'Q', 'K'];
-    const pieceCode = pieceCodes[pieceType];
-    const startSquare = fileNames[startCol] + (1 + startRow);
-    const endSquare = fileNames[endCol] + (1 + endRow);
-    return pieceCode + " " + startSquare + " " + endSquare + "\n";
-  }
+
 
   function getAtteckedPieceInfo(filename) {
     filename = filename.split('/')[filename.split('/').length - 1];
@@ -227,10 +211,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     return { apieceType, aside };
   }
 
-  function checkForMoves(id) {
-    legalMoves.forEach(move => { console.log(move[0]); if (move[0] === id) { return true; } })
-    return false;
-  }
 
   let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   let legalMoves = [
@@ -239,27 +219,35 @@ document.addEventListener('DOMContentLoaded', async function () {
     [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
   ];
 
-  if (isAI){
-    if (isWhite){
+  if (isAI) {
+    if (isWhite) {
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }
-    else
-    {
+    else {
       fen = "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR";
       move_ctr = 1.5;
       isWhiteMove = !isWhiteMove;
-      legalMoves = [[48, 40, 0],[49, 41, 0],[50, 42, 0],[51, 43, 0],[52, 44, 0],[53, 45, 0],[54, 46, 0], [55, 47, 0], [48, 32,1],[49,33,1],[50,34,1],[51,35,1],[52,36,1],[53,37,1],[54,38,1],[55,39,1],[57,40,0],[57,42,0],[62,45,0],[62,47,0]]
+      legalMoves = [[48, 40, 0], [49, 41, 0], [50, 42, 0], [51, 43, 0], [52, 44, 0], [53, 45, 0], [54, 46, 0], [55, 47, 0], [48, 32, 1], [49, 33, 1], [50, 34, 1], [51, 35, 1], [52, 36, 1], [53, 37, 1], [54, 38, 1], [55, 39, 1], [57, 40, 0], [57, 42, 0], [62, 45, 0], [62, 47, 0]]
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
-    }  
+    }
   }
-  else
-  {
+  else {
     refreshBoard(fen, 'w', legalMoves);
     addEventToCellsHuman(true);
   }
-  
+  const gub = document.querySelector("#give-up-button");
+  gub.addEventListener('click', () => {
+    if (side == 'w') {
+      showModal = true;
+      openModal("White wins.");
+    }
+    else {
+      showModal = true;
+      openModal("Black wins.");
+    }
+  });
 
 
   function refreshBoard(fen, side, legalMoves) {
@@ -411,17 +399,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             addEventToCells(false);
             if (dataArr.length == 8) {
               if (dataArr[7] == 1) {
-                if (side == 'w')
-                {
+                if (!isWhite) {
                   showModal = true;
-                  openModal("White wins.");                  
+                  openModal("White wins.");
                 }
-                else
-                {
+                else {
                   showModal = true;
                   openModal("Black wins.");
                 }
-                
+
               }
               else {
                 showModal = true;
@@ -552,29 +538,29 @@ document.addEventListener('DOMContentLoaded', async function () {
               cell.removeEventListener('click', clickHandler);
             });
             console.log(dataArr);
-            //console.log (isCheck);
-            isWhiteMove = !isWhiteMove;
-            refreshBoard(fen, 'w', legalMoves);
-            addEventToCellsHuman(false);
             if (dataArr.length == 8) {
               if (dataArr[7] == 1) {
-                if (side == 'w')
-                {
-                  showModal = true;
-                  openModal("White wins.");                  
-                }
-                else
-                {
+                if (move_ctr % 1 === 0) {
                   showModal = true;
                   openModal("Black wins.");
                 }
-                
+                else {
+                  showModal = true;
+                  openModal("White wins.");
+                }
+
               }
               else {
                 showModal = true;
                 openModal("Draw by stalemate.");
               }
             }
+            //console.log (isCheck);
+            isWhiteMove = !isWhiteMove;
+            refreshBoard(fen, 'w', legalMoves);
+            addEventToCellsHuman(false);
+            addDefeatedPieces();
+
 
           } else {
             clickSequence = [];
