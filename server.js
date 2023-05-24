@@ -52,6 +52,7 @@ app.use('/', require('./routes/root'));
 app.use('/game', require('./routes/game'));
 app.use('/settings', verifyJWT, require('./routes/settings'));
 // api
+app.use('/api/user', require("./routes/api/user"));
 // auth
 app.use('/auth', require('./routes/auth'));
 // 404
