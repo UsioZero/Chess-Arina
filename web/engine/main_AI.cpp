@@ -79,7 +79,7 @@ int main(int argc, const char *argv[])
     {
         std::cout << unsigned(legalmoves[i].from) << " " << unsigned(legalmoves[i].to) << " " << unsigned(legalmoves[i].flag) << '\n';
     }
-    std::cout <<PseudoLegalMoveMaskGeneration::in_danger(position.pieces,BitboardOperations::bsf(position.pieces.pieceBitboards[side][Pieces::King]), side);
+    std::cout <<PseudoLegalMoveMaskGeneration::in_danger(position.pieces, BitboardOperations::bsf(position.pieces.pieceBitboards[side][Pieces::King]), side);
 
     return 0;
 }
