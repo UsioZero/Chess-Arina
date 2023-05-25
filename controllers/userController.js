@@ -59,8 +59,9 @@ const getUser = async (req, res) => {
     if(!user){
         return res.status(204).json({"message": `No user with ID ${req.user}.`});
     }
-
-    const {password, ...rest} = user;
+    const data = user._doc;
+    const {refreshTokenMobile, password, refreshToken, ...rest} = data;
+    //console.log(rest);
 
     res.json(rest);
 }
