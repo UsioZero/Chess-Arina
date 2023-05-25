@@ -46,6 +46,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
+
+
   const responce = await fetch('/api/user');
   const resData = await responce.json();
   const menuImg = document.querySelector("#btn1-container div img");

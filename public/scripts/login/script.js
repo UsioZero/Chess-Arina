@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (response.ok) {
             //window.location.href = '/regpage/login';
             console.log('ok');
-
+            window.location.href = "/";
             // const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
             // expirationTime = currentTime + 15;
             // localStorage.setItem('expirationTime', expirationTime.toString());
