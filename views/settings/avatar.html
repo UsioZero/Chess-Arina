@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-   <link rel="stylesheet" type="text/css" href="css/settings/styles.css" />
-   <script src="scripts/settings/script2.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/settings/styles.css" />
+  <script src="scripts/settings/script2.js"></script>
 
 </head>
 
@@ -104,7 +104,9 @@
   </div>
   <div class="menu">
     <div class="logo">
-      <img id="logo-img" src="img/logo_transparent.png" alt="Logo">
+      <a href="/">
+        <img id="logo-img" src="img/logo_transparent.png" alt="Logo">
+      </a>
     </div>
     <div class="buttons">
       <div id="btn1-container" class="menu-button-container">
@@ -157,108 +159,109 @@
   </div>
   <div class="container">
     <table>
-        <tr>
-          <td class="title" colspan="3">
-            Avatar
-          </td>
-        </tr>
-        <tr>
-            <td class="lorem" colspan="3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa incidunt et dignissimos quisquam molestias quis aut provident fuga commodi accusantium id nulla neque, voluptates, maxime cupiditate quas sunt illum. Ipsum.
-            </td>
-        </tr>
-        <tr>
-          <td  class="option-menu">
+      <tr>
+        <td class="title" colspan="3">
+          Avatar
+        </td>
+      </tr>
+      <tr>
+        <td class="lorem" colspan="3">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa incidunt et dignissimos quisquam molestias quis
+          aut provident fuga commodi accusantium id nulla neque, voluptates, maxime cupiditate quas sunt illum. Ipsum.
+        </td>
+      </tr>
+      <tr>
+        <td class="option-menu">
+          <table>
+            <tr>
+              <td>
+                <div class="inactive-button">
+                  <a href="/settings">General</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="active-button">
+                  <a href="avatar">Avatar</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="inactive-button">
+                  <a href="theme">Themes</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="inactive-button" id="need-underline">
+                  <a href="account">Connected accounts</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="inactive-button">
+                  <a href="sequrity">Sequrity</a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td colspan="2">
+          <div>
             <table>
-                <tr>
-                    <td>
-                        <div class="inactive-button">
-                            <a href = "/settings">General</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="active-button" >
-                            <a href = "avatar">Avatar</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="inactive-button">
-                            <a href = "theme">Themes</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="inactive-button" id = "need-underline">
-                            <a href = "account">Connected accounts</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="inactive-button">
-                            <a href = "sequrity">Sequrity</a>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-          </td>
-          <td colspan="2">
-            <div>
-            <table >
-                <tr>
-                    <td class="section-title" colspan="4"> 
-                        Avatar
-                    </td>
-                </tr>
-                <tr>
-                    <td class="avatar-td">
-                        <img src="" class = "big-image">
-                    </td>
-                    <td class="avatar-td">
-                        <img src="" class = "default-image">
-                    </td>
-                    <td class="avatar-td">
-                        <img src="" class = "small-image">
-                    </td>
-                    <td class = "avatar-table-button" >
-                        <div class="button-upload" id = "button-upload-avatar">
-                          <input type="file" id="file-upload" style="display: none;">
-                            <a>Upload image</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="section-title" colspan="4"> 
-                        Background image
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <div class="bg-test-image" src="">
-                        </div>
-                    </td>
-                    <td class = "avatar-table-button" >
-                        <div class="button-upload" id = "button-upload-bg">
-                          <input type="file" id="file-upload-bg" style="display: none;">
-                            <a>Upload image</a>
-                        </div>
-                    </td>
-                </tr>
-            
+              <tr>
+                <td class="section-title" colspan="4">
+                  Avatar
+                </td>
+              </tr>
+              <tr>
+                <td class="avatar-td">
+                  <img src="" class="big-image">
+                </td>
+                <td class="avatar-td">
+                  <img src="" class="default-image">
+                </td>
+                <td class="avatar-td">
+                  <img src="" class="small-image">
+                </td>
+                <td class="avatar-table-button">
+                  <div class="button-upload" id="button-upload-avatar">
+                    <input type="file" id="file-upload" style="display: none;">
+                    <a>Upload image</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="section-title" colspan="4">
+                  Background image
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <div class="bg-test-image" src="">
+                  </div>
+                </td>
+                <td class="avatar-table-button">
+                  <div class="button-upload" id="button-upload-bg">
+                    <input type="file" id="file-upload-bg" style="display: none;">
+                    <a>Upload image</a>
+                  </div>
+                </td>
+              </tr>
+
             </table>
             <div>
-          </td>
-        </tr>
-        
+        </td>
+      </tr>
+
     </table>
-            <button  class="save-button">
-                Save
-            </button>
+    <button class="save-button">
+      Save
+    </button>
   </div>
 </body>
 
