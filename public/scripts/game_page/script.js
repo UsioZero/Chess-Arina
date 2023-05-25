@@ -637,5 +637,21 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  const socket = io(); // Connect to the Socket.IO server
+
+  // Emit the join event when a player joins the room
+  socket.emit('join', roomId, playerId);
+
+  // Listen for the opponent's move event
+  socket.on('opponentMove', (fen) => {
+    // Handle the opponent's move here
+    console.log('Opponent move:', fen);
+  });
+
+  // Emit the move event when a player makes a move
+  function makeMove(fen) {
+    socket.emit('move', roomId, fen);
+  }
+
 });
 
