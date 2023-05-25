@@ -11,6 +11,9 @@ const cookieParser = require('cookie-parser');
 
 const verifyJWT = require('./middleware/verifyJWT');
 
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
+
 // tg bot
 //const botOn = require('./middleware/telegramBot');
 

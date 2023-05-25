@@ -41,7 +41,8 @@ const userSchema = new Schema({
             type: Boolean,
             default: true
         }
-    },    
+    },
+    gameList: [{ game_id: String }],
     refreshToken: String,
     refreshTokenMobile: String
 });

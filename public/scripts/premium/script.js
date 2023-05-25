@@ -5,5 +5,5 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // resData._doc - ce vs'a infa
     // jakso nado usernam - resData._doc.username
-    console.log(resData._doc);
+    console.log(resData);
 })
