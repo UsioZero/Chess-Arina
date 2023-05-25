@@ -11,8 +11,10 @@ const cookieParser = require('cookie-parser');
 
 const verifyJWT = require('./middleware/verifyJWT');
 
-var server = require('http').Server(app);
-var io = require('socket.io').listen(server);
+const http = require('http');
+const initSocket = require('./middleware/initSocket');
+const server = http.createServer(app);
+
 
 // tg bot
 //const botOn = require('./middleware/telegramBot');
@@ -70,9 +72,12 @@ app.all('*', (req, res) => {
   }
 });
 
+// socket 
+initSocket(server);
+
 mongoose.connection.once('open', () => {
   console.log('Connected to DB');
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 });
