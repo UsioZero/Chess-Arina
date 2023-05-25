@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function () {
-
+  const responce = await fetch('/api/user');
+  const resData = await responce.json();
+  console.log(resData._doc);
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
-  let isAI = false;
-  let isWhite = true;
+  let isAI = true;
+  let isWhite = false;
   let isWhiteMove = true;
   let timerBase = 10;
   let timerInv = 5;
@@ -43,6 +45,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     refreshTimers(whiteSeconds, blackSeconds);
   }, 1000);
+
+
+  const avatars = document.querySelectorAll(".avatar-icon img");
+  const nicks = document.querySelectorAll(".avatar-nickname");
+  const names = document.querySelectorAll(".avatar-name");
 
 
 
@@ -210,8 +217,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     return { apieceType, aside };
   }
-
-
+  let whiteDraw = false;
+  let blackDraw = false;
   let fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
   let legalMoves = [
     [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
@@ -221,10 +228,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   if (isAI) {
     if (isWhite) {
+      nicks[0].innerHTML = "@rana_deus";
+      names[0].innerHTML = "God of frogs";
+      avatars[0].src = "img/avatars/bot.png";
+      nicks[1].innerHTML = `@${resData._doc.username}`;
+      if (resData._doc.options.real_name!=null){
+        names[1].innerHTML = `@${resData._doc.options.real_name}`;
+      }
+     
+      avatars[1].src = "img/avatars/bot.png";
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }
     else {
+      nicks[1].innerHTML = "@rana_deus";
+      names[1].innerHTML = "God of frogs";
+      avatars[1].src = "img/avatars/bot.png";
       fen = "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR";
       move_ctr = 1.5;
       isWhiteMove = !isWhiteMove;
@@ -237,20 +256,44 @@ document.addEventListener('DOMContentLoaded', async function () {
     refreshBoard(fen, 'w', legalMoves);
     addEventToCellsHuman(true);
   }
-  const gub = document.querySelector("#give-up-button");
+  const gub = document.getElementById("give-up-button");
+  //console.log(gub);
   gub.addEventListener('click', () => {
-    if (side == 'w') {
-      showModal = true;
-      openModal("White wins.");
-    }
-    else {
-      showModal = true;
-      openModal("Black wins.");
+    {
+      console.log('c');
+      if (!isWhite) {
+        showModal = true;
+        openModal("White wins.");
+      }
+      else {
+        showModal = true;
+        openModal("Black wins.");
+      }
     }
   });
 
 
+  const offerDraw = document.getElementById("draw-button");
+  //console.log(offerDraw);
+  offerDraw.addEventListener('click', () => {
+    console.log(1);
+    if ((isWhite && blackDraw) || (!isWhite && whiteDraw)) {
+      showModal = true;
+      openModal("Draw by offering.");
+      console.log(2);
+    }
+    if (!whiteDraw && !blackDraw) {
+      alert("You`ve been offered draw. Press offer draw to accept it.");
+      if (isWhite) { whiteDraw = true; } else { blackDraw = true; }
+    }
+
+
+  });
+
+
   function refreshBoard(fen, side, legalMoves) {
+    whiteDraw = false;
+    blackDraw = false;
     addDefeatedPieces(countPieces(fen));
     const fenSpaces = fen.replace(/\//g, "").replace(/\d/g, (d) => " ".repeat(parseInt(d, 10)));
     let fenRows2 = [];
