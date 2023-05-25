@@ -1,12 +1,21 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const responce = await fetch('/api/user');
   const resData = await responce.json();
-  console.log(resData._doc);
+
+
+
+  //menu img adding
+  const menuImg = document.querySelector("#btn1-container div img");
+  menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
+
+
+
+
   let en_passant = 255;
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
   let isAI = true;
-  let isWhite = false;
+  let isWhite = !false;
   let isWhiteMove = true;
   let timerBase = 10;
   let timerInv = 5;
@@ -231,12 +240,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       nicks[0].innerHTML = "@rana_deus";
       names[0].innerHTML = "God of frogs";
       avatars[0].src = "img/avatars/bot.png";
-      nicks[1].innerHTML = `@${resData._doc.username}`;
-      if (resData._doc.options.real_name!=null){
-        names[1].innerHTML = `@${resData._doc.options.real_name}`;
+      nicks[1].innerHTML = `@${resData.username}`;
+      if (resData.options.real_name != null) {
+        names[1].innerHTML = `@${resData.options.real_name}`;
       }
-     
-      avatars[1].src = "img/avatars/bot.png";
+      else {
+        names[1].innerHTML = `Hidden name`;
+      }
+
+      avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }

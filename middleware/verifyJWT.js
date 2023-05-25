@@ -25,9 +25,9 @@ const verifyJWT = (req, res, next) => {
                     }
 
                     const foundUser = await User.findOne({ refreshToken }).exec();
-                    if (!foundUser) res.sendStatus(403);
-
+                    if (!foundUser) return res.redirect('/unauth');
                     const roles = Object.values(foundUser.roles);
+
                     // Generate a new access token
                     const accessToken = jwt.sign(
                         {

@@ -264,7 +264,7 @@ body {
 }
 
 .table-container-2 table {
-  width: 100%;
+  width: 99.9%;
   border-collapse: collapse;
 }
 
@@ -315,4 +315,180 @@ tr.footer-row td {
   left: 65%;
   top: 42%;
   width: auto;
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 25%;
+  top: 25%;
+  width: 1200px;
+  /* Full width */
+  height: 400px;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: #FFDA79;
+  /* Black w/ opacity */
+  border-radius: 5px;
+  border: #C69A42 3px solid;
+}
+
+
+/* Style for the close button */
+.close {
+  color: red;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.type-img {
+  width: 100px;
+  height: 100px;
+  background: #FF793F;
+  border-radius: 5px;
+  border: #8A4726 2px solid;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+}
+
+.choose-slider {
+  width: 90%;
+  background: #CD6133;
+  border-radius: 25px;
+  height: 50px;
+  border: #8A4726 2px solid;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.choose-slider-div {
+  width: 250px;
+  height: 40px;
+  border-radius: 20px;
+  background: #FF793F;
+  margin: 5px;
+  border: 2px solid #8A4726;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.content-table {
+  border-right: 3px black;
+}
+
+.side-img {
+  width: 75px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 75px;
+  background: #FF793F;
+  border-radius: 5px;
+  border: #8A4726 2px solid;
+}
+
+.side-a {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.start-game-button {
+  width: 90%;
+  background: #FF793F;
+  border-radius: 25px;
+  height: 50px;
+  border: #CD6133 2px solid;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 5%;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.start-game-button a {
+  color: black;
+  font-style: none;
+}
+
+.timer-image {
+  width: 45px;
+  height: auto;
+  border-radius: 50%;
+  background: #CD6133;
+  border: 1px solid #8A4726;
+}
+
+.timer-span {
+  color: black;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.default-timer-button {
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  background: #FF793F;
+  margin: 5px;
+  border: 2px solid #8A4726;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.custom-timer-button {
+  width: 310px;
+  height: 40px;
+  border-radius: 20px;
+  background: #FF793F;
+  margin: 5px;
+  border: 2px solid #8A4726;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.active-option {
+  border: 5px solid #33d9b2;
+}
+
+.hidden-input {
+  width: 180px;
+  height: 40px;
+  border-radius: 20px;
+  background: #FF793F;
+  margin: 5px;
+  border: 2px solid #8A4726;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 30%;
+}
+
+td {
+  text-align: center;
 }
