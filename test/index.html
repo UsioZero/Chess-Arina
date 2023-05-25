@@ -61,9 +61,10 @@
   </style>
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
     var socket = io();
 
-    var form = document.querySelector('#form-a');
+    var form = document.getElementById('form-a');
     var input = document.getElementById('input');
 
     console.log(form);
@@ -76,6 +77,7 @@
     //     input.value = '';
     //   }
     // });
+    });
   </script>
 </head>
 
