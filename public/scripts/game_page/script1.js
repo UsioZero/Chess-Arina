@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     names[0].innerHTML = `Hidden name`;
   }
 
-  avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
+  avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
   nicks[1].innerHTML = `@${resData.username}`;
   if (resData.options.real_name != null) {
     names[1].innerHTML = `@${resData.options.real_name}`;
