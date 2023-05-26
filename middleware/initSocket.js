@@ -7,7 +7,7 @@ const initSocketIO = (server) => {
   io.on('connection', (socket) => {
     console.log('con');
     // Event when a player joins the room
-    socket.on('join', (roomId, playerId) => {
+    socket.on('join', (roomId, playerId, isWhite) => {
       socket.join(roomId); // Join the specified room
       socket.playerId = playerId; // Store the player ID in the socket
       console.log(`${roomId} - ${playerId}`);
@@ -16,10 +16,10 @@ const initSocketIO = (server) => {
     });
 
     // Event when a player makes a move
-    socket.on('move', (roomId, fen) => {
+    socket.on('move', (roomId, dataArray, legalMovesForPlayer) => {
       // Emit the move event to other players in the room
-      console.log(fen);
-      socket.to(roomId).emit('opponentMove', fen);
+      //console.log(fen);
+      socket.to(roomId).emit('opponentMove', dataArray, legalMovesForPlayer);
     });
 
     // Event when a player disconnects
