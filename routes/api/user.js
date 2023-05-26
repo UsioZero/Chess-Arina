@@ -7,4 +7,7 @@ const verifyJWT = require('../../middleware/verifyJWT');
 router.route('/')
     .get(verifyJWT, userController.getUser);
 
+router.route('/:id')
+    .get(verifyJWT, userController.getUser);
+
 module.exports = router;
