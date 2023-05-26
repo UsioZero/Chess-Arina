@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   let isAI = !true;
 
 
-  let isWhiteMove = !true;
+  let isWhiteMove = true;
   let timerBase = 10;
   let timerInv = 5;
   var showModal = false;
@@ -785,7 +785,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
             const resDataForGame = await responceCOM.json();
-            isStartTimer = true;
+            //isStartTimer = true;
             const dataArr = resDataForGame.result.split("\n").map(el => el.replace("\r", ""));
             fen = dataArr[0];
             en_passant = dataArr[1];
@@ -859,6 +859,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
 
   }
+  isStartTimer = true;
   nicks[0].innerHTML = `@${resData.username}`;
   if (resData.options.real_name != null) {
     names[0].innerHTML = `@${resData.options.real_name}`;
@@ -867,10 +868,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     names[0].innerHTML = `Hidden name`;
   }
 
-  avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
-  nicks[1].innerHTML = `@${resData.username}`;
-  if (resData.options.real_name != null) {
-    names[1].innerHTML = `@${resData.options.real_name}`;
+  avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+
+  const userResponce = await fetch(`/api/user/${player2Id}`);
+  const userResponceData = await userResponce.json();
+  console.log(userResponceData);
+  nicks[1].innerHTML = `@${userResponceData.username}`;
+  if (resData.rena != null) {
+    names[1].innerHTML = `@${userResponceData.rena}`;
   }
   else {
     names[1].innerHTML = `Hidden name`;
@@ -883,7 +888,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
     refreshTimers(timers[0], timers[1]);
     addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray)
-    console.log('Opponent move:', dataArray, legalMovesForPlayer, timers);
+    isWhiteMove= !isWhiteMove;
+    //console.log('Opponent move:', dataArray, legalMovesForPlayer, timers);
   });
 
   // Emit the move event when a player makes a move

@@ -16,17 +16,6 @@ const fileSaver = (req, res) => {
     //     if (err) return res.status(500).json({ status: "error", messoge: err })
     // })
 
-    // fs.rename(
-    //     path.join(__dirname, '../public/img/test/', files[key]),
-    //     path.join(__dirname,
-    //         '../public/img/front_img/',
-    //         `${result.id}${path.extname(files[key])}`), (err) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //         }
-    // );
-
     return res.json({ status: "success", message: Object.keys(files).toString() });
 }
 

@@ -12,6 +12,7 @@ const initSocketIO = (server) => {
       socket.playerId = playerId; // Store the player ID in the socket
       console.log(`${roomId} - ${playerId}`);
       // Notify other players in the room that a new player has joined
+      
       socket.to(roomId).emit('playerJoined', playerId);
     });
 
