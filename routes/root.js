@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+
 const verifyJWT = require('../middleware/verifyJWT');
 const runCommand = require('../middleware/runCommand');
+const fileSaver = require('../middleware/fileSaver');
 
 router.get('/', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
@@ -51,5 +53,7 @@ router.get('/premium', verifyJWT, (req, res) => {
 router.post('/runComm', (req, res) =>
     runCommand(req, res)
 );
+
+router.post('/fileUpload', verifyJWT, fileSaver)
 
 module.exports = router;

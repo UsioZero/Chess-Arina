@@ -1,4 +1,23 @@
 window.addEventListener("load", async function () {
+
+
+  // how to send files, but now after all it will just send file by console log 
+  // in server side(if it will works with bg and avatar, then uncomment 
+  // 15-17 lines in /middleware/fileSaver.js)
+
+  // Html code:
+  // <form id="uploadForm1">
+  //   <input type="file" id="myFiles" accept="image/*" />
+  // </form>
+
+  // js code:
+  // jsonData = { "uId": "<userId>", "isAvata": true }// isAvatar = true when Avatar img, flase - bg img
+  // const myFile = document.getElementById('myFiles').files[0];
+  // const formData = new FormData();
+  // formData.append('file', myFile);
+  // formData.append('jsonData', JSON.stringify(jsonData));
+
+
   // Set the base value to 1
   var base = 3;
 
