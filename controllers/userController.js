@@ -66,10 +66,21 @@ const getUser = async (req, res) => {
     res.json(rest);
 }
 
+const getUserById = async (req, res) => {
+    if(!req?.params?.id) return res.status(400).json({ 'message': 'User ID required'});
+    
+    const user = await User.findById(req.params.id);
+    if(!user){
+        return res.status(204).json({"message": `No User with ID ${req.params.id}.`});
+    }
+    res.json({"username": user.username, "rena": user.options.real_name});
+}
+
 module.exports = {
     // getAllUser,
     // createNewFood,
     // updateFood,
     // deleteFood,
-    getUser
+    getUser,
+    getUserById
 }
