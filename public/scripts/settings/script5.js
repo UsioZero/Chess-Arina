@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const src = button.getAttribute("src");
         let fileName = src.substring(src.lastIndexOf("/") + 1);
         if (fileName == "computericon.png") {
-          fileName = "AI"
+          fileName = "AI";
         }
         else {
           if (fileName == "human.png") {
@@ -180,8 +180,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     startGameData.push(thirdButtonInnerHTML);
 
     console.log(startGameData);
-    const link = document.querySelector(".start-game-button a");
-    link.href = "http://localhost:3000/game";
-    link.click();
+    if (startGameData[0]=="hu"){
+      let link = `/game/link?id=${resData._id}`;
+      window.location.href = `/game/?link=${link}`;
+    }
+    else
+    {
+      window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
+    }
+    
   });
 });

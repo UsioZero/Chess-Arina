@@ -16,10 +16,10 @@ const initSocketIO = (server) => {
     });
 
     // Event when a player makes a move
-    socket.on('move', (roomId, dataArray, legalMovesForPlayer) => {
+    socket.on('move', (roomId, dataArray, legalMovesForPlayer,timers) => {
       // Emit the move event to other players in the room
       console.log(roomId);
-      socket.to(roomId).emit('opponentMove', dataArray, legalMovesForPlayer);
+      socket.to(roomId).emit('opponentMove', dataArray, legalMovesForPlayer, timers);
     });
 
     // Event when a player disconnects

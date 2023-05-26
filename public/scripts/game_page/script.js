@@ -15,14 +15,62 @@ document.addEventListener('DOMContentLoaded', async function () {
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
   let isAI = !true;
+  let isStartTimer = false;
+  var url = new URL(window.location.href);
+  let type = url.searchParams.get('type');
 
+  let timer = url.searchParams.get('timer');
+
+  let PlSide = url.searchParams.get('side');
+
+  let link = url.searchParams.get('link');
+  const cont = document.querySelector('.move-text-container');
+  cont.innerHTML = `Give this link to your friend: ${link}`;
+  let isWhite = true;
   let isWhiteMove = true;
   let timerBase = 10;
   let timerInv = 5;
   var showModal = false;
   let isPlayer = true;
+  if (type) {
+    if (type == "AI") {
+      isAI = true;
+      isPlayer = false;
+      console.log(isAI);
+      isStartTimer = true;
+    }
+    if (type == "hs") {
+      isAI = false;
+      isPlayer = false;
+      console.log(isAI);
+      isStartTimer = true;
+    }
+  }
+  let blackSeconds;
+  let whiteSeconds;
+  if (timer) {
+    let timers = timer.split("|");
+    console.log(timers);
+    timerBase = timers[0];
+    
+    timerInv = timers[1];
+    console.log ()
+    blackSeconds = 6*timers[0]+timers[1];
+    whiteSeconds = 6*timers[0]+timers[1];
+  }
+  if (PlSide) {
+    if (PlSide == 'w') {
+      isWhite = true;
+    }
+    if (PlSide == 'b') {
+      isWhite = false;
+    }
+  }
 
-  let isWhite = true;
+
+
+
+
 
 
 
@@ -35,8 +83,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   const timers = document.querySelectorAll(".timer-text a");
-  let blackSeconds = timerBase * 60 + timerInv;
-  let whiteSeconds = timerBase * 60 + timerInv;
+
   function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -49,16 +96,19 @@ document.addEventListener('DOMContentLoaded', async function () {
   const endgame = document.querySelector(".modal1-content h4");
   setInterval(() => {
     // Виконується код або функція кожну секунду
-    if (isWhiteMove) {
-      whiteSeconds--;
-      if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
+    if (isStartTimer) {
+      if (isWhiteMove) {
+        whiteSeconds--;
+        if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
 
-    } else {
-      blackSeconds--;
-      if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
+      } else {
+        blackSeconds--;
+        if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
+      }
+      refreshTimers(whiteSeconds, blackSeconds);
     }
-    refreshTimers(whiteSeconds, blackSeconds);
-  }, 1000);
+  }
+    , 1000);
 
 
   const avatars = document.querySelectorAll(".avatar-icon img");
@@ -243,7 +293,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   let dataArrayStartPos = [];
   dataArrayStartPos.push(fen);
   dataArrayStartPos.push(en_passant);
-  for (let i=0;i<4;i++){
+  for (let i = 0; i < 4; i++) {
     dataArrayStartPos.push(castlings[i]);
   }
   dataArrayStartPos.push(move_ctr);
@@ -286,11 +336,31 @@ document.addEventListener('DOMContentLoaded', async function () {
   gub.addEventListener('click', () => {
     {
       console.log('c');
-      if (!isWhite) {
+      if (isWhite) {
+        let asdasd = [];
+        asdasd.push(fen);
+        asdasd.push(en_passant);
+        for (let i = 0; i < 4; i++) {
+          asdasd.push(castlings[i]);
+        }
+        asdasd.push(move_ctr);
+        asdasd.push(1);
+        socket.emit('move', resData._id, asdasd, legalMoves, [1, 1]);
+
         showModal = true;
         openModal("White wins.");
+
       }
       else {
+        let asdasd = [];
+        asdasd.push(fen);
+        asdasd.push(en_passant);
+        for (let i = 0; i < 4; i++) {
+          asdasd.push(castlings[i]);
+        }
+        asdasd.push(move_ctr);
+        asdasd.push(1);
+        socket.emit('move', resData._id, asdasd, legalMoves, [1, 1]);
         showModal = true;
         openModal("Black wins.");
       }
@@ -462,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
             console.log(dataArr);
             //console.log (isCheck);
-            isWhiteMove = !isWhiteMove;
+            //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             addEventToCells(false);
             if (dataArr.length == 8) {
@@ -624,7 +694,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               }
             }
             //console.log (isCheck);
-            isWhiteMove = !isWhiteMove;
+           // isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             addEventToCellsHuman(false);
             addDefeatedPieces();
@@ -653,12 +723,27 @@ document.addEventListener('DOMContentLoaded', async function () {
     legalMoves = legalMovesForPlayer;
     fen = dataArray[0];
     en_passant = dataArray[1];
-    for (let i =0;i<4;i++)
-    {
-      castlings[i]=dataArray[i+2];
+    for (let i = 0; i < 4; i++) {
+      castlings[i] = dataArray[i + 2];
     }
     move_ctr = dataArray[6];
-    
+    if (dataArray.length == 8) {
+      if (dataArray[7] == 1) {
+        if (move_ctr % 1 === 0) {
+          showModal = true;
+          openModal("Black wins.");
+        }
+        else {
+          showModal = true;
+          openModal("White wins.");
+        }
+
+      }
+      else {
+        showModal = true;
+        openModal("Draw by stalemate.");
+      }
+    }
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
@@ -741,7 +826,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
             const resDataForGame = await responceCOM.json();
-
+            isStartTimer = true;
             const dataArr = resDataForGame.result.split("\n").map(el => el.replace("\r", ""));
             fen = dataArr[0];
             en_passant = dataArr[1];
@@ -780,10 +865,10 @@ document.addEventListener('DOMContentLoaded', async function () {
               }
             }
             //console.log (isCheck);
-            isWhiteMove = !isWhiteMove;
+            //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log(resData._id);
-            socket.emit('move', resData._id, dataArr, legalMoves);
+            socket.emit('move', resData._id, dataArr, legalMoves, [whiteSeconds, blackSeconds]);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
 
@@ -813,20 +898,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Emit the join event when a player joins the room
 
     socket.emit('join', resData._id, resData._id, isWhite);
+    isStartTimer = true;
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
-      addEventToCellsHumanLink(true, legalMoves,dataArrayStartPos);
+      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
     }
     // Listen for the opponent's move event
-    socket.on('opponentMove', (dataArray, legalMovesForPlayer) => {
+    socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
-      addEventToCellsHumanLink(false, legalMovesForPlayer,dataArray);
+      refreshTimers(timers[0], timers[1]);
+      addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray);
       console.log('Opponent move:', dataArray, legalMovesForPlayer);
     });
 
     // Emit the move event when a player makes a move
     function makeMove(dataArray) {
-      socket.emit('move', resData._id, dataArray, legalMovesForPlayer);
+      socket.emit('move', resData._id, dataArray, legalMovesForPlayer, timers);
     }
   }
 

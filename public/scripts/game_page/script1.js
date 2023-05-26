@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
   menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
-
+  let isStartTimer = false;
 
 
 
@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   let castlings = [1, 1, 1, 1];
   let move_ctr = 1;
   let isAI = !true;
-  
-  
-  let isWhiteMove = true;
+
+
+  let isWhiteMove = !true;
   let timerBase = 10;
   let timerInv = 5;
   var showModal = false;
   let isPlayer = true;
   var url = new URL(window.location.href);
   let player2Id = url.searchParams.get('id');
-  console.log (`player2id: ${player2Id}`);
+  console.log(`player2id: ${player2Id}`);
   let isWhite = false;
 
 
@@ -53,16 +53,19 @@ document.addEventListener('DOMContentLoaded', async function () {
   const endgame = document.querySelector(".modal1-content h4");
   setInterval(() => {
     // Виконується код або функція кожну секунду
-    if (isWhiteMove) {
-      whiteSeconds--;
-      if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
-
-    } else {
-      blackSeconds--;
-      if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
+    if(isStartTimer){
+      if (isWhiteMove) {
+        whiteSeconds--;
+        if (whiteSeconds == 0) { showModal = true; openModal("Black wins"); }
+  
+      } else {
+        blackSeconds--;
+        if (blackSeconds == 0) { showModal = true; openModal("White wins."); }
+      }
+      refreshTimers(whiteSeconds, blackSeconds);
     }
-    refreshTimers(whiteSeconds, blackSeconds);
-  }, 1000);
+    }
+    , 1000);
 
 
   const avatars = document.querySelectorAll(".avatar-icon img");
@@ -247,7 +250,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   let dataArrayStartPos = [];
   dataArrayStartPos.push(fen);
   dataArrayStartPos.push(en_passant);
-  for (let i=0;i<4;i++){
+  for (let i = 0; i < 4; i++) {
     dataArrayStartPos.push(castlings[i]);
   }
   dataArrayStartPos.push(move_ctr);
@@ -290,10 +293,30 @@ document.addEventListener('DOMContentLoaded', async function () {
     {
       console.log('c');
       if (!isWhite) {
+        let asdasd = [];
+        asdasd.push(fen);
+        asdasd.push(en_passant);
+        for (let i = 0; i < 4; i++) {
+          asdasd.push(castlings[i]);
+        }
+        asdasd.push(move_ctr);
+        asdasd.push(1);
+        socket.emit('move', player2Id, asdasd, legalMoves,[1,1]);
+
         showModal = true;
         openModal("White wins.");
+
       }
       else {
+        let asdasd = [];
+        asdasd.push(fen);
+        asdasd.push(en_passant);
+        for (let i = 0; i < 4; i++) {
+          asdasd.push(castlings[i]);
+        }
+        asdasd.push(move_ctr);
+        asdasd.push(1);
+        socket.emit('move', player2Id, asdasd, legalMoves,[1,1]);
         showModal = true;
         openModal("Black wins.");
       }
@@ -506,6 +529,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
   function addEventToCellsHuman(isFirst) {
+
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
@@ -653,14 +677,32 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
   function addEventToCellsHumanLink(isFirst, legalMovesForPlayer, dataArray) {
+    
     legalMoves = legalMovesForPlayer;
     fen = dataArray[0];
     en_passant = dataArray[1];
-    for (let i =0;i<4;i++)
-    {
-      castlings[i]=dataArray[i+2];
+    for (let i = 0; i < 4; i++) {
+      castlings[i] = dataArray[i + 2];
     }
     move_ctr = dataArray[6];
+
+    if (dataArray.length == 8) {
+      if (dataArray[7] == 1) {
+        if (move_ctr % 1 === 0) {
+          showModal = true;
+          openModal("Black wins.");
+        }
+        else {
+          showModal = true;
+          openModal("White wins.");
+        }
+
+      }
+      else {
+        showModal = true;
+        openModal("Draw by stalemate.");
+      }
+    }
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
@@ -743,7 +785,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
             const resDataForGame = await responceCOM.json();
-
+            isStartTimer = true;
             const dataArr = resDataForGame.result.split("\n").map(el => el.replace("\r", ""));
             fen = dataArr[0];
             en_passant = dataArr[1];
@@ -785,7 +827,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log("we not moved");
-            socket.emit('move', player2Id, dataArr, legalMoves);
+            socket.emit('move', player2Id, dataArr, legalMoves,[whiteSeconds,blackSeconds]);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
 
@@ -810,25 +852,26 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
   const socket = io(); // Connect to the Socket.IO server
 
-  
-    socket.emit('join', player2Id, resData._id, isWhite);
-    refreshBoard(fen, 'w', legalMoves);
-    if (isWhite) {
-      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
-    }
-    // Listen for the opponent's move event
-    socket.on('opponentMove', (dataArray, legalMovesForPlayer) => {
-      console.log("hui");
-      refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
-      
-      addEventToCellsHumanLink(false, legalMovesForPlayer,dataArray)
-      console.log('Opponent move:', dataArray, legalMovesForPlayer);
-    });
 
-    // Emit the move event when a player makes a move
-    function makeMove(dataArray) {
-      socket.emit('move', player2Id, dataArray, legalMovesForPlayer);
-    } 
+  socket.emit('join', player2Id, resData._id, isWhite);
+  refreshBoard(fen, 'w', legalMoves);
+  if (isWhite) {
+    addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
+    
+  }
+  // Listen for the opponent's move event
+  socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {
+    console.log("hui");
+    refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
+    refreshTimers(timers[0],timers[1]);
+    addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray)
+    console.log('Opponent move:', dataArray, legalMovesForPlayer,timers);
+  });
+
+  // Emit the move event when a player makes a move
+  function makeMove(dataArray) {
+    socket.emit('move', player2Id, dataArray, legalMovesForPlayer,timers);
+  }
 
 
 });
