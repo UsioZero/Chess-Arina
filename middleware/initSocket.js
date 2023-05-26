@@ -18,7 +18,7 @@ const initSocketIO = (server) => {
     // Event when a player makes a move
     socket.on('move', (roomId, dataArray, legalMovesForPlayer) => {
       // Emit the move event to other players in the room
-      //console.log(fen);
+      console.log(roomId);
       socket.to(roomId).emit('opponentMove', dataArray, legalMovesForPlayer);
     });
 

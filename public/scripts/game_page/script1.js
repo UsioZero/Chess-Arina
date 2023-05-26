@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   let move_ctr = 1;
   let isAI = !true;
   
+  
   let isWhiteMove = true;
   let timerBase = 10;
   let timerInv = 5;
@@ -23,7 +24,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   let isPlayer = true;
   var url = new URL(window.location.href);
   let player2Id = url.searchParams.get('id');
-  let isWhite = player2Id ? true : false; 
+  console.log (`player2id: ${player2Id}`);
+  let isWhite = false;
+
 
 
 
@@ -241,6 +244,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
   ];
 
+  let dataArrayStartPos = [];
+  dataArrayStartPos.push(fen);
+  dataArrayStartPos.push(en_passant);
+  for (let i=0;i<4;i++){
+    dataArrayStartPos.push(castlings[i]);
+  }
+  dataArrayStartPos.push(move_ctr);
   if (isAI) {
     if (isWhite) {
       nicks[0].innerHTML = "@rana_deus";
@@ -642,7 +652,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     });
   }
-  function addEventToCellsHumanLink(isFirst) {
+  function addEventToCellsHumanLink(isFirst, legalMovesForPlayer, dataArray) {
+    legalMoves = legalMovesForPlayer;
+    fen = dataArray[0];
+    en_passant = dataArray[1];
+    for (let i =0;i<4;i++)
+    {
+      castlings[i]=dataArray[i+2];
+    }
+    move_ctr = dataArray[6];
     var cells = document.querySelectorAll('.cell'); // Отримання всіх клітин
 
     var clickSequence = []; // Послідовність кліків користувача
@@ -724,9 +742,9 @@ document.addEventListener('DOMContentLoaded', async function () {
               },
               body: JSON.stringify({ path: comPath, com: com, args: base })
             });
-            const resData = await responceCOM.json();
+            const resDataForGame = await responceCOM.json();
 
-            const dataArr = resData.result.split("\n").map(el => el.replace("\r", ""));
+            const dataArr = resDataForGame.result.split("\n").map(el => el.replace("\r", ""));
             fen = dataArr[0];
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
@@ -764,10 +782,10 @@ document.addEventListener('DOMContentLoaded', async function () {
               }
             }
             //console.log (isCheck);
-            isWhiteMove = !isWhiteMove;
+            //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log("we not moved");
-            socket.emit('move', player2Id? player2Id : resData._id, dataArr, legalMoves);
+            socket.emit('move', player2Id, dataArr, legalMoves);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
 
@@ -792,46 +810,25 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
   const socket = io(); // Connect to the Socket.IO server
 
-  if (isPlayer) {
-   
-    // Emit the join event when a player joins the room
-    if (player2Id) {
-      socket.emit('join', player2Id, resData._id, isWhite);
-      refreshBoard(fen, 'w', legalMoves);
-      if (isWhite) {
-        addEventToCellsHumanLink(true);
-      }
-      // Listen for the opponent's move event
-      socket.on('opponentMove', (dataArray, legalMovesForPlayer) => {
-        refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
-        addEventToCellsHumanLink(false)
-        console.log('Opponent move:', dataArray, legalMovesForPlayer);
-      });
-
-      // Emit the move event when a player makes a move
-      function makeMove(dataArray) {
-        socket.emit('move', player2Id, dataArray, legalMovesForPlayer);
-      }
-
-    } else {
-      socket.emit('join', resData._id, resData._id, isWhite);
-      refreshBoard(fen, 'w', legalMoves);
-      if (isWhite) {
-        addEventToCellsHumanLink(true);
-      }
-      // Listen for the opponent's move event
-      socket.on('opponentMove', (dataArray, legalMovesForPlayer) => {
-        refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
-        addEventToCellsHumanLink(false)
-        console.log('Opponent move:', dataArray, legalMovesForPlayer);
-      });
-
-      // Emit the move event when a player makes a move
-      function makeMove(dataArray) {
-        socket.emit('move', resData._id, dataArray, legalMovesForPlayer);
-      }
+  
+    socket.emit('join', player2Id, resData._id, isWhite);
+    refreshBoard(fen, 'w', legalMoves);
+    if (isWhite) {
+      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
     }
-  }
+    // Listen for the opponent's move event
+    socket.on('opponentMove', (dataArray, legalMovesForPlayer) => {
+      console.log("hui");
+      refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
+      
+      addEventToCellsHumanLink(false, legalMovesForPlayer,dataArray)
+      console.log('Opponent move:', dataArray, legalMovesForPlayer);
+    });
+
+    // Emit the move event when a player makes a move
+    function makeMove(dataArray) {
+      socket.emit('move', player2Id, dataArray, legalMovesForPlayer);
+    } 
 
 
 });
