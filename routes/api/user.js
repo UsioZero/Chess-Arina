@@ -8,6 +8,6 @@ router.route('/')
     .get(verifyJWT, userController.getUser);
 
 router.route('/:id')
-    .get(verifyJWT, userController.getUser);
+    .get(verifyJWT, userController.getUserById);
 
 module.exports = router;

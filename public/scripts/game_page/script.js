@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   let link = url.searchParams.get('link');
   const cont = document.querySelector('.move-text-container');
-  cont.innerHTML = `Give this link to your friend: ${link}`;
+  if (link ){cont.innerHTML = `Give this link to your friend: ${link}`;}
   let isWhite = true;
   let isWhiteMove = true;
   let timerBase = 10;
@@ -49,14 +49,19 @@ document.addEventListener('DOMContentLoaded', async function () {
   let blackSeconds;
   let whiteSeconds;
   if (timer) {
-    let timers = timer.split("|");
-    console.log(timers);
-    timerBase = timers[0];
-    
-    timerInv = timers[1];
-    console.log ()
-    blackSeconds = 6*timers[0]+timers[1];
-    whiteSeconds = 6*timers[0]+timers[1];
+    let timerss = timer.split("|");
+    console.log(timerss);
+    timerBase = timerss[0];
+
+    timerInv = timerss[1];
+    console.log()
+    blackSeconds = 6 * timerss[0] + timerss[1];
+    whiteSeconds = 6 * timerss[0] + timerss[1];
+  }
+  else
+  {
+    blackSeconds = 60 * timerBase + timerInv;
+    whiteSeconds = 60 * timerBase + timerInv;
   }
   if (PlSide) {
     if (PlSide == 'w') {
@@ -297,13 +302,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     dataArrayStartPos.push(castlings[i]);
   }
   dataArrayStartPos.push(move_ctr);
-
-  if (isAI) {
-    if (isWhite) {
-      nicks[0].innerHTML = "@rana_deus";
-      names[0].innerHTML = "God of frogs";
-      avatars[0].src = "img/avatars/bot.png";
-      nicks[1].innerHTML = `@${resData.username}`;
+  if (isWhite){
+    nicks[1].innerHTML = `@${resData.username}`;
       if (resData.options.real_name != null) {
         names[1].innerHTML = `@${resData.options.real_name}`;
       }
@@ -312,6 +312,25 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
 
       avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
+  }
+  else
+  {
+    nicks[0].innerHTML = `@${resData.username}`;
+      if (resData.options.real_name != null) {
+        names[0].innerHTML = `@${resData.options.real_name}`;
+      }
+      else {
+        names[0].innerHTML = `Hidden name`;
+      }
+
+      avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+  }
+  if (isAI) {
+    if (isWhite) {
+      nicks[0].innerHTML = "@rana_deus";
+      names[0].innerHTML = "God of frogs";
+      avatars[0].src = "img/avatars/bot.png";
+      
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }
@@ -694,7 +713,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               }
             }
             //console.log (isCheck);
-           // isWhiteMove = !isWhiteMove;
+            // isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             addEventToCellsHuman(false);
             addDefeatedPieces();
@@ -898,7 +917,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Emit the join event when a player joins the room
 
     socket.emit('join', resData._id, resData._id, isWhite);
-    isStartTimer = true;
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
@@ -908,7 +926,22 @@ document.addEventListener('DOMContentLoaded', async function () {
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
       refreshTimers(timers[0], timers[1]);
       addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray);
-      console.log('Opponent move:', dataArray, legalMovesForPlayer);
+      isWhiteMove= !isWhiteMove;
+      //console.log('Opponent move:', dataArray, legalMovesForPlayer);
+    });
+    socket.on('playerJoined', async (playerId) => {
+      const userResponce = await fetch(`/api/user/${playerId}`);
+      const userResponceData = await userResponce.json();
+      nicks[0].innerHTML = `@${userResponceData.username}`;
+      if (userResponceData.rena != null) {
+        names[0].innerHTML = `@${userResponceData.rena}`;
+      }
+      else {
+        names[0].innerHTML = `Hidden name`;
+      }
+
+      avatars[0].src = `img/profiles/${playerId}/Avatar.png`;
+      isStartTimer = true;
     });
 
     // Emit the move event when a player makes a move
