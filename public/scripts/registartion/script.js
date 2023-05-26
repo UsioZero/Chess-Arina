@@ -21,18 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return user.length >= 8 && user.length <= 16;
         }
 
-        if (password === confirmPassword 
-            && !emails.includes(email) 
-            && isValidEmail(email) 
+        if (password === confirmPassword
+            && !emails.includes(email)
+            && isValidEmail(email)
             && isValidUsername(username)) {
-            console.log(email, " ", username, " ",  password, " ", confirmPassword);
+            console.log(email, " ", username, " ", password, " ", confirmPassword);
 
             const response = await fetch('/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 'user': username, 'pwd': password, 'email': email})
+                body: JSON.stringify({ 'user': username, 'pwd': password, 'email': email })
             });
 
             const data = await response.json();
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
             divs[i].style.height = "40px";
             divs[i].style.border = "2px solid #8A4726";
             divs[i].style.fontSize = "30px";
-            if (i==1){startGameButton.innerHTML = "Get Link"}
-            
+            if (i == 1) { startGameButton.innerHTML = "Get Link" }
+
         });
     });
     function checkFormat(str) {
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     timers.forEach(timer => { timer.addEventListener('click', () => { timers.forEach(timer2 => timer2.classList.remove("active-option")); timer.classList.add("active-option") }) });
 
 
-    
+
     startGameButton.addEventListener('click', () => {
         const activeButtons = document.querySelectorAll(".active-option");
         activeButtons.forEach((button, index) => {
@@ -179,9 +179,13 @@ document.addEventListener('DOMContentLoaded', function () {
         startGameData.push(thirdButtonInnerHTML);
 
         console.log(startGameData);
-        const link = document.querySelector(".start-game-button a");
-        link.href = "http://localhost:3000/game";
-        link.click();
+        if (startGameData[0] == "hu") {
+            let link = `/game/link?id=${resData._id}`;
+            window.location.href = `/game/?link=${link}`;
+        }
+        else {
+            window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
+        }
     });
 
 });

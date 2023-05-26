@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded",async function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let isValidCountry = true;
     let dataArray = ["Іво Бобул", "ibobyl", "Ukraine", "Chernivtsi Oblast", "", ""];
     let inputName = document.getElementById("input-name");
@@ -48,29 +48,28 @@ document.addEventListener("DOMContentLoaded",async function () {
         .catch(error => console.error(error));
 
 
-        let saveButton = document.querySelector(".save-button");
+    let saveButton = document.querySelector(".save-button");
 
-        // Add a click event listener to the "Save" button
-        saveButton.addEventListener("click", function() {
-          // Get the values of the input fields and save them to the dataArray array
-            dataArray[0] =  inputName.value;
-            if (isValidCountry){
-            dataArray[2] =  inputCountry.value;
-            }
-            else{
-                alert("Wrong country, your changes discarded");
-            }
-            dataArray[3] =  inputState.value;
-            if (inputCity.value != "(Do not display)"){
-                dataArray[4] =  inputCity.value;
-            }
-            else
-            {
-                dataArray[4] =  "";
-            }
-          // Log the updated dataArray array to the console
-          console.log(dataArray);
-        });
+    // Add a click event listener to the "Save" button
+    saveButton.addEventListener("click", function () {
+        // Get the values of the input fields and save them to the dataArray array
+        dataArray[0] = inputName.value;
+        if (isValidCountry) {
+            dataArray[2] = inputCountry.value;
+        }
+        else {
+            alert("Wrong country, your changes discarded");
+        }
+        dataArray[3] = inputState.value;
+        if (inputCity.value != "(Do not display)") {
+            dataArray[4] = inputCity.value;
+        }
+        else {
+            dataArray[4] = "";
+        }
+        // Log the updated dataArray array to the console
+        console.log(dataArray);
+    });
 
     const responce = await fetch('/api/user');
     const resData = await responce.json();
@@ -203,10 +202,14 @@ document.addEventListener("DOMContentLoaded",async function () {
         }
         startGameData.push(thirdButtonInnerHTML);
 
-        console.log(startGameData);
-        const link = document.querySelector(".start-game-button a");
-        link.href = "http://localhost:3000/game";
-        link.click();
+
+        if (startGameData[0] == "hu") {
+            let link = `/game/link?id=${resData._id}`;
+            window.location.href = `/game/?link=${link}`;
+        }
+        else {
+            window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
+        }
     });
-        
+
 });
