@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
-  menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
+  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
   let isStartTimer = false;
 
 
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         names[1].innerHTML = `Hidden name`;
       }
 
-      avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
+      avatars[1].src = `img/profiles/${resData._id}/avatar.png`;
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }
@@ -878,7 +878,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       names[0].innerHTML = `Hidden name`;
     }
 
-    avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+    avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
 
     const userResponce = await fetch(`/api/user/${player2Id}`);
     const userResponceData = await userResponce.json();
@@ -891,7 +891,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       names[1].innerHTML = `Hidden name`;
     }
 
-    avatars[1].src = `img/profiles/${player2Id}/Avatar.png`;
+    avatars[1].src = `img/profiles/${player2Id}/avatar.png`;
   } else {
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
@@ -907,7 +907,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       names[0].innerHTML = `Hidden name`;
     }
 
-    avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+    avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
 
     const userResponce = await fetch(`/api/user/${player2Id}`);
     const userResponceData = await userResponce.json();
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       names[1].innerHTML = `Hidden name`;
     }
 
-    avatars[1].src = `img/profiles/${player2Id}/Avatar.png`;
+    avatars[1].src = `img/profiles/${player2Id}/avatar.png`;
     // Listen for the opponent's move event
   }
   socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {

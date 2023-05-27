@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
-  menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
+  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
 
 
 
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         names[1].innerHTML = `Hidden name`;
       }
 
-      avatars[1].src = `img/profiles/${resData._id}/Avatar.png`;
+      avatars[1].src = `img/profiles/${resData._id}/avatar.png`;
   }
   else
   {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         names[0].innerHTML = `Hidden name`;
       }
 
-      avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+      avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
   }
   if (isAI) {
     if (isWhite) {
@@ -940,7 +940,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         names[0].innerHTML = `Hidden name`;
       }
 
-      avatars[0].src = `img/profiles/${playerId}/Avatar.png`;
+      avatars[0].src = `img/profiles/${playerId}/avatar.png`;
       isStartTimer = true;
     });
 
