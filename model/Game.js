@@ -14,7 +14,8 @@ const gameSchema = new Schema({
         playerId: String,
         dataArray: [String],
         legalMovesForPlayer: [[Number]]
-    }
+    },
+    win: String
 });
 
 module.exports = mongoose.model('Game', gameSchema);
