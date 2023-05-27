@@ -188,7 +188,7 @@ $(document).ready(async function () {
     //console.log(startGameData);
     if (startGameData[0] == "hu") {
 
-      const gameRes = await fetch("/api/game", {
+      fetch("/api/game", {
         method: "POST", body: JSON.stringify({
           "user1": resData._id,
           "moveData": {
@@ -204,12 +204,14 @@ $(document).ready(async function () {
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-      const gameData = await gameRes.json();
-      let link = `/game/link?id=${gameData._id}`;
-      //console.log(gameData);
-
-      window.location.href = `/game/?link=${link}`;
+      }).then(res=>res.json()).then(data=>{
+        let link = `/game/link?id=${data._id}`;
+        //console.log(gameData);
+  
+        window.location.href = `/game/?link=${link}`;
+      })
+      
+      
 
     }
     else {

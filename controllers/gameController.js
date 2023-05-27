@@ -15,7 +15,9 @@ const createNewGame = async (req, res) => {
 
     try {
         const result = await Game.create({
-            user1: req.body.user1
+            user1: req.body.user1,
+            moveData: req.body.moveData,
+            
         });
 
         res.status(201).json(result);
@@ -40,6 +42,7 @@ const updateGame = async (req, res) => {
     if (req.body?.moveData) game.moveData = req.body.moveData;
 
     const result = await game.save();
+    console.log(result);
     res.json(result);
 }
 
