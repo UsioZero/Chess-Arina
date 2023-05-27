@@ -1,7 +1,15 @@
 window.addEventListener('DOMContentLoaded', async function () {
+  const responce = await fetch('/api/user');
+  const resData = await responce.json();
+  const menuImg = document.querySelector("#btn1-container div img");
+  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+
+  var url = new URL(window.location.href);
+  let pId = url.searchParams.get('id');
+  if (!pId && pId!=resData._id){}
   var dataArray = [
-    "img/avatars/Avatar3.png",
-    "img/bgs/bg1.png",
+    `img/profiles/${resData._id}/avatar.png`,
+    `img/profiles/${resData._id}/bg.png`,
     "Іво Бобул",
     "ibobyl",
     "Ukraine",
@@ -32,6 +40,24 @@ window.addEventListener('DOMContentLoaded', async function () {
       "3|2",
       "img/avatars/Avatar2.png"]
   ]
+
+  if (!pId && pId!=resData._id){
+    dataArray = [
+      `img/profiles/${pId}/avatar.png`,
+      `img/profiles/${pId}/bg.png`,
+      "Іво Бобул",
+      "ibobyl",
+      "Ukraine",
+      "Chernivtsi Oblast",
+      true,
+      "ivo.bobul@gmail.com",
+      "",
+      25,
+      51
+    ];
+
+  }
+
   const backgroundImg = document.querySelector('.background-image');
   backgroundImg.src = dataArray[1];
 
@@ -92,10 +118,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
-  const responce = await fetch('/api/user');
-  const resData = await responce.json();
-  const menuImg = document.querySelector("#btn1-container div img");
-  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+
 
 
 
