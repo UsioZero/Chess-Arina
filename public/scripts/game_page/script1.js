@@ -26,8 +26,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   var showModal = false;
   let isPlayer = true;
   var url = new URL(window.location.href);
-  let player2Id = url.searchParams.get('id');
-
+  let roomId = url.searchParams.get('id');
+  const gameRes21 = await fetch(`/api/game/${roomId}`);
+  const gameData21 = await gameRes21.json();
+  let player2Id = gameData21.user1;
+  console.log(!gameData21.user2);
+  
   console.log(`player2id: ${player2Id}`);
   let isWhite = false;
   let isSpectator = false;
@@ -844,6 +848,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log("we not moved");
+
             socket.emit('move', player2Id, dataArr, legalMoves, [whiteSeconds, blackSeconds]);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
@@ -871,6 +876,27 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
   socket.emit('join', player2Id, resData._id, isWhite);
+  if (!gameData21.user2){
+    const gameRes = await fetch("/api/game", {
+      method: "PUT", body: JSON.stringify({ "user2": resData._id, "id": roomId}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const gameData = await gameRes.json();
+  }
+  else
+  {
+    const gameRes2 = await fetch(`/api/game/${gameId}`);
+    const gameData2 = await gameRes2.json();
+    if (gameData2.moveData) {
+      fen = gameData2.moveData.dataArray[0];
+      if (gameData2.moveData.playerId == resData._id) { legalMoves = gameData2.moveData.legalMovesForPlayer };
+      dataArrayStartPos = gameData2.moveData.dataArray;
+    }
+  }
+  
+  
   if (isSpectator) {
     refreshBoard(fen, 'w', legalMoves);
     nicks[0].innerHTML = `@${resData.username}`;
@@ -926,7 +952,21 @@ document.addEventListener('DOMContentLoaded', async function () {
     avatars[1].src = `img/profiles/${player2Id}/avatar.png`;
     // Listen for the opponent's move event
   }
-  socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {
+  socket.on('opponentMove', async (dataArray, legalMovesForPlayer, timers) => {
+    const gameRes = await fetch("/api/game", {
+      method: "PUT", body: JSON.stringify({
+        "moveData": {
+          "playerId": resData._id,
+          "dataArray": dataArray,
+          "legalMovesForPlayer": legalMovesForPlayer
+        },
+        "id": roomId
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const gameData = await gameRes.json();
     if (isSpectator) {
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
     }
@@ -945,7 +985,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   function makeMove(dataArray) {
     socket.emit('move', player2Id, dataArray, legalMovesForPlayer, timers);
   }
-  if (resData.roles.Premium==1984 ?? false){
+  if (resData.roles.Premium == 1984 ?? false) {
     const advimg = document.querySelector("#adv-img");
     advimg.src = "img/frog_premium.png";
     const advbut = document.querySelector("#remove-ads-button");

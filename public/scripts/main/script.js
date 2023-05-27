@@ -138,7 +138,7 @@ $(document).ready(async function () {
 
 
 
-  startGameButton.addEventListener('click', () => {
+  startGameButton.addEventListener('click', async () => {
     const activeButtons = document.querySelectorAll(".active-option");
     activeButtons.forEach((button, index) => {
 
@@ -185,16 +185,38 @@ $(document).ready(async function () {
     }
     startGameData.push(thirdButtonInnerHTML);
 
-    console.log(startGameData);
+    //console.log(startGameData);
     if (startGameData[0] == "hu") {
-      let link = `/game/link?id=${resData._id}`;
+
+      const gameRes = await fetch("/api/game", {
+        method: "POST", body: JSON.stringify({
+          "user1": resData._id,
+          "moveData": {
+            "playerId": resData._id,
+            "dataArray": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", 255, 1, 1, 1, 1, 1],
+            "legalMovesForPlayer": [
+              [8, 16, 0], [9, 17, 0], [10, 18, 0], [11, 19, 0], [12, 20, 0], [13, 21, 0], [14, 22, 0], [15, 23, 0],
+              [8, 24, 1], [9, 25, 1], [10, 26, 1], [11, 27, 1], [12, 28, 1], [13, 29, 1], [14, 30, 1], [15, 31, 1],
+              [1, 16, 0], [1, 18, 0], [6, 21, 0], [6, 23, 0]
+            ]
+          }
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const gameData = await gameRes.json();
+      let link = `/game/link?id=${gameData._id}`;
+      //console.log(gameData);
+
       window.location.href = `/game/?link=${link}`;
+
     }
     else {
       window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
     }
   });
-  if (resData.roles.Premium==1984 ?? false){
+  if (resData.roles.Premium == 1984 ?? false) {
     const advimg = document.querySelector("#adv-img");
     advimg.src = "img/frog_premium.png";
     const advbut = document.querySelector("#remove-ads-button");
