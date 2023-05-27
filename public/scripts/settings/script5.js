@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(startGameData);
     if (startGameData[0]=="hu"){
       let link = `/game/link?id=${resData._id}`;
-      window.location.href = `/game/?link=${link}`;
+      window.location.href = `/game/?link=${link}&timer=${startGameData[2]}`;
     }
     else
     {

@@ -24,9 +24,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   let isPlayer = true;
   var url = new URL(window.location.href);
   let player2Id = url.searchParams.get('id');
+
   console.log(`player2id: ${player2Id}`);
   let isWhite = false;
-
+  let isSpectator = false;
+  if (url.searchParams.get('spec')) { isSpectator = url.searchParams.get('spec'); }
+  console.log(isSpectator);
 
 
 
@@ -854,41 +857,51 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
   socket.emit('join', player2Id, resData._id, isWhite);
-  refreshBoard(fen, 'w', legalMoves);
-  if (isWhite) {
-    addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
+  if (isSpectator) {
+    refreshBoard(fen, 'w', legalMoves);
+  } else {
+    refreshBoard(fen, 'w', legalMoves);
+    if (isWhite) {
+      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
 
-  }
-  isStartTimer = true;
-  nicks[0].innerHTML = `@${resData.username}`;
-  if (resData.options.real_name != null) {
-    names[0].innerHTML = `@${resData.options.real_name}`;
-  }
-  else {
-    names[0].innerHTML = `Hidden name`;
-  }
+    }
+    isStartTimer = true;
+    nicks[0].innerHTML = `@${resData.username}`;
+    if (resData.options.real_name != null) {
+      names[0].innerHTML = `@${resData.options.real_name}`;
+    }
+    else {
+      names[0].innerHTML = `Hidden name`;
+    }
 
-  avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+    avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
 
-  const userResponce = await fetch(`/api/user/${player2Id}`);
-  const userResponceData = await userResponce.json();
-  console.log(userResponceData);
-  nicks[1].innerHTML = `@${userResponceData.username}`;
-  if (resData.rena != null) {
-    names[1].innerHTML = `@${userResponceData.rena}`;
-  }
-  else {
-    names[1].innerHTML = `Hidden name`;
-  }
+    const userResponce = await fetch(`/api/user/${player2Id}`);
+    const userResponceData = await userResponce.json();
+    console.log(userResponceData);
+    nicks[1].innerHTML = `@${userResponceData.username}`;
+    if (resData.rena != null) {
+      names[1].innerHTML = `@${userResponceData.rena}`;
+    }
+    else {
+      names[1].innerHTML = `Hidden name`;
+    }
 
-  avatars[1].src = `img/profiles/${player2Id}/Avatar.png`;
-  // Listen for the opponent's move event
+    avatars[1].src = `img/profiles/${player2Id}/Avatar.png`;
+    // Listen for the opponent's move event
+  }
   socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {
-    console.log("hui");
-    refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
-    refreshTimers(timers[0], timers[1]);
-    addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray)
-    isWhiteMove= !isWhiteMove;
+    if (isSpectator) {
+      refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
+    }
+    else {
+      refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
+      refreshTimers(timers[0], timers[1]);
+      addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray)
+      isWhiteMove = !isWhiteMove;
+    }
+    //console.log("hui");
+
     //console.log('Opponent move:', dataArray, legalMovesForPlayer, timers);
   });
 
