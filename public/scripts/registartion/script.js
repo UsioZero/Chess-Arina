@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (password === confirmPassword
-            && !emails.includes(email)
             && isValidEmail(email)
             && isValidUsername(username)) {
             console.log(email, " ", username, " ", password, " ", confirmPassword);

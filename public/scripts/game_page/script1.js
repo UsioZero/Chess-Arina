@@ -44,6 +44,17 @@ document.addEventListener('DOMContentLoaded', async function () {
   const timers = document.querySelectorAll(".timer-text a");
   let blackSeconds = timerBase * 60 + timerInv;
   let whiteSeconds = timerBase * 60 + timerInv;
+  let timer = url.searchParams.get('timer');
+  if (timer) {
+    let timerss = timer.split("|");
+    console.log(timerss);
+    timerBase = timerss[0];
+
+    timerInv = timerss[1];
+    console.log()
+    blackSeconds = 6 * timerss[0] + timerss[1];
+    whiteSeconds = 6 * timerss[0] + timerss[1];
+  }
   function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -859,6 +870,28 @@ document.addEventListener('DOMContentLoaded', async function () {
   socket.emit('join', player2Id, resData._id, isWhite);
   if (isSpectator) {
     refreshBoard(fen, 'w', legalMoves);
+    nicks[0].innerHTML = `@${resData.username}`;
+    if (resData.options.real_name != null) {
+      names[0].innerHTML = `@${resData.options.real_name}`;
+    }
+    else {
+      names[0].innerHTML = `Hidden name`;
+    }
+
+    avatars[0].src = `img/profiles/${resData._id}/Avatar.png`;
+
+    const userResponce = await fetch(`/api/user/${player2Id}`);
+    const userResponceData = await userResponce.json();
+    console.log(userResponceData);
+    nicks[1].innerHTML = `@${userResponceData.username}`;
+    if (resData.rena != null) {
+      names[1].innerHTML = `@${userResponceData.rena}`;
+    }
+    else {
+      names[1].innerHTML = `Hidden name`;
+    }
+
+    avatars[1].src = `img/profiles/${player2Id}/Avatar.png`;
   } else {
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {

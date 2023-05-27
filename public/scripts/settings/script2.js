@@ -1,4 +1,9 @@
 window.addEventListener('DOMContentLoaded', async function () {
+
+  const responce = await fetch('/api/user');
+  const resData = await responce.json();
+  const menuImg = document.querySelector("#btn1-container div img");
+  menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
   // Define the dataArray with the image URLs
   var dataArray = ["img/avatars/Avatar7.png", "img/bgs/bg1.png"];
 
@@ -17,22 +22,23 @@ window.addEventListener('DOMContentLoaded', async function () {
   bgTestImage.style.backgroundImage = `url(${dataArray[1]})`;
 
   const buttonUploadAvatar = document.getElementById("button-upload-avatar");
-  const fileUpload = document.getElementById("file-upload");
 
-  buttonUploadAvatar.addEventListener("click", () => {
-    fileUpload.click();
+  buttonUploadAvatar.addEventListener("click", async () => {
+    jsonData = { "uId": `${resData._id}`, "isAvatar": true }// isAvatar = true when Avatar img, flase - bg img
+    const myFile = document.getElementById('myFiles').files[0];
+    console.log(myFile);
+    const formData = new FormData();
+    formData.append('file', myFile.item);
+   // formData.append('jsonData', JSON.stringify(jsonData));
+    const fileUpResponce = await fetch('/fileUpload', {
+      method: 'POST',
+      body: formData
+    });
+    const fileUpData = await fileUpResponce.json();
+    console.log(fileUpData);
   });
 
-  fileUpload.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const avatarImg = document.querySelector(".avatar-td img");
-      avatarImg.src = reader.result;
-      dataArray[0] = reader.result;
-    };
-  });
+
   const buttonUploadBg = document.getElementById("button-upload-bg");
   const fileUploadbg = document.getElementById("file-upload-bg");
 
@@ -51,10 +57,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     };
   });
 
-  const responce = await fetch('/api/user');
-  const resData = await responce.json();
-  const menuImg = document.querySelector("#btn1-container div img");
-  menuImg.src = `img/profiles/${resData._id}/Avatar.png`;
+
 
 
 

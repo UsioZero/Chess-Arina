@@ -11,7 +11,7 @@ window.addEventListener("load", async function () {
   // </form>
 
   // js code:
-  // jsonData = { "uId": "<userId>", "isAvata": true }// isAvatar = true when Avatar img, flase - bg img
+  // jsonData = { "uId": "<userId>", "isAvatar": true }// isAvatar = true when Avatar img, flase - bg img
   // const myFile = document.getElementById('myFiles').files[0];
   // const formData = new FormData();
   // formData.append('file', myFile);
