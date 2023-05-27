@@ -5,6 +5,10 @@ const path = require('path');
 const verifyJWT = require('../middleware/verifyJWT');
 const runCommand = require('../middleware/runCommand');
 const fileSaver = require('../middleware/fileSaver');
+const fileUpload = require('express-fileupload');
+const filesPayloadExists = require('../middleware/filesPayloadExists');
+const fileExtLimiter = require('../middleware/fileExtLimiter');
+const fileSizeLimiter = require('../middleware/fileSizeLimiter');
 
 router.get('/', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
@@ -54,6 +58,12 @@ router.post('/runComm', (req, res) =>
     runCommand(req, res)
 );
 
-router.post('/fileUpload', verifyJWT, fileSaver)
+router.post('/fileUpload',
+    verifyJWT,
+    fileUpload({ createParentPath: true }),
+    filesPayloadExists,
+    fileExtLimiter(['.png', '.jpg', 'jpeg', 'bmp', 'webp']),
+    fileSizeLimiter, 
+    fileSaver)
 
 module.exports = router;

@@ -25,11 +25,14 @@ window.addEventListener('DOMContentLoaded', async function () {
 
   buttonUploadAvatar.addEventListener("click", async () => {
     jsonData = { "uId": `${resData._id}`, "isAvatar": true }// isAvatar = true when Avatar img, flase - bg img
-    const myFile = document.getElementById('myFiles').files[0];
-    console.log(myFile);
+    const myFiles = document.getElementById('myFiles').files[0];
+    //console.log(myFile);
     const formData = new FormData();
-    formData.append('file', myFile.item);
-   // formData.append('jsonData', JSON.stringify(jsonData));
+    // Object.keys(myFiles).forEach(key => {
+    //   formData.append(myFiles.item(key).name, myFiles.item(key));
+    // })
+    formData.append('file', myFiles);
+    formData.append('jsonData', JSON.stringify(jsonData));
     const fileUpResponce = await fetch('/fileUpload', {
       method: 'POST',
       body: formData
