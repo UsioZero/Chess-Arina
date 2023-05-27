@@ -16,7 +16,11 @@ window.addEventListener("load", async function () {
   // const formData = new FormData();
   // formData.append('file', myFile);
   // formData.append('jsonData', JSON.stringify(jsonData));
-
+  // const fileUpResponce = await fetch('/fileUpload', {
+  //   method: 'POST',
+  //   body: formData
+  // });
+  // const fileUpData = await fileUpResponce.json();
 
   // Set the base value to 1
   var base = 3;
