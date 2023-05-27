@@ -887,7 +887,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
   else
   {
-    const gameRes2 = await fetch(`/api/game/${gameId}`);
+    const gameRes2 = await fetch(`/api/game/${roomId}`);
     const gameData2 = await gameRes2.json();
     if (gameData2.moveData) {
       fen = gameData2.moveData.dataArray[0];
@@ -923,9 +923,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     avatars[1].src = `img/profiles/${player2Id}/avatar.png`;
   } else {
     refreshBoard(fen, 'w', legalMoves);
-    if (isWhite) {
-      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
+    if (dataArrayStartPos[6]=== 0 ) {
 
+    }
+    else
+    {
+      addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
     }
     isStartTimer = true;
     nicks[0].innerHTML = `@${resData.username}`;

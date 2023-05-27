@@ -923,6 +923,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Emit the join event when a player joins the room
 
     socket.emit('join', resData._id, resData._id, isWhite);
+    
     const gameRes2 = await fetch(`/api/game/${gameId}`);
     const gameData2 = await gameRes2.json();
     if(gameData2.moveData){
@@ -930,6 +931,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         if(gameData2.moveData.playerId==resData._id){legalMoves = gameData2.moveData.legalMovesForPlayer};
         dataArrayStartPos = gameData2.moveData.dataArray;
     }
+    if (gameData2.user2){
+      const userResponce = await fetch(`/api/user/${gameData2.user2}`);
+      const userResponceData = await userResponce.json();
+      nicks[0].innerHTML = `@${userResponceData.username}`;
+      if (userResponceData.rena != null) {
+        names[0].innerHTML = `@${userResponceData.rena}`;
+      }
+      else {
+        names[0].innerHTML = `Hidden name`;
+      }
+
+      avatars[0].src = `img/profiles/${gameData2.user2}/avatar.png`;
+    }
+     
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
@@ -943,7 +958,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             "dataArray": dataArray,
             "legalMovesForPlayer": legalMovesForPlayer
           },
-          "id": roomId
+          "id": gameId
         }),
         headers: {
           'Content-Type': 'application/json'
