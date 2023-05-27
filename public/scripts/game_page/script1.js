@@ -31,11 +31,17 @@ document.addEventListener('DOMContentLoaded', async function () {
   const gameData21 = await gameRes21.json();
   let player2Id = gameData21.user1;
   console.log(!gameData21.user2);
-  
+
   console.log(`player2id: ${player2Id}`);
   let isWhite = false;
   let isSpectator = false;
-  if (url.searchParams.get('spec')) { isSpectator = url.searchParams.get('spec'); }
+  if (gameData21.user2) {
+    if (resData._id != gameData21.user1 && resData._id != gameData21.user2) {
+      isSpectator = true;
+    }
+
+
+  }
   console.log(isSpectator);
 
 
@@ -876,27 +882,29 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
   socket.emit('join', player2Id, resData._id, isWhite);
-  if (!gameData21.user2){
-    const gameRes = await fetch("/api/game", {
-      method: "PUT", body: JSON.stringify({ "user2": resData._id, "id": roomId}),
-      headers: {
-        'Content-Type': 'application/json'
+  if (!isSpectator) {
+
+
+    if (!gameData21.user2) {
+      const gameRes = await fetch("/api/game", {
+        method: "PUT", body: JSON.stringify({ "user2": resData._id, "id": roomId }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const gameData = await gameRes.json();
+    }
+    else {
+      const gameRes2 = await fetch(`/api/game/${roomId}`);
+      const gameData2 = await gameRes2.json();
+      if (gameData2.moveData) {
+        fen = gameData2.moveData.dataArray[0];
+        if (gameData2.moveData.playerId == resData._id) { legalMoves = gameData2.moveData.legalMovesForPlayer };
+        dataArrayStartPos = gameData2.moveData.dataArray;
       }
-    });
-    const gameData = await gameRes.json();
-  }
-  else
-  {
-    const gameRes2 = await fetch(`/api/game/${roomId}`);
-    const gameData2 = await gameRes2.json();
-    if (gameData2.moveData) {
-      fen = gameData2.moveData.dataArray[0];
-      if (gameData2.moveData.playerId == resData._id) { legalMoves = gameData2.moveData.legalMovesForPlayer };
-      dataArrayStartPos = gameData2.moveData.dataArray;
     }
   }
-  
-  
+
   if (isSpectator) {
     refreshBoard(fen, 'w', legalMoves);
     nicks[0].innerHTML = `@${resData.username}`;
@@ -923,11 +931,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     avatars[1].src = `img/profiles/${player2Id}/avatar.png`;
   } else {
     refreshBoard(fen, 'w', legalMoves);
-    if (dataArrayStartPos[6]=== 0 ) {
+    if (dataArrayStartPos[6] === 0) {
 
     }
-    else
-    {
+    else {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
     }
     isStartTimer = true;
@@ -956,20 +963,25 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Listen for the opponent's move event
   }
   socket.on('opponentMove', async (dataArray, legalMovesForPlayer, timers) => {
-    const gameRes = await fetch("/api/game", {
-      method: "PUT", body: JSON.stringify({
-        "moveData": {
-          "playerId": resData._id,
-          "dataArray": dataArray,
-          "legalMovesForPlayer": legalMovesForPlayer
-        },
-        "id": roomId
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const gameData = await gameRes.json();
+    if (!isSpectator) {
+
+
+      const gameRes = await fetch("/api/game", {
+        method: "PUT", body: JSON.stringify({
+          "moveData": {
+            "playerId": resData._id,
+            "dataArray": dataArray,
+            "legalMovesForPlayer": legalMovesForPlayer
+          },
+          "id": roomId
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const gameData = await gameRes.json();
+    }
     if (isSpectator) {
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
     }
@@ -979,6 +991,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray)
       isWhiteMove = !isWhiteMove;
     }
+
     //console.log("hui");
 
     //console.log('Opponent move:', dataArray, legalMovesForPlayer, timers);
