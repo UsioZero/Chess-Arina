@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', async function () {
   let PlSide = url.searchParams.get('side');
 
   let link = url.searchParams.get('link');
+  let gameId ="";
+  if(link){
+    gameId = link.split("=")[link.split("=").length-1];
+    console.log(gameId);
+  }  
   const cont = document.querySelector('.move-text-container');
   if (link ){cont.innerHTML = `Give this link to your friend: ${link}`;}
   let isWhite = true;
@@ -887,6 +892,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log(resData._id);
+            
             socket.emit('move', resData._id, dataArr, legalMoves, [whiteSeconds, blackSeconds]);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
@@ -917,12 +923,33 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Emit the join event when a player joins the room
 
     socket.emit('join', resData._id, resData._id, isWhite);
+    const gameRes2 = await fetch(`/api/game/${gameId}`);
+    const gameData2 = await gameRes2.json();
+    if(gameData2.moveData){
+        fen = gameData2.moveData.dataArray[0];
+        if(gameData2.moveData.playerId==resData._id){legalMoves = gameData2.moveData.legalMovesForPlayer};
+        dataArrayStartPos = gameData2.moveData.dataArray;
+    }
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
     }
     // Listen for the opponent's move event
-    socket.on('opponentMove', (dataArray, legalMovesForPlayer, timers) => {
+    socket.on('opponentMove', async (dataArray, legalMovesForPlayer, timers) => {
+      const gameRes = await fetch("/api/game", {
+        method: "PUT", body: JSON.stringify({
+          "moveData": {
+            "playerId": resData._id,
+            "dataArray": dataArray,
+            "legalMovesForPlayer": legalMovesForPlayer
+          },
+          "id": roomId
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const gameData = await gameRes.json();
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
       refreshTimers(timers[0], timers[1]);
       addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray);
@@ -930,6 +957,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       //console.log('Opponent move:', dataArray, legalMovesForPlayer);
     });
     socket.on('playerJoined', async (playerId) => {
+      console.log("a");
       const userResponce = await fetch(`/api/user/${playerId}`);
       const userResponceData = await userResponce.json();
       nicks[0].innerHTML = `@${userResponceData.username}`;
