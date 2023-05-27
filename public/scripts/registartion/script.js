@@ -186,5 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
         }
     });
+    
 
 });

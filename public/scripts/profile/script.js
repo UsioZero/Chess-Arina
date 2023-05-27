@@ -1,13 +1,26 @@
 window.addEventListener('DOMContentLoaded', async function () {
+  const responce = await fetch('/api/user');
+  const resData = await responce.json();
+  const menuImg = document.querySelector("#btn1-container div img");
+  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+  if (resData.roles.Premium==1984 ?? false){
+    const advimg = document.querySelector("#adv-img");
+    advimg.src = "img/frog_premium.png";
+    const advbut = document.querySelector("#remove-ads-button");
+    advbut.style.display = "none"
+  }
+  // var url = new URL(window.location.href);
+  // let pId = url.searchParams.get('id');
+  //if (!pId && pId!=resData._id){}
   var dataArray = [
-    "img/avatars/Avatar3.png",
-    "img/bgs/bg1.png",
-    "Іво Бобул",
-    "ibobyl",
-    "Ukraine",
-    "Chernivtsi Oblast",
-    true,
-    "ivo.bobul@gmail.com",
+    `img/profiles/${resData._id}/avatar.png`,
+    `img/profiles/${resData._id}/bg.png`,
+    `${resData.options.real_name}`,
+    `${resData.username}`,
+    `${resData.options.location.country}`,
+    `${resData.options.location.state}`,
+    resData.roles.Premium==1984 ?? false,
+    `${resData.email}`,
     "",
     25,
     51
@@ -31,7 +44,25 @@ window.addEventListener('DOMContentLoaded', async function () {
       1,
       "3|2",
       "img/avatars/Avatar2.png"]
-  ]
+  ];
+
+  // if (!pId && pId!=resData._id){
+  //   dataArray = [
+  //     `img/profiles/${pId}/avatar.png`,
+  //     `img/profiles/${pId}/bg.png`,
+  //     "Іво Бобул",
+  //     "ibobyl",
+  //     "Ukraine",
+  //     "Chernivtsi Oblast",
+  //     true,
+  //     "ivo.bobul@gmail.com",
+  //     "",
+  //     25,
+  //     51
+  //   ];
+
+  // }
+
   const backgroundImg = document.querySelector('.background-image');
   backgroundImg.src = dataArray[1];
 
@@ -40,12 +71,15 @@ window.addEventListener('DOMContentLoaded', async function () {
 
   const topTitle = document.querySelector('.top-two-title');
   topTitle.innerHTML = dataArray[2];
+  if (topTitle.innerHTML == "undefined") { topTitle.innerHTML = "Hidden name"; }
+
 
   const usernameLink = document.querySelector('.icon-text-row-1');
   usernameLink.innerHTML = "@" + dataArray[3];
 
   const locationLink = document.querySelector('.icon-text-row-2');
   locationLink.innerHTML = dataArray[5] + ", " + dataArray[4];
+  if (locationLink.innerHTML == "undefined, undefined") { locationLink.innerHTML = "Do not display"; }
 
   const emailLink = document.querySelector('.icon-text-row-3');
   emailLink.innerHTML = dataArray[7];
@@ -92,10 +126,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
-  const responce = await fetch('/api/user');
-  const resData = await responce.json();
-  const menuImg = document.querySelector("#btn1-container div img");
-  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+
 
 
 

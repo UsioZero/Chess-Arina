@@ -190,4 +190,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     
   });
+  if (resData.roles.Premium==1984 ?? false){
+    const advimg = document.querySelector("#adv-img");
+    advimg.src = "img/frog_premium.png";
+    const advbut = document.querySelector("#remove-ads-button");
+    advbut.style.display = "none"
+  }
 });

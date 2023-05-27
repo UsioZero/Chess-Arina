@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   const menuImg = document.querySelector("#btn1-container div img");
   menuImg.src = `img/profiles/${resData._id}/avatar.png`;
   // Define the dataArray with the image URLs
-  var dataArray = ["img/avatars/Avatar7.png", "img/bgs/bg1.png"];
+  var dataArray = [`img/profiles/${resData._id}/avatar.png`, `img/profiles/${resData._id}/bg.png`];
 
   // Get a reference to the img element inside the td element with class "avatar-td"
   const avatarImgs = document.querySelectorAll('.avatar-td img');
@@ -14,7 +14,10 @@ window.addEventListener('DOMContentLoaded', async function () {
   avatarImgs.forEach(img => {
     img.src = dataArray[0];
   });
-
+  const sb = this.document.querySelector('.save-button');
+  sb.addEventListener('click', ()=>{
+    location.reload();
+  });
   // Get a reference to the div element with class "bg-test-image"
   var bgTestImage = document.querySelector('.bg-test-image');
 
@@ -43,22 +46,26 @@ window.addEventListener('DOMContentLoaded', async function () {
 
 
   const buttonUploadBg = document.getElementById("button-upload-bg");
-  const fileUploadbg = document.getElementById("file-upload-bg");
-
-  buttonUploadBg.addEventListener("click", () => {
-    fileUploadbg.click();
+  
+  buttonUploadBg.addEventListener("click", async () => {
+    jsonData = { "uId": `${resData._id}`, "isAvatar": false }// isAvatar = true when Avatar img, flase - bg img
+    const myFiles = document.getElementById('myFiles2').files[0];
+    //console.log(myFile);
+    const formData = new FormData();
+    // Object.keys(myFiles).forEach(key => {
+    //   formData.append(myFiles.item(key).name, myFiles.item(key));
+    // })
+    formData.append('file', myFiles);
+    formData.append('jsonData', JSON.stringify(jsonData));
+    const fileUpResponce = await fetch('/fileUpload', {
+      method: 'POST',
+      body: formData
+    });
+    const fileUpData = await fileUpResponce.json();
+    console.log(fileUpData);
   });
 
-  fileUploadbg.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const bgImg = document.querySelector(".bg-test-image");
-      bgImg.style.backgroundImage = `url(${reader.result})`;
-      dataArray[1] = reader.result;
-    };
-  });
+
 
 
 
@@ -196,4 +203,10 @@ window.addEventListener('DOMContentLoaded', async function () {
       window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
     }
   });
+  if (resData.roles.Premium==1984 ?? false){
+    const advimg = document.querySelector("#adv-img");
+    advimg.src = "img/frog_premium.png";
+    const advbut = document.querySelector("#remove-ads-button");
+    advbut.style.display = "none"
+  }
 });
