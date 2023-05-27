@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
+  //const gameResponce = await ()
+
   const responce = await fetch('/api/user');
   const resData = await responce.json();
   console.log(resData._id);

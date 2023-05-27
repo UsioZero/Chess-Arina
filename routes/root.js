@@ -62,7 +62,7 @@ router.post('/fileUpload',
     verifyJWT,
     fileUpload({ createParentPath: true }),
     filesPayloadExists,
-    fileExtLimiter(['.png', '.jpg', 'jpeg', 'bmp', 'webp']),
+    fileExtLimiter(['.png']),
     fileSizeLimiter, 
     fileSaver)
 

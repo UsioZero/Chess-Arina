@@ -58,6 +58,7 @@ app.use('/game', verifyJWT, require('./routes/game'));
 app.use('/settings', verifyJWT, require('./routes/settings'));
 // api
 app.use('/api/user', require("./routes/api/user"));
+app.use('/api/game', require("./routes/api/game"));
 // auth
 app.use('/auth', require('./routes/auth'));
 // 404
