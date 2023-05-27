@@ -26,6 +26,7 @@ const createNewGame = async (req, res) => {
 
 // change
 const updateGame = async (req, res) => {
+    console.log(req.body);
     if (!req?.body?.id) {
         return res.status(400).json({ 'message': 'ID is required!' });
     }
