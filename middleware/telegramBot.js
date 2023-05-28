@@ -1,5 +1,6 @@
 const { tgBotLogger } = require('./logger');
-const path = require ('path');
+const Game = require("../model/Game");
+const path = require('path');
 //telegram bot
 const TelegramBot = require('node-telegram-bot-api');
 const token = '6041726880:AAFwmy2N7zaF5G9_JnaofZvVH3OwVZXecaE';
@@ -22,7 +23,7 @@ const botOn = () => bot.on('message', async (message) => {
                     '/main - Отримати посилання на сайт'
                     // Додайте інші команди за потреби
                 ];
-                const gifPath = path.join(__dirname, 'public', 'img', 'gif4.mp4');
+                const gifPath = path.join(__dirname, '../public', 'img', 'gif4.mp4');
 
                 // Відправка GIF-зображення як документу
                 bot.sendDocument(chatId, gifPath)
@@ -45,7 +46,7 @@ const botOn = () => bot.on('message', async (message) => {
         } else {
             // Обробка команди /start
             if (messageText.startsWith('/start')) {
-                const gifPath = path.join(__dirname, 'public', 'img', 'gif2.mp4');
+                const gifPath = path.join(__dirname, '../public', 'img', 'gif2.mp4');
 
                 // Відправка GIF-зображення як документу
                 bot.sendDocument(chatId, gifPath)
@@ -62,16 +63,14 @@ const botOn = () => bot.on('message', async (message) => {
                 // Обробка команди /spectate
                 let activeGames = 0;
                 let stat = [];
-                const resp = await fetch('/api/game');
-                
-                const gameData = await resp.json();
+                const gameData = await Game.find();
 
                 for (let i = 0; i < gameData.length; i++) {
                     if (!gameData[i].win) {
                         activeGames++;
                         stat.push(gameData[i]._id);
                     }
-            
+
                 }
 
                 if (activeGames === 0) {
@@ -83,7 +82,7 @@ const botOn = () => bot.on('message', async (message) => {
                         gameMessages.push(gameMessage);
                     }
 
-                    const gifPath = path.join(__dirname, 'public', 'img', 'gif3.mp4');
+                    const gifPath = path.join(__dirname, '../public', 'img', 'gif3.mp4');
 
                     // Відправка GIF-зображення як документу
                     bot.sendDocument(chatId, gifPath)
@@ -116,21 +115,24 @@ const botOn = () => bot.on('message', async (message) => {
                             },
                         })
                     );
-
                     Promise.all(sendMessagePromises)
                         .then((sentMessages) => {
                             sentMessages.forEach((message) => {
                                 const messageId = message.message_id;
                                 bot.on('callback_query', (callbackQuery) => {
                                     const data = callbackQuery.data;
-                                    if (data === 'get_link') {
-                                        const gameId = message.text.match(/активна гра (\d+)/)[1];
-                                        const link = `http://localhost:3000/game?${gameId}`;
-                                        bot.answerCallbackQuery(callbackQuery.id, link);
-                                    } else if (data === 'rate_up' || data === 'rate_down') {
-                                        // Інкрементування значення оцінки гри
-                                        // Ваша логіка для збереження оцінки гри
-                                        bot.answerCallbackQuery(callbackQuery.id, 'Дякуємо за вашу оцінку!');
+                                    const callbackMessageId = callbackQuery.message.message_id;
+
+                                    if (callbackMessageId === messageId) {
+                                        if (data === 'get_link') {
+                                            const gameId = callbackQuery.message.text.split(" ")[3];
+                                            const link = `http://localhost:3000/game/link?id=${gameId}`;
+                                            bot.sendMessage(callbackQuery.message.chat.id, link);
+                                        } else if (data === 'rate_up' || data === 'rate_down') {
+                                            // Інкрементування значення оцінки гри
+                                            // Ваша логіка для збереження оцінки гри
+                                            bot.answerCallbackQuery(callbackQuery.id, 'Дякуємо за вашу оцінку!');
+                                        }
                                     }
                                 });
                             });
@@ -141,7 +143,7 @@ const botOn = () => bot.on('message', async (message) => {
                 }
             } else if (messageText.startsWith('/main')) {
                 // Обробка команди /main
-                const gifPath = path.join(__dirname, 'public', 'img', 'gif5.mp4');
+                const gifPath = path.join(__dirname, '../public', 'img', 'gif5.mp4');
 
                 // Відправка GIF-зображення як документу
                 bot.sendDocument(chatId, gifPath)
@@ -156,12 +158,15 @@ const botOn = () => bot.on('message', async (message) => {
                 bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
             } else {
                 // Відправити стікер у відповідь
-                bot.sendSticker(chatId, 'CAACAgIAAxUAAWRpw0rTHtPrD1Lph43vVIWKHso5AAK4HQACw5hRS486FBTmugxlLwQ')
+                const gifPath = path.join(__dirname, '../public', 'img', 'gif6.mp4');
+
+                // Відправка GIF-зображення як документу
+                bot.sendDocument(chatId, gifPath)
                     .then(() => {
-                        tgBotLogger('Стікер відправлено', chatId);
+                        tgBotLogger('GIF-зображення відправлено', chatId);
                     })
                     .catch((err) => {
-                        console.log('Помилка при відправленні стікера', err);
+                        console.log('Помилка при відправленні GIF-зображення', err);
                     });
             }
         }
