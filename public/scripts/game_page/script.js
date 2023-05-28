@@ -353,60 +353,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     refreshBoard(fen, 'w', legalMoves);
     addEventToCellsHuman(true);
   }
-  const gub = document.getElementById("give-up-button");
-  //console.log(gub);
-  gub.addEventListener('click', () => {
-    {
-      console.log('c');
-      if (isWhite) {
-        let asdasd = [];
-        asdasd.push(fen);
-        asdasd.push(en_passant);
-        for (let i = 0; i < 4; i++) {
-          asdasd.push(castlings[i]);
-        }
-        asdasd.push(move_ctr);
-        asdasd.push(1);
-        socket.emit('move', resData._id, asdasd, legalMoves, [1, 1]);
+  
 
-        showModal = true;
-        openModal("White wins.");
-
-      }
-      else {
-        let asdasd = [];
-        asdasd.push(fen);
-        asdasd.push(en_passant);
-        for (let i = 0; i < 4; i++) {
-          asdasd.push(castlings[i]);
-        }
-        asdasd.push(move_ctr);
-        asdasd.push(1);
-        socket.emit('move', resData._id, asdasd, legalMoves, [1, 1]);
-        showModal = true;
-        openModal("Black wins.");
-      }
-    }
-  });
-
-
-  const offerDraw = document.getElementById("draw-button");
-  //console.log(offerDraw);
-  offerDraw.addEventListener('click', () => {
-    console.log(1);
-    if ((isWhite && blackDraw) || (!isWhite && whiteDraw)) {
-      showModal = true;
-      openModal("Draw by offering.");
-      console.log(2);
-    }
-    if (!whiteDraw && !blackDraw) {
-      alert("You`ve been offered draw. Press offer draw to accept it.");
-      if (isWhite) { whiteDraw = true; } else { blackDraw = true; }
-    }
-
-
-  });
-
+  
 
   function refreshBoard(fen, side, legalMoves) {
     whiteDraw = false;
@@ -972,7 +921,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       avatars[0].src = `img/profiles/${gameData2.user2}/avatar.png`;
     }
-
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
