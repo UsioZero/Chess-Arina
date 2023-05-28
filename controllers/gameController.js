@@ -2,11 +2,11 @@ const Game = require('../model/Game');
 const User = require('../model/User');
 
 // change
-// const getAllUser = async (req, res) => {
-//     const food = await Food.find();
-//     if(!food) return res.sendStatus(204).json({'message': 'No food at all!'});
-//     res.json(food)
-// }
+const getAllGames = async (req, res) => {
+    const game = await Game.find();
+    if(!game) return res.sendStatus(204).json({'message': 'No games at all!'});
+    res.json(game)
+}
 
 // change
 const createNewGame = async (req, res) => {
@@ -91,6 +91,7 @@ const getGameById = async (req, res) => {
 }
 
 module.exports = {
+    getAllGames,
     createNewGame,
     updateGame,
     getUserGames,
