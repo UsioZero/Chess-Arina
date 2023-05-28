@@ -921,7 +921,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       avatars[0].src = `img/profiles/${gameData2.user2}/avatar.png`;
     }
-
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
