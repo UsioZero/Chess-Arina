@@ -1,6 +1,15 @@
 const path = require('path');
 const fs = require('fs');
-
+function checkFolderExists(folderPath) {
+    try {
+        // Check if the folder exists
+        fs.accessSync(folderPath, fs.constants.F_OK);
+        return true;
+    } catch (err) {
+        // Handle the error if the folder doesn't exist
+        return false;
+    }
+}
 const fileSaver = (req, res) => {
     const files = req.files;
     //console.log(files);
@@ -9,11 +18,11 @@ const fileSaver = (req, res) => {
     const isAvatar = JSON.parse(req.body.jsonData).isAvatar; // may be JSON.parse() is nit necessary
 
     const folderPath = path.join(__dirname, '../public/img/profiles/', uId);
-    fs.access(folderPath, fs.constants.F_OK, (err) => {
-        if (err) {
-            fs.mkdirSync(folderPath);
-        }
-    })
+
+    if (!checkFolderExists(folderPath)) {
+        fs.mkdirSync(folderPath);
+    }
+
 
     const filePath = path.join(folderPath, (isAvatar ? "avatar" : "bg") + path.extname(files.file.name));
 

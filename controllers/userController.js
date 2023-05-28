@@ -44,7 +44,7 @@ const updateUser = async (req, res) => {
     if (req.body?.options) user.options = req.body.options;
     if (req.body?.gameList) user.gameList = req.body.gameList;
 
-    const result = await game.save();
+    const result = await user.save();
     console.log(result);
     res.json(result);
 }

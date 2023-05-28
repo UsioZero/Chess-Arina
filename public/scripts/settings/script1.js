@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   let saveButton = document.querySelector(".save-button");
 
   // Add a click event listener to the "Save" button
-  saveButton.addEventListener("click", function () {
+  saveButton.addEventListener("click", async function () {
     // Get the values of the input fields and save them to the dataArray array
     dataArray[0] = inputName.value;
     if (isValidCountry) {
@@ -72,7 +72,24 @@ document.addEventListener("DOMContentLoaded", async function () {
       dataArray[4] = "";
     }
     // Log the updated dataArray array to the console
-    console.log(dataArray);
+    const tmp = await fetch("/api/user");
+    const dataTmp = await tmp.json();
+    const optData = dataTmp.options;
+    optData.real_name = dataArray[0];
+    optData.location.country = dataArray[2];
+    optData.location.state = dataArray[3];
+    optData.location.city = dataArray[4];
+    
+    const gameRes = await fetch("/api/user", {
+
+      method: "PUT", body: JSON.stringify({
+        "options": optData      
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    //console.log(dataArray);
   });
 
 
