@@ -907,15 +907,19 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   if (isSpectator) {
     refreshBoard(fen, 'w', legalMoves);
-    nicks[0].innerHTML = `@${resData.username}`;
-    if (resData.options.real_name != null) {
-      names[0].innerHTML = `@${resData.options.real_name}`;
+    const tm = document.querySelectorAll(".timer-container");
+    tm.forEach(tmi=>tmi.style.display = "none");
+    const userResponce2 = await fetch(`/api/user/${gameData21.user2}`);
+    const userResponceData2 = await userResponce2.json();
+    nicks[0].innerHTML = `@${userResponceData2.username}`;
+    if (userResponceData2.rena != null) {
+      names[0].innerHTML = `@${userResponceData2.rena}`;
     }
     else {
       names[0].innerHTML = `Hidden name`;
     }
 
-    avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
+    avatars[0].src = `img/profiles/${gameData21.user2}/avatar.png`;
 
     const userResponce = await fetch(`/api/user/${player2Id}`);
     const userResponceData = await userResponce.json();
