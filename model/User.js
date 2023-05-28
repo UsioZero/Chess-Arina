@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: {
         type: String,
-        require: false
+        require: true
     },
     email: {
         type: String,
@@ -34,8 +34,14 @@ const userSchema = new Schema({
             default: 1
         },
         connections: {
-            google: Boolean,
-            twitter: Boolean
+            google: {
+                type: Boolean,
+                deafult: false
+            },
+            twitter: {
+                type: Boolean,
+                deafult: false
+            }
         },
         is_profile_visible: {
             type: Boolean,
