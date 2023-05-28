@@ -40,6 +40,7 @@ const updateGame = async (req, res) => {
 
     if (req.body?.user2) game.user2 = req.body.user2;
     if (req.body?.moveData) game.moveData = req.body.moveData;
+    if (req.body?.win) game.win = req.body.win;
 
     const result = await game.save();
     console.log(result);
