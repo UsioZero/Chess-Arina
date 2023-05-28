@@ -1,29 +1,11 @@
 window.addEventListener("load", async function () {
 
 
-  // how to send files, but now after all it will just send file by console log 
-  // in server side(if it will works with bg and avatar, then uncomment 
-  // 15-17 lines in /middleware/fileSaver.js)
-
-  // Html code:
-  // <form id="uploadForm1">
-  //   <input type="file" id="myFiles" accept="image/*" />
-  // </form>
-
-  // js code:
-  // jsonData = { "uId": "<userId>", "isAvatar": true }// isAvatar = true when Avatar img, flase - bg img
-  // const myFile = document.getElementById('myFiles').files[0];
-  // const formData = new FormData();
-  // formData.append('file', myFile);
-  // formData.append('jsonData', JSON.stringify(jsonData));
-  // const fileUpResponce = await fetch('/fileUpload', {
-  //   method: 'POST',
-  //   body: formData
-  // });
-  // const fileUpData = await fileUpResponce.json();
-
   // Set the base value to 1
-  var base = 3;
+  const tmp = await fetch("/api/user");
+    const dataTmp = await tmp.json();
+    const optData = dataTmp.options;
+  var base = optData.theme;
 
   // Loop through the objects with ids "theme-{i}" and "theme-{i}-button", where i is from 1 to 4
   for (var i = 1; i <= 4; i++) {
@@ -45,7 +27,7 @@ window.addEventListener("load", async function () {
   console.log(themes);
   themes.forEach((button) => {
     const index = parseInt(button.id.split("-")[1]);
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       var themeTd = document.getElementById(`theme-${base}`);
       var themeButtonTd = document.getElementById(`theme-${base}-button`);
       themeTd.getElementsByTagName("img")[0].classList.remove("active-theme");
@@ -55,7 +37,16 @@ window.addEventListener("load", async function () {
       themeTd = document.getElementById(`theme-${base}`);
       themeTd.getElementsByTagName("img")[0].classList.add("active-theme");
       themeButtonTd.getElementsByTagName("div")[0].classList.add("active-checkbox");
-      console.log(base);
+      optData.theme = base;
+      const gameRes = await fetch("/api/user", {
+
+        method: "PUT", body: JSON.stringify({
+          "options": optData      
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
     });
   });
   const responce = await fetch('/api/user');

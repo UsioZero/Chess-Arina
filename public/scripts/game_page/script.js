@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const responce = await fetch('/api/user');
   const resData = await responce.json();
   console.log(resData._id);
-
+  let theme = resData.options.theme;
+  if (theme > 2) { theme = 1; } else { theme = 2; }
 
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
@@ -353,9 +354,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     refreshBoard(fen, 'w', legalMoves);
     addEventToCellsHuman(true);
   }
-  
 
-  
+
+
 
   function refreshBoard(fen, side, legalMoves) {
     whiteDraw = false;
@@ -951,7 +952,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       console.log("a");
       const userResponce = await fetch(`/api/user/${playerId}`);
       const userResponceData = await userResponce.json();
-      
+
       const gameRes22 = await fetch(`/api/game/${gameId}`);
       const gameData22 = await gameRes22.json();
       if (playerId == gameData22.user2) {
