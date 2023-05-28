@@ -314,60 +314,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     refreshBoard(fen, 'w', legalMoves);
     addEventToCellsHuman(true);
   }
-  const gub = document.getElementById("give-up-button");
-  //console.log(gub);
-  gub.addEventListener('click', () => {
-    {
-      console.log('c');
-      if (!isWhite) {
-        let asdasd = [];
-        asdasd.push(fen);
-        asdasd.push(en_passant);
-        for (let i = 0; i < 4; i++) {
-          asdasd.push(castlings[i]);
-        }
-        asdasd.push(move_ctr);
-        asdasd.push(1);
-        socket.emit('move', player2Id, asdasd, legalMoves, [1, 1]);
-
-        showModal = true;
-        openModal("White wins.");
-
-      }
-      else {
-        let asdasd = [];
-        asdasd.push(fen);
-        asdasd.push(en_passant);
-        for (let i = 0; i < 4; i++) {
-          asdasd.push(castlings[i]);
-        }
-        asdasd.push(move_ctr);
-        asdasd.push(1);
-        socket.emit('move', player2Id, asdasd, legalMoves, [1, 1]);
-        showModal = true;
-        openModal("Black wins.");
-      }
-    }
-  });
-
-
-  const offerDraw = document.getElementById("draw-button");
-  //console.log(offerDraw);
-  offerDraw.addEventListener('click', () => {
-    console.log(1);
-    if ((isWhite && blackDraw) || (!isWhite && whiteDraw)) {
-      showModal = true;
-      openModal("Draw by offering.");
-      console.log(2);
-    }
-    if (!whiteDraw && !blackDraw) {
-      alert("You`ve been offered draw. Press offer draw to accept it.");
-      if (isWhite) { whiteDraw = true; } else { blackDraw = true; }
-    }
-
-
-  });
-
+  
 
   function refreshBoard(fen, side, legalMoves) {
     whiteDraw = false;
@@ -703,7 +650,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     });
   }
-  function addEventToCellsHumanLink(isFirst, legalMovesForPlayer, dataArray) {
+  async function addEventToCellsHumanLink(isFirst, legalMovesForPlayer, dataArray) {
 
     legalMoves = legalMovesForPlayer;
     fen = dataArray[0];
@@ -716,10 +663,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (dataArray.length == 8) {
       if (dataArray[7] == 1) {
         if (move_ctr % 1 === 0) {
+          const gameRes = await fetch("/api/game", {
+            method: "PUT", body: JSON.stringify({
+              "win": "w",
+              "id": roomId
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
           showModal = true;
+          
           openModal("Black wins.");
         }
         else {
+          const gameRes = await fetch("/api/game", {
+            method: "PUT", body: JSON.stringify({
+              "win": "w",
+              "id": roomId
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
           showModal = true;
           openModal("White wins.");
         }
@@ -837,16 +803,46 @@ document.addEventListener('DOMContentLoaded', async function () {
               if (dataArr[7] == 1) {
                 if (move_ctr % 1 === 0) {
                   showModal = true;
+                  const gameRes = await fetch("/api/game", {
+                    method: "PUT", body: JSON.stringify({
+                      "win": "b",
+                      "id": roomId
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  });
+                  const gameData = await gameRes.json();
                   openModal("Black wins.");
                 }
                 else {
                   showModal = true;
+                  const gameRes = await fetch("/api/game", {
+                    method: "PUT", body: JSON.stringify({
+                      "win": "w",
+                      "id": roomId
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  });
+                  const gameData = await gameRes.json();
                   openModal("White wins.");
                 }
 
               }
               else {
                 showModal = true;
+                const gameRes = await fetch("/api/game", {
+                  method: "PUT", body: JSON.stringify({
+                    "win": "d",
+                    "id": gameId
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
+                const gameData = await gameRes.json();
                 openModal("Draw by stalemate.");
               }
             }
