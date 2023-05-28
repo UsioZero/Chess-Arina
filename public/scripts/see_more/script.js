@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
     }
+    console.log(stat);
     //     <tr>
     //     <td><img class="avatar-stat" src="img/avatars/Avatar3.png"></td>
     //     <td>@user1</td>
