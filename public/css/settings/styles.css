@@ -266,7 +266,7 @@ body {
     text-decoration: none;
     color: black;
 }
-.button-upload
+.button-upload, .form-upload
 {
     text-align: center;
     width: 200px;

@@ -1,85 +1,88 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    let isValidCountry = true;
-    let dataArray = ["Іво Бобул", "ibobyl", "Ukraine", "Chernivtsi Oblast", "", ""];
-    let inputName = document.getElementById("input-name");
-    inputName.value = dataArray[0];
-    let inputNick = document.getElementById("input-nick");
-    inputNick.value = "@" + dataArray[1];
-    let inputCountry = document.getElementById("input-country");
-    inputCountry.value = dataArray[2];
-    let inputState = document.getElementById("input-state");
-    inputState.value = dataArray[3];
-    let inputCity = document.getElementById("input-city");
-    if (dataArray[4] != "") {
-        inputCity.value = dataArray[4];
+  let isValidCountry = true;
+
+  const responce = await fetch('/api/user');
+  const resData = await responce.json();
+
+  let dataArray = [`${resData.options.real_name}`, resData.username, resData.options.location.country, resData.options.location.state, resData.options.location.city, resData.roles.Premium == 1984 ?? false];
+  let inputName = document.getElementById("input-name");
+  inputName.value = dataArray[0];
+  let inputNick = document.getElementById("input-nick");
+  inputNick.value = "@" + dataArray[1];
+  let inputCountry = document.getElementById("input-country");
+  inputCountry.value = dataArray[2];
+  let inputState = document.getElementById("input-state");
+  inputState.value = dataArray[3];
+  let inputCity = document.getElementById("input-city");
+  if (dataArray[4] != "") {
+    inputCity.value = dataArray[4];
+  }
+  else {
+    inputCity.value = "(Do not display)"
+  }
+  let inputPremium = document.getElementById("input-premium");
+  if (dataArray[5]) {
+    inputPremium.value = "You have Premium";
+  }
+  else {
+    inputPremium.value = "(Not owned)";
+  }
+  // Get a list of all country names using the REST Countries API
+  fetch("https://restcountries.com/v2/all")
+    .then(response => response.json())
+    .then(data => {
+      let countryNames = data.map(country => country.name);
+
+      // Add an event listener to the input element with ID "input-country"
+      let inputCountry = document.getElementById("input-country");
+      inputCountry.addEventListener("input", function () {
+        let inputValue = inputCountry.value.trim();
+
+        // Check if the input value is a valid country name
+        if (countryNames.includes(inputValue)) {
+          inputCountry.style.color = "black";
+          isValidCountry = true;
+          if (inputValue == "Russian Federation") { inputCountry.value = "Москаль, вийшов нахуй"; isValidCountry = false; }
+        } else {
+          inputCountry.style.color = "red";
+          isValidCountry = false;
+        }
+      });
+    })
+    .catch(error => console.error(error));
+
+
+  let saveButton = document.querySelector(".save-button");
+
+  // Add a click event listener to the "Save" button
+  saveButton.addEventListener("click", function () {
+    // Get the values of the input fields and save them to the dataArray array
+    dataArray[0] = inputName.value;
+    if (isValidCountry) {
+      dataArray[2] = inputCountry.value;
     }
     else {
-        inputCity.value = "(Do not display)"
+      alert("Wrong country, your changes discarded");
     }
-    let inputPremium = document.getElementById("input-premium");
-    if (dataArray[5] != "") {
-        inputPremium.value = dataArray[5];
+    dataArray[3] = inputState.value;
+    if (inputCity.value != "(Do not display)") {
+      dataArray[4] = inputCity.value;
     }
     else {
-        inputPremium.value = "(Not owned)";
+      dataArray[4] = "";
     }
-    // Get a list of all country names using the REST Countries API
-    fetch("https://restcountries.com/v2/all")
-        .then(response => response.json())
-        .then(data => {
-            let countryNames = data.map(country => country.name);
-
-            // Add an event listener to the input element with ID "input-country"
-            let inputCountry = document.getElementById("input-country");
-            inputCountry.addEventListener("input", function () {
-                let inputValue = inputCountry.value.trim();
-
-                // Check if the input value is a valid country name
-                if (countryNames.includes(inputValue)) {
-                    inputCountry.style.color = "black";
-                    isValidCountry = true;
-                    if (inputValue == "Russian Federation") { inputCountry.value = "Москаль, вийшов нахуй"; isValidCountry = false; }
-                } else {
-                    inputCountry.style.color = "red";
-                    isValidCountry = false;
-                }
-            });
-        })
-        .catch(error => console.error(error));
+    // Log the updated dataArray array to the console
+    console.log(dataArray);
+  });
 
 
-    let saveButton = document.querySelector(".save-button");
-
-    // Add a click event listener to the "Save" button
-    saveButton.addEventListener("click", function () {
-        // Get the values of the input fields and save them to the dataArray array
-        dataArray[0] = inputName.value;
-        if (isValidCountry) {
-            dataArray[2] = inputCountry.value;
-        }
-        else {
-            alert("Wrong country, your changes discarded");
-        }
-        dataArray[3] = inputState.value;
-        if (inputCity.value != "(Do not display)") {
-            dataArray[4] = inputCity.value;
-        }
-        else {
-            dataArray[4] = "";
-        }
-        // Log the updated dataArray array to the console
-        console.log(dataArray);
-    });
-
-    const responce = await fetch('/api/user');
-    const resData = await responce.json();
-    const menuImg = document.querySelector("#btn1-container div img");
-    menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+  const menuImg = document.querySelector("#btn1-container div img");
+  menuImg.src = `img/profiles/${resData._id}/avatar.png`;
 
 
 
-    //start game modal
-    // Get the modal
+  //start game modal
+  // Get the modal
 
   //start game modal
   // Get the modal
@@ -224,14 +227,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(res=>res.json()).then(data=>{
+      }).then(res => res.json()).then(data => {
         let link = `/game/link?id=${data._id}`;
         //console.log(gameData);
-  
+
         window.location.href = `/game/?link=${link}`;
       })
-      
-      
+
+
 
     }
     else {

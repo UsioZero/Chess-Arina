@@ -1,10 +1,192 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const responce = await fetch('/api/user');
     const resData = await responce.json();
+
     const menuImg = document.querySelector("#btn1-container div img");
     menuImg.src = `img/profiles/${resData._id}/avatar.png`;
+    var dataArray = [
+        {
+            avatar: `img/profiles/${resData._id}/avatar.png`,
+            name: `${resData.options.real_name}`,
+            username: `${resData.username}`,
+            location: `${resData.options.location.city}, ${resData.options.location.state}, ${resData.options.location.country}`,
+            email: `${resData.email}`,
+            twitter: "Not connected"
+        },
+    ];
+
+    // Отримання посилання на елемент таблиці
+    var table = document.querySelector('.top-table');
+
+    // Отримання всіх рядків таблиці, крім першого (шапки)
+    var rows = table.querySelectorAll('tr');
+
+    // Проходження по рядках та заміна значень
+    for (var i = 0; i < dataArray.length; i++) {
+        var row = rows[i];
+        var data = dataArray[i];
+
+        // Заміна значення src у тегу <img>
+        var avatarImg = row.querySelector('.avatar-img');
+        avatarImg.src = data.avatar;
+
+        // Заміна значення innerHTML у тегах <td>
+        var nameTd = row.querySelector('td:nth-child(2)');
+        var usernameTd = row.querySelector('td:nth-child(3)');
+        var locationTd = row.querySelector('td:nth-child(4)');
+        var emailTd = row.querySelector('td:nth-child(5)');
+        var twitterTd = row.querySelector('td:nth-child(6)');
+
+        nameTd.innerHTML = data.name;
+        usernameTd.innerHTML = `@${data.username}`;
+        locationTd.innerHTML = data.location;
+        emailTd.innerHTML = data.email;
+        twitterTd.innerHTML = data.twitter;
+    }
+    const resp = await fetch('/api/game');
+    const gameData = await resp.json();
+    let lg = [];
+    let ctr = 3;
+    for (let i = gameData.length - 1; i > 0; i--) {
+        if (ctr == 0) { break; }
+        if (gameData[i].win) {
+            lg.push(gameData[i]);
+            ctr--;
+        }
+    }
+    let dataArrayForStat = [];
+    let stat = [];
 
 
+    let ctr2 = 0;
+    for (let i = 0; i < gameData.length; i++) {
+        if (gameData[i].win) {
+            ctr2++;
+            stat.push(gameData[i]);
+        }
+
+    }
+    //     <tr>
+    //     <td><img class="avatar-stat" src="img/avatars/Avatar3.png"></td>
+    //     <td>@user1</td>
+    //     <td>01.04.23</td>
+    //     <td><img class="pawn-image" src="img/pieces/pak1/P.png"></td>
+    //     <td>1</td>
+    //     <td>10|5</td>
+    //     <td>0</td>
+    //     <td><img class="pawn-image" src="img/pieces/pak1/P2.png"></td>
+    //     <td>13:30</td>
+    //     <td>@user2</td>
+    //     <td><img class="avatar-stat" src="img/avatars/Avatar1.png"></td>
+    //   </tr>
+    for (let i = 0; i < ctr2; i++) {
+        const responce1 = await fetch(`/api/user/${stat[i].user1}`);
+        const resData1 = await responce1.json();
+        const responce2 = await fetch(`/api/user/${stat[i].user2}`);
+        const resData2 = await responce2.json();
+        let res;
+        if (stat[i].win == 'w') {
+            res = 1;
+
+        }
+        else {
+            if (stat[i].win == 'b') {
+                res = 0;
+            }
+            else {
+                res = 0.5;
+            }
+
+        }
+        dataArrayForStat.push({
+            user1a: `img/profiles/${stat[i].user1}/avatar.png`,
+            user2a: `img/profiles/${stat[i].user2}/avatar.png`,
+            user1n: `${resData1.username}`,
+            user2n: `${resData2.username}`,
+            user1r: `${resData1.rena}`,
+            user2r: `${resData2.rena}`,
+            result: res
+        });
+    }
+    let currentPage = 0;
+    var table = document.querySelector('.stat-table');
+    var rows = table.querySelectorAll('tbody tr');
+    function refreshTable(num) {
+        if (dataArrayForStat.length>11){
+            if (dataArrayForStat.length - num * 11 >= 11) {
+                for (var i = num * 11; i < num * 11 + 11; i++) {
+                    var row = rows[i];
+                    var data = dataArrayForStat[i];
+                    var avatarImg = row.querySelectorAll('.avatar-stat');
+                    avatarImg[0].src = data.user1a;
+                    avatarImg[1].src = data.user2a;
+    
+                    row.querySelector('td:nth-child(2)').innerHTML = `@${data.user1n}`;
+                    row.querySelector('td:nth-child(3)').innerHTML = `${data.user1r}`;
+                    row.querySelector('td:nth-child(5)').innerHTML = `${data.result}`;
+                    row.querySelector('td:nth-child(7)').innerHTML = `${1 - data.result}`;
+                    row.querySelector('td:nth-child(10)').innerHTML = `@${data.user1n}`;
+                    row.querySelector('td:nth-child(9)').innerHTML = `${data.user1r}`;
+    
+                }
+            }
+            else
+            {
+                for (var i = num-1 * 11 + dataArrayForStat.length%11; i < num * 11 + dataArrayForStat.length%11; i++) {
+                    var row = rows[i];
+                    var data = dataArrayForStat[i];
+                    var avatarImg = row.querySelectorAll('.avatar-stat');
+                    avatarImg[0].src = data.user1a;
+                    avatarImg[1].src = data.user2a;
+    
+                    row.querySelector('td:nth-child(2)').innerHTML = `@${data.user1n}`;
+                    row.querySelector('td:nth-child(3)').innerHTML = `${data.user1r}`;
+                    row.querySelector('td:nth-child(5)').innerHTML = `${data.result}`;
+                    row.querySelector('td:nth-child(7)').innerHTML = `${1 - data.result}`;
+                    row.querySelector('td:nth-child(10)').innerHTML = `@${data.user1n}`;
+                    row.querySelector('td:nth-child(9)').innerHTML = `${data.user1r}`;
+                }
+                    
+            }
+        }
+        else
+        {
+            for (var i = 0; i < dataArrayForStat.length; i++) {
+                var row = rows[i];
+                var data = dataArrayForStat[i];
+                var avatarImg = row.querySelectorAll('.avatar-stat');
+                avatarImg[0].src = data.user1a;
+                avatarImg[1].src = data.user2a;
+
+                row.querySelector('td:nth-child(2)').innerHTML = `@${data.user1n}`;
+                row.querySelector('td:nth-child(3)').innerHTML = `${data.user1r}`;
+                row.querySelector('td:nth-child(5)').innerHTML = `${data.result}`;
+                row.querySelector('td:nth-child(6)').innerHTML = `10|5`;
+                row.querySelector('td:nth-child(7)').innerHTML = `${1 - data.result}`;
+                row.querySelector('td:nth-child(10)').innerHTML = `@${data.user2n}`;
+                row.querySelector('td:nth-child(9)').innerHTML = `${data.user2r}`;
+            }
+        }
+       
+    }
+    refreshTable(currentPage);
+    const btn6 = document.querySelector("#btn6");
+    const btn7 = document.querySelector("#btn7");
+    btn6.addEventListener('click', ()=>{
+        console.log("p");
+        if (currentPage>0){
+            currentPage--;
+            refreshTable(currentPage);
+        }
+    });
+    btn7.addEventListener('click', ()=>{
+        console.log("n");
+        if (dataArrayForStat.length - currentPage*11 > 11){
+            currentPage++;
+            refreshTable(currentPage);
+        }
+
+    });
 
     //start game modal
     // Get the modal
@@ -155,9 +337,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 window.location.href = `/game/?link=${link}`;
             })
-
-
-
         }
         else {
             window.location.href = `/game/?type=${startGameData[0]}&side=${startGameData[1]}&timer=${startGameData[2]}`;
