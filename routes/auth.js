@@ -10,5 +10,6 @@ router.post('/register', registerController.handleNewUser);
 router.get('/refresh', refreshTokenController.handleRefreshToken);
 router.get('/logout', logoutController.handleLogout);
 router.post('/login', authController.handleLogin);
+router.post('/login-mobile', authController.handleLoginMobile);
 
 module.exports = router;
