@@ -24,13 +24,13 @@ document.addEventListener('DOMContentLoaded', async function () {
   let PlSide = url.searchParams.get('side');
 
   let link = url.searchParams.get('link');
-  let gameId ="";
-  if(link){
-    gameId = link.split("=")[link.split("=").length-1];
+  let gameId = "";
+  if (link) {
+    gameId = link.split("=")[link.split("=").length - 1];
     console.log(gameId);
-  }  
+  }
   const cont = document.querySelector('.move-text-container');
-  if (link ){cont.innerHTML = `Give this link to your friend: ${link}`;}
+  if (link) { cont.innerHTML = `Give this link to your friend: ${link}`; }
   let isWhite = true;
   let isWhiteMove = true;
   let timerBase = 10;
@@ -63,8 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     blackSeconds = 6 * timerss[0] + timerss[1];
     whiteSeconds = 6 * timerss[0] + timerss[1];
   }
-  else
-  {
+  else {
     blackSeconds = 60 * timerBase + timerInv;
     whiteSeconds = 60 * timerBase + timerInv;
   }
@@ -307,35 +306,34 @@ document.addEventListener('DOMContentLoaded', async function () {
     dataArrayStartPos.push(castlings[i]);
   }
   dataArrayStartPos.push(move_ctr);
-  if (isWhite){
+  if (isWhite) {
     nicks[1].innerHTML = `@${resData.username}`;
-      if (resData.options.real_name != null) {
-        names[1].innerHTML = `@${resData.options.real_name}`;
-      }
-      else {
-        names[1].innerHTML = `Hidden name`;
-      }
+    if (resData.options.real_name != null) {
+      names[1].innerHTML = `@${resData.options.real_name}`;
+    }
+    else {
+      names[1].innerHTML = `Hidden name`;
+    }
 
-      avatars[1].src = `img/profiles/${resData._id}/avatar.png`;
+    avatars[1].src = `img/profiles/${resData._id}/avatar.png`;
   }
-  else
-  {
+  else {
     nicks[0].innerHTML = `@${resData.username}`;
-      if (resData.options.real_name != null) {
-        names[0].innerHTML = `@${resData.options.real_name}`;
-      }
-      else {
-        names[0].innerHTML = `Hidden name`;
-      }
+    if (resData.options.real_name != null) {
+      names[0].innerHTML = `@${resData.options.real_name}`;
+    }
+    else {
+      names[0].innerHTML = `Hidden name`;
+    }
 
-      avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
+    avatars[0].src = `img/profiles/${resData._id}/avatar.png`;
   }
   if (isAI) {
     if (isWhite) {
       nicks[0].innerHTML = "@rana_deus";
       names[0].innerHTML = "God of frogs";
       avatars[0].src = "img/avatars/bot.png";
-      
+
       refreshBoard(fen, 'w', legalMoves);
       addEventToCells(true);
     }
@@ -875,16 +873,46 @@ document.addEventListener('DOMContentLoaded', async function () {
               if (dataArr[7] == 1) {
                 if (move_ctr % 1 === 0) {
                   showModal = true;
+                  const gameRes = await fetch("/api/game", {
+                    method: "PUT", body: JSON.stringify({
+                      "win": "b",
+                      "id": gameId
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  });
+                  const gameData = await gameRes.json();
                   openModal("Black wins.");
                 }
                 else {
                   showModal = true;
+                  const gameRes = await fetch("/api/game", {
+                    method: "PUT", body: JSON.stringify({
+                      "win": "w",
+                      "id": gameId
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  });
+                  const gameData = await gameRes.json();
                   openModal("White wins.");
                 }
 
               }
               else {
                 showModal = true;
+                const gameRes = await fetch("/api/game", {
+                  method: "PUT", body: JSON.stringify({
+                    "win": "d",
+                    "id": gameId
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
+                const gameData = await gameRes.json();
                 openModal("Draw by stalemate.");
               }
             }
@@ -892,7 +920,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             //isWhiteMove = !isWhiteMove;
             refreshBoard(fen, 'w', legalMoves);
             console.log(resData._id);
-            
+
             socket.emit('move', resData._id, dataArr, legalMoves, [whiteSeconds, blackSeconds]);
             console.log("we moved");
             //addEventToCellsHumanLink(false);
@@ -923,15 +951,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Emit the join event when a player joins the room
 
     socket.emit('join', resData._id, resData._id, isWhite);
-    
+
     const gameRes2 = await fetch(`/api/game/${gameId}`);
     const gameData2 = await gameRes2.json();
-    if(gameData2.moveData){
-        fen = gameData2.moveData.dataArray[0];
-        if(gameData2.moveData.playerId==resData._id){legalMoves = gameData2.moveData.legalMovesForPlayer};
-        dataArrayStartPos = gameData2.moveData.dataArray;
+    if (gameData2.moveData) {
+      fen = gameData2.moveData.dataArray[0];
+      if (gameData2.moveData.playerId == resData._id) { legalMoves = gameData2.moveData.legalMovesForPlayer };
+      dataArrayStartPos = gameData2.moveData.dataArray;
     }
-    if (gameData2.user2){
+    if (gameData2.user2) {
       const userResponce = await fetch(`/api/user/${gameData2.user2}`);
       const userResponceData = await userResponce.json();
       nicks[0].innerHTML = `@${userResponceData.username}`;
@@ -944,7 +972,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       avatars[0].src = `img/profiles/${gameData2.user2}/avatar.png`;
     }
-     
+
     refreshBoard(fen, 'w', legalMoves);
     if (isWhite) {
       addEventToCellsHumanLink(true, legalMoves, dataArrayStartPos);
@@ -968,32 +996,37 @@ document.addEventListener('DOMContentLoaded', async function () {
       refreshBoard(dataArray[0], 'w', legalMovesForPlayer);
       refreshTimers(timers[0], timers[1]);
       addEventToCellsHumanLink(false, legalMovesForPlayer, dataArray);
-      isWhiteMove= !isWhiteMove;
+      isWhiteMove = !isWhiteMove;
       //console.log('Opponent move:', dataArray, legalMovesForPlayer);
     });
     socket.on('playerJoined', async (playerId) => {
       console.log("a");
       const userResponce = await fetch(`/api/user/${playerId}`);
       const userResponceData = await userResponce.json();
-      nicks[0].innerHTML = `@${userResponceData.username}`;
-      if (userResponceData.rena != null) {
-        names[0].innerHTML = `@${userResponceData.rena}`;
-      }
-      else {
-        names[0].innerHTML = `Hidden name`;
+      
+      const gameRes22 = await fetch(`/api/game/${gameId}`);
+      const gameData22 = await gameRes22.json();
+      if (playerId == gameData22.user2) {
+        if (userResponceData.rena != null) {
+          names[0].innerHTML = `@${userResponceData.rena}`;
+        }
+        else {
+          names[0].innerHTML = `Hidden name`;
+        }
+        nicks[0].innerHTML = `@${userResponceData.username}`;
+        avatars[0].src = `img/profiles/${playerId}/avatar.png`;
+        isStartTimer = true;
       }
 
-      avatars[0].src = `img/profiles/${playerId}/avatar.png`;
-      isStartTimer = true;
     });
 
     // Emit the move event when a player makes a move
     function makeMove(dataArray) {
       socket.emit('move', resData._id, dataArray, legalMovesForPlayer, timers);
     }
-   
+
   }
-  if (resData.roles.Premium==1984 ?? false){
+  if (resData.roles.Premium == 1984 ?? false) {
     const advimg = document.querySelector("#adv-img");
     advimg.src = "img/frog_premium.png";
     const advbut = document.querySelector("#remove-ads-button");
