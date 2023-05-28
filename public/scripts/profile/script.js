@@ -1,6 +1,11 @@
 window.addEventListener('DOMContentLoaded', async function () {
   const responce = await fetch('/api/user');
   const resData = await responce.json();
+
+  const resp = await fetch ('/api/game', {body: {resData._id}});
+  const gameData = await resp.json();
+  console.log(resData);
+  console.log(gameData);
   const menuImg = document.querySelector("#btn1-container div img");
   menuImg.src = `img/profiles/${resData._id}/avatar.png`;
   if (resData.roles.Premium == 1984 ?? false) {
@@ -18,7 +23,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     `${resData.options.real_name}`,
     `${resData.username}`,
     `${resData.options.location.country}`,
-    `${resData.options.location.state}`,
+    `${resData.options.location.city}, ${resData.options.location.state}`,
     resData.roles.Premium == 1984 ?? false,
     `${resData.email}`,
     "",
@@ -79,7 +84,7 @@ window.addEventListener('DOMContentLoaded', async function () {
 
   const locationLink = document.querySelector('.icon-text-row-2');
   locationLink.innerHTML = dataArray[5] + ", " + dataArray[4];
-  if (locationLink.innerHTML == "undefined, undefined") { locationLink.innerHTML = "Do not display"; }
+  if (locationLink.innerHTML == "undefined, undefined, undefined") { locationLink.innerHTML = "Do not display"; }
 
   const emailLink = document.querySelector('.icon-text-row-3');
   emailLink.innerHTML = dataArray[7];

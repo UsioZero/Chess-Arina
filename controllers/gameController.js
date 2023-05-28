@@ -17,7 +17,7 @@ const createNewGame = async (req, res) => {
         const result = await Game.create({
             user1: req.body.user1,
             moveData: req.body.moveData,
-            
+
         });
 
         res.status(201).json(result);
@@ -74,7 +74,7 @@ const getUserGames = async (req, res) => {
     const data = games1._doc + games2._doc;
     //const {refreshTokenMobile, password, refreshToken, ...rest} = data;
     //console.log(rest);
-
+    console.log(games1);
     res.json(data);
 }
 
