@@ -17,7 +17,7 @@ const createNewGame = async (req, res) => {
         const result = await Game.create({
             user1: req.body.user1,
             moveData: req.body.moveData,
-            
+
         });
 
         res.status(201).json(result);
@@ -61,9 +61,9 @@ const updateGame = async (req, res) => {
 
 const getUserGames = async (req, res) => {
     if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
-
-    const games1 = await Game.find({ user1: req.user }).exec();
-    const games2 = await Game.find({ user2: req.user }).exec();
+    console.log(req.user);
+    const games1 = await Game.find({ user1: req.user });
+    const games2 = await Game.find({ user2: req.user });
 
     if (!games1 && !games2) {
         return res.status(204).json({ "message": `No games with user ${req.user}.` });
@@ -72,7 +72,7 @@ const getUserGames = async (req, res) => {
     const data = games1._doc + games2._doc;
     //const {refreshTokenMobile, password, refreshToken, ...rest} = data;
     //console.log(rest);
-
+    console.log(games1);
     res.json(data);
 }
 
