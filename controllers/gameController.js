@@ -1,4 +1,5 @@
 const Game = require('../model/Game');
+const User = require('../model/User');
 
 // change
 // const getAllUser = async (req, res) => {
@@ -17,7 +18,7 @@ const createNewGame = async (req, res) => {
         const result = await Game.create({
             user1: req.body.user1,
             moveData: req.body.moveData,
-
+            
         });
 
         res.status(201).json(result);
@@ -60,21 +61,22 @@ const updateGame = async (req, res) => {
 // }
 
 const getUserGames = async (req, res) => {
-    if (!req?.body) return res.status(400).json({ 'message': 'User ID required' });
+    if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
 
-    console.log(req.body);
+    const user = await User.findOne({username: req.user});
+    const user_id = user.id;
 
-    const games1 = await Game.find({ user1: req.body.user1 });
-    const games2 = await Game.find({ user2: req.body.user1 });
+    const games1 = await Game.find({ user1: user_id }).exec();
+    const games2 = await Game.find({ user2: user_id }).exec();
 
     if (!games1 && !games2) {
         return res.status(204).json({ "message": `No games with user ${req.user}.` });
     }
-
-    const data = games1._doc + games2._doc;
+    //console.log(games1);
+    const data = [...games1, ...games2];
     //const {refreshTokenMobile, password, refreshToken, ...rest} = data;
     //console.log(rest);
-    console.log(games1);
+
     res.json(data);
 }
 

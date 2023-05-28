@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   const responce = await fetch('/api/user');
   const resData = await responce.json();
 
-  const resp = await fetch ('/api/game', {body: {resData._id}});
+  const resp = await fetch('/api/game');
   const gameData = await resp.json();
   console.log(resData);
   console.log(gameData);
