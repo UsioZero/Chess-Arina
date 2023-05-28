@@ -4,6 +4,13 @@ window.addEventListener('DOMContentLoaded', async function () {
 
   const resp = await fetch('/api/game');
   const gameData = await resp.json();
+
+  let counter = 0;
+  let ctr2 = 0;
+  for (let i = 0; i < gameData.length; i++) {
+    if (gameData[i].win) {ctr2++;}
+    if ((gameData[i].user1 == resData._id && gameData[i].win == "w") || (gameData[i].user2 == resData._id && gameData[i].win == "b")) { counter++; }
+  }
   console.log(resData);
   console.log(gameData);
   const menuImg = document.querySelector("#btn1-container div img");
@@ -12,7 +19,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     const advimg = document.querySelector("#adv-img");
     advimg.src = "img/frog_premium.png";
     const advbut = document.querySelector("#remove-ads-button");
-    advbut.style.display = "none"
+    advbut.style.display = "none";
   }
   // var url = new URL(window.location.href);
   // let pId = url.searchParams.get('id');
@@ -27,29 +34,24 @@ window.addEventListener('DOMContentLoaded', async function () {
     resData.roles.Premium == 1984 ?? false,
     `${resData.email}`,
     "",
-    25,
-    51
+    counter,
+    ctr2
   ];
-  var lastGames = [
-    ["22.03",
-      "11:30",
-      "img/avatars/Avatar2.png",
-      1 / 2,
-      "15|10",
-      "img/avatars/Avatar1.png"],
-    ["22.03",
-      "11:10",
-      "img/avatars/Avatar3.png",
-      1,
-      "10|5",
-      "img/avatars/Avatar2.png"],
-    ["22.03",
-      "11:00",
-      "img/avatars/Avatar4.png",
-      1,
-      "3|2",
-      "img/avatars/Avatar2.png"]
-  ];
+
+  let lg = [];
+  let ctr = 3;
+  for (let i = gameData.length - 1; i > 0; i--) {
+    if (ctr == 0) { break; }
+    if (gameData[i].win) {
+      lg.push(gameData[i]);
+      ctr--;
+    }
+  }
+
+
+  
+
+
 
   // if (!pId && pId!=resData._id){
   //   dataArray = [
@@ -111,17 +113,64 @@ window.addEventListener('DOMContentLoaded', async function () {
     console.log(roundedWinrate);
     winrate1.innerHTML = roundedWinrate + "%";
   }
+  var lastGames = [];
+  if (lg.length < 3) {
+    lastGames = [
+      [`img/frog.png`,
+      1 / 2,
+        "Play at least 3 games!",
+      `img/frog_2.png`],
+      [`img/frog.png`,
+      1 / 2,
+        "Play at least 3 games!",
+      `img/frog_2.png`],
+      [`img/frog.png`,
+      1 / 2,
+        "Play at least 3 games!",
+      `img/frog_2.png`]
+    ];
+  }
+  else {
+    lastGames = [
+      [`img/profiles/${lg[0].user1}/avatar.png`,
+      1 / 2,
+        "10|5",
+      `img/profiles/${lg[0].user2}/avatar.png`],
+      [`img/profiles/${lg[1].user1}/avatar.png`,
+        1,
+        "10|5",
+      `img/profiles/${lg[1].user2}/avatar.png`],
+      [`img/profiles/${lg[2].user1}/avatar.png`,
+        1,
+        "10|5",
+      `img/profiles/${lg[2].user2}/avatar.png`]
+    ];
+  }
+
+
+
+  for (let i = 0; i < lg.length; i++) {
+    if (lg[i].win == "w") {
+      lastGames[i][1] = 1;
+    } else {
+      if (lg[i].win == "b") {
+        lastGames[i][1] = 0;
+      }
+      else {
+        lastGames[i][1] = 0.5;
+      }
+    }
+  }
+
+
   for (let i = 1; i <= 3; i++) {
     const row = document.getElementById(`data-${i}`);
     const cells = row.getElementsByTagName("td");
-
-    cells[0].innerHTML = lastGames[i - 1][0];
-    cells[1].innerHTML = lastGames[i - 1][1];
-    cells[2].getElementsByTagName("img")[0].src = lastGames[i - 1][2];
-    cells[4].innerHTML = lastGames[i - 1][3];
-    cells[5].innerHTML = lastGames[i - 1][4];
-    cells[6].innerHTML = 1 - lastGames[i - 1][3];
-    cells[8].getElementsByTagName("img")[0].src = lastGames[i - 1][5];
+    cells[0].getElementsByTagName("img")[0].src = lastGames[i - 1][0];
+    cells[2].innerHTML = lastGames[i - 1][1];
+    cells[3].innerHTML = lastGames[i - 1][2];
+    cells[4].innerHTML = 1 - lastGames[i - 1][1];
+    cells[6].getElementsByTagName("img")[0].src = lastGames[i - 1][3];
   }
 
   if (dataArray[6] == true) {

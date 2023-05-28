@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return emailRegex.test(email);
         }
         function isValidUsername(user) {
-            return user.length >= 8 && user.length <= 16;
+            return user.length >= 5 && user.length <= 16;
         }
 
         if (password === confirmPassword
