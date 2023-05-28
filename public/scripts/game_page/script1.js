@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const responce = await fetch('/api/user');
   const resData = await responce.json();
   console.log(resData._id);
-
+  let theme = resData.options.theme;
+  if (theme > 2) { theme = 2; } else { theme = 1; }
 
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
@@ -348,10 +349,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (fenSpaces2[i] !== " ") {
         const pieceType = fenSpaces2[i].toUpperCase();
         const isWhite = fenSpaces2[i] === fenSpaces2[i].toUpperCase();
-        const src = `img/pieces/pak1/${pieceType}${isWhite ? "" : "2"}.png`;
+        const src = `img/pieces/pak${theme}/${pieceType}${isWhite ? "" : "2"}.png`;
         img.setAttribute("src", src);
       } else {
-        const src = `img/pieces/pak1/N${(i % 8 + Math.floor(i / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+        const src = `img/pieces/pak${theme}/N${(i % 8 + Math.floor(i / 8)) % 2 === 1 ? "even" : "odd"}.png`;
         img.setAttribute("src", src);
       }
     }
@@ -412,22 +413,22 @@ document.addEventListener('DOMContentLoaded', async function () {
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
 
             document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
-            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak${theme}/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
             if (validMove[2] == 3) {
               document.getElementById('cell3').firstChild.src = document.getElementById('cell0').firstChild.src;
-              document.getElementById('cell0').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell0').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             if (validMove[2] == 4) {
               document.getElementById('cell5').firstChild.src = document.getElementById('cell7').firstChild.src;
-              document.getElementById('cell7').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell7').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 5) {
               document.getElementById('cell59').firstChild.src = document.getElementById('cell56').firstChild.src;
-              document.getElementById('cell56').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell56').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 6) {
               document.getElementById('cell61').firstChild.src = document.getElementById('cell63').firstChild.src;
-              document.getElementById('cell63').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell63').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             const comPath = '../web/engine';
             const com = 'a';
@@ -558,22 +559,22 @@ document.addEventListener('DOMContentLoaded', async function () {
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
 
             document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
-            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak${theme}/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
             if (validMove[2] == 3) {
               document.getElementById('cell3').firstChild.src = document.getElementById('cell0').firstChild.src;
-              document.getElementById('cell0').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell0').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             if (validMove[2] == 4) {
               document.getElementById('cell5').firstChild.src = document.getElementById('cell7').firstChild.src;
-              document.getElementById('cell7').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell7').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 5) {
               document.getElementById('cell59').firstChild.src = document.getElementById('cell56').firstChild.src;
-              document.getElementById('cell56').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell56').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 6) {
               document.getElementById('cell61').firstChild.src = document.getElementById('cell63').firstChild.src;
-              document.getElementById('cell63').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell63').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             const comPath = '../web/engine';
             const com = 'm';
@@ -750,22 +751,22 @@ document.addEventListener('DOMContentLoaded', async function () {
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
 
             document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
-            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak1/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
+            document.getElementById('cell' + validMove[0]).firstChild.src = `img/pieces/pak${theme}/N${(validMove[0] % 8 + Math.floor(validMove[0] / 8)) % 2 === 1 ? "even" : "odd"}.png`;
             if (validMove[2] == 3) {
               document.getElementById('cell3').firstChild.src = document.getElementById('cell0').firstChild.src;
-              document.getElementById('cell0').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell0').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             if (validMove[2] == 4) {
               document.getElementById('cell5').firstChild.src = document.getElementById('cell7').firstChild.src;
-              document.getElementById('cell7').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell7').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 5) {
               document.getElementById('cell59').firstChild.src = document.getElementById('cell56').firstChild.src;
-              document.getElementById('cell56').firstChild.src = `img/pieces/pak1/Neven.png`;
+              document.getElementById('cell56').firstChild.src = `img/pieces/pak${theme}/Neven.png`;
             }
             if (validMove[2] == 6) {
               document.getElementById('cell61').firstChild.src = document.getElementById('cell63').firstChild.src;
-              document.getElementById('cell63').firstChild.src = `img/pieces/pak1/Nodd.png`;
+              document.getElementById('cell63').firstChild.src = `img/pieces/pak${theme}/Nodd.png`;
             }
             const comPath = '../web/engine';
             const com = 'm';
