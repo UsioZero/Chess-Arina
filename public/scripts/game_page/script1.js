@@ -6,13 +6,19 @@ document.addEventListener('DOMContentLoaded', async function () {
   const resData = await responce.json();
   console.log(resData._id);
   let theme = resData.options.theme;
-  if (theme > 2) { theme = 2; } else { theme = 1; }
 
   //menu img adding
   const menuImg = document.querySelector("#btn1-container div img");
   menuImg.src = `img/profiles/${resData._id}/avatar.png`;
   let isStartTimer = false;
-
+  const bota = document.querySelector(".board-table");
+  let pak = "url('../../img/board.png')"; // Використання правильного синтаксису з круглими дужками і подвійними лапками
+  
+  if (theme % 2 === 0) {
+    pak = "url('../../img/board2.png')"; // Використання правильного синтаксису з круглими дужками і подвійними лапками
+  }
+  
+  bota.style.backgroundImage = pak;
 
 
   let en_passant = 255;
