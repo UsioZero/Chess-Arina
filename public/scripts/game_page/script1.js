@@ -452,7 +452,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             fen = dataArr[0];
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
-              castlings[i] = dataArr[i + 2];
+              if (castlings[i]!=0){
+                castlings[i] = dataArr[i + 2];
+              }
             }
             move_ctr = dataArr[6];
             legalMoves = [];
@@ -598,7 +600,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             fen = dataArr[0];
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
-              castlings[i] = dataArr[i + 2];
+              if (castlings[i]!=0){
+                castlings[i] = dataArr[i + 2];
+              }
             }
             move_ctr = dataArr[6];
             legalMoves = [];
@@ -663,7 +667,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     fen = dataArray[0];
     en_passant = dataArray[1];
     for (let i = 0; i < 4; i++) {
-      castlings[i] = dataArray[i + 2];
+      if (castlings[i]!=0){
+        castlings[i] = dataArr[i + 2];
+      }
     }
     move_ctr = dataArray[6];
 
@@ -790,7 +796,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             fen = dataArr[0];
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
-              castlings[i] = dataArr[i + 2];
+              if (castlings[i]!=0){
+                castlings[i] = dataArr[i + 2];
+              }
             }
             move_ctr = dataArr[6];
             legalMoves = [];
