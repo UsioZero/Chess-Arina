@@ -60,10 +60,12 @@ const updateGame = async (req, res) => {
 // }
 
 const getUserGames = async (req, res) => {
-    if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
+    if (!req?.body) return res.status(400).json({ 'message': 'User ID required' });
 
-    const games1 = await Game.find({ user1: req.user }).exec();
-    const games2 = await Game.find({ user2: req.user }).exec();
+    console.log(req.body);
+
+    const games1 = await Game.find({ user1: req.body.user1 });
+    const games2 = await Game.find({ user2: req.body.user1 });
 
     if (!games1 && !games2) {
         return res.status(204).json({ "message": `No games with user ${req.user}.` });
