@@ -39,5 +39,10 @@
   },
   "directories": {
     "test": "test"
+<<<<<<< HEAD
   }
+=======
+  },
+  "devDependencies": {}
+>>>>>>> main
 }

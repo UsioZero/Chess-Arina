@@ -716,7 +716,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     en_passant = dataArray[1];
     for (let i = 0; i < 4; i++) {
       if (castlings[i]!=0){
-        castlings[i] = dataArr[i + 2];
+        castlings[i] = dataArray[i + 2];
       }
 
     }
