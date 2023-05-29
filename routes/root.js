@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const verifyJWT = require('../middleware/verifyJWT');
+const { verifyJWT } = require('../middleware/verifyJWT');
 const runCommand = require('../middleware/runCommand');
 const fileSaver = require('../middleware/fileSaver');
 const fileUpload = require('express-fileupload');

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const gameController = require('../../controllers/gameController');
-const verifyJWT = require('../../middleware/verifyJWT');
+const {verifyJWT, verifyJWTMobile} = require('../../middleware/verifyJWT');
 
 router.route('/')
     .get(verifyJWT, gameController.getUserGames)
@@ -10,5 +10,8 @@ router.route('/')
 
 router.route('/:id')
     .get(gameController.getGameById);
+
+router.route('/mobile')
+    .get(verifyJWTMobile, gameController.getUserGames)
 
 module.exports = router;
