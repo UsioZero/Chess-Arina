@@ -1,0 +1,211 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 288px 1fr;
+  grid-template-rows: 150px 1fr;
+  grid-template-areas: "menu top" "menu content";
+  height: 100vh;
+  /* Set the height of the grid container to 100vh to fill the viewport height */
+}
+
+.menu {
+  grid-area: menu;
+  width: 288px;
+  background-color: #C69A42;
+  /* Set the width and background color of the menu strip */
+  display: grid;
+  grid-template-rows: 280px auto 300px;
+  /* Set the grid template rows for the logo area, buttons, and ad area */
+}
+
+.logo {
+  /* Styling for the logo area */
+  background-color: #C69A42;
+  /* Set the background color of the logo area */
+}
+
+.buttons {
+  /* Styling for the buttons area */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* Set the layout for the buttons area */
+}
+
+.ad {
+  /* Styling for the ad area */
+  background-color: #C69A42;
+  /* Set the background color of the ad area */
+}
+
+.top {
+  grid-area: top;
+  height: 150px;
+  background-color: #FFB142;
+  ;
+  /* Set the height and background color of the top strip */
+}
+
+.content {
+  grid-area: content;
+  /* The content area will fill the remaining space in the grid container */
+  background-image: url('../img/bgs/bg.png');
+  background-size: cover;
+  background-position: top left; /* Adjust the values here to cut the image from desired part */
+  /* Set the background color of the content area */
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  /* Set the layout for the content area */
+}
+
+.image {
+  /* Styling for the image area */
+  height: 418px;
+  /* Set the height of the image area */
+  background: transparent;
+  /* Set the background color of the image area */
+}
+    .buttons {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(1, 1fr); /* Adjust the number of columns as needed */
+}
+
+.menu-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 50px;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    background: #227093;
+    margin-left: 15px;
+}
+
+.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem; /* Width of the circle */
+    height: 2rem; /* Height of the circle */
+    border-radius: 50%; /* Make it a circle */
+    background-color: transparent; /* Background color of the circle */
+    margin-right: 1rem; /* Space between the icon and text */
+    border: 1px white solid;
+}
+
+.button-icon img {
+    max-width: 100%; /* Ensure image fits inside the circle */
+    border-radius: 50%; 
+}
+
+.menu-button {
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0.5rem;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    font-size: 1rem;
+    font-size: 30px;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+.menu-button-container:hover {
+    background-color: #474787;
+} 
+
+#logo-img{
+    max-width: 100%;
+    height: auto; /* Ensures aspect ratio is maintained */
+
+}
+#adv-img
+{
+    margin-left: 15px;
+    max-width: 100%;
+    height: 265px; /* Ensures aspect ratio is maintained */
+}
+#remove-ads-button {
+    width: 288px;
+    height: 30px;
+    background: #00B2FF;
+    border-right: 3px solid #000000;
+}
+
+#strip-title {
+    /* Add appropriate styles for the strip title */
+    text-align: center;
+    margin: 0;
+}
+.top{
+    /* Add appropriate styles for the top strip */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+#dialog-image {
+    position: absolute;
+    bottom: 400px;
+    right: 500px;
+    height: 418px;
+    width: auto;
+}
+.content-image {
+    border-radius: 30px;
+    position: absolute;
+
+    border: 5px #FFB142 solid;
+}
+  
+#content-image-1 {
+    width: 300px;
+    height: 300px;
+    bottom: 420px;
+    right: 100px;
+
+}
+
+#content-image-2 {
+    width: 250px;
+    height: 250px;
+    bottom: 150px;
+    right: 1200px;
+}
+.button-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px; /* adjust as needed */
+  }
+  
+  .round-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center center;
+    margin: 0 5px; /* adjust as needed */
+  }
+  #btn6 {
+    /* Add unique styles for button 6 */
+    background-image: url('../img/icons/previous.png');
+  }
+  
+  #btn7 {
+    /* Add unique styles for button 7 */
+    background-image: url('../img/icons/next.png');
+  }
+

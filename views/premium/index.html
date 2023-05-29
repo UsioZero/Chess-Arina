@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="css/premium/styles.css" />
+  <script src="scripts/premium/script.js"></script>
+  <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+</head>
+
+<body>
+ 
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <table class="content-table">
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td colspan="3">
+                  <img class="type-img active-option" src="img/icons/computericon.png">
+                </td>
+                <td colspan="3">
+                  <img class="type-img" src="img/icons/human.png">
+                </td>
+                <td colspan="3">
+                  <img class="type-img" src="img/icons/chair.png">
+                </td>
+              </tr>
+              <tr class="choose-slider">
+                <td colspan="3">
+                  <div class="choose-slider-div">With AI</div>
+                </td>
+                <td colspan="3">
+                  <div class="choose-slider-div">With Human</div>
+                </td>
+                <td colspan="3">
+                  <div class="choose-slider-div">Hot Seat</div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <a class="side-a">Side</a>
+                </td>
+                <td colspan="2">
+                  <img class="side-img active-option" src="img/pieces/pak1/K.png">
+                </td>
+                <td colspan="2">
+                  <img class="side-img" src="img/icons/rand.png">
+                </td>
+                <td colspan="2">
+                  <img class="side-img" src="img/pieces/pak1/K2.png">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="9">
+                  <div class="start-game-button">Start Game</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tr>
+                <td colspan="1">
+                  <img src="../img/icons/timer.png" class="timer-image">
+                </td>
+                <td colspan="3">
+                  <span class="timer-span">
+                    Timer
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <button class="default-timer-button active-option">1|1</button>
+                </td>
+                <td colspan="2">
+                  <button class="default-timer-button">3|2</button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <button class="default-timer-button">10|5</button>
+                </td>
+                <td colspan="2">
+                  <button class="default-timer-button">15|10</button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <button class="default-timer-button custom-timer-button">Custom timer
+
+                  </button>
+                  <input class="hidden-input" placeholder="Own timer...">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="menu">
+    <div class="logo">
+      <a href="/">
+        <img id="logo-img" src="img/logo_transparent.png" alt="Logo">
+      </a>
+    </div>
+    <div class="buttons">
+      <div id="btn1-container" class="menu-button-container">
+        <div class="button-icon">
+          <img src="img/icons/reg_button.png" alt="Button 1 Icon">
+        </div>
+        <a id="btn1" class="menu-button" href="/profile">
+          <span class="button-text">Profile</span>
+        </a>
+      </div>
+      <div id="btn2-container" class="menu-button-container">
+        <div class="button-icon">
+          <img src="img/icons/Start_game.png" alt="Button 2 Icon">
+        </div>
+        <a id="open-modal" class="menu-button" href="#">
+          <span class="button-text">Start game</span>
+        </a>
+      </div>
+      <div id="btn3-container" class="menu-button-container">
+        <div class="button-icon">
+          <img src="img/icons/Settings.png" alt="Button 3 Icon">
+        </div>
+        <a id="btn3" class="menu-button" href="/settings">
+          <span class="button-text">Settings</span>
+        </a>
+      </div>
+      <div id="btn4-container" class="menu-button-container">
+        <div class="button-icon">
+          <img src="img/icons/Mobile.png" alt="Button 4 Icon">
+        </div>
+        <a id="btn4" class="menu-button" href="/mobile">
+          <span class="button-text">Mobile</span>
+        </a>
+      </div>
+      <div id="btn5-container" class="menu-button-container">
+        <div class="button-icon">
+          <img src="img/icons/Premium.png" alt="Button 5 Icon">
+        </div>
+        <a id="btn5" class="menu-button" href="/premium">
+          <span class="button-text">Premium</span>
+        </a>
+      </div>
+    </div>
+    <div class="ad">
+      <a href="/premium">
+        <img id="adv-img" src="img/adv_menu.png" alt="Ad">
+        <button id="remove-ads-button">Remove Ads</button>
+      </a>
+    </div>
+  </div>
+  <div class="container">
+    <table>
+      <tr>
+        <td class="title" colspan="3">
+          <span>Special offering for you!</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          
+
+          <img class="img-banner" src="img/premium_banner1.png">
+        </td>
+        <td>
+          <img class="img-banner chosen" id = "ib10" src="img/premium_banner2.png">
+
+        </td>
+        <td>
+          <img class="img-banner" id = "ib100" src="img/premium_banner3.png">
+        </td>
+      </tr>
+    </table>
+   
+  </div>
+
+    <div id="google-container"></div>
+  
+</body>
+
+</html>

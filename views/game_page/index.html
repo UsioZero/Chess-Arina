@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/game_page/styles.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts/game_page/script.js"></script>
+    <title>Game</title>
+</head>
+
+<body>
+    <div id="myModal1" class="modal1">
+        <div class="modal1-content">
+            <h4>Modal Title</h4>
+            <div class="modal1-footer">
+                <!-- Add link to main -->
+                <button type="button"><a href="/">To Main Menu</a></button>
+                <!-- Add open new modal -->
+                <button type="button"><a href="/">Next Game</a></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu">
+        <div class="logo">
+            <img id="logo-img" src="img/logo_transparent.png" alt="Logo">
+        </div>
+        <div class="buttons">
+            <div id="btn1-container" class="menu-button-container">
+                <div class="button-icon">
+                    <img src="img/icons/reg_button.png" alt="Button 1 Icon">
+                </div>
+                <a id="btn1" class="menu-button" href="/profile">
+                    <span class="button-text">Profile</span>
+                </a>
+            </div>
+            <div id="btn2-container" class="menu-button-container">
+                <div class="button-icon">
+                    <img src="img/icons/Start_game.png" alt="Button 2 Icon">
+                </div>
+                <a id="btn2" class="menu-button" href="#">
+                    <span class="button-text">Start game</span>
+                </a>
+            </div>
+            <div id="btn3-container" class="menu-button-container">
+                <div class="button-icon">
+                    <img src="img/icons/Settings.png" alt="Button 3 Icon">
+                </div>
+                <a id="btn3" class="menu-button" href="/settings">
+                    <span class="button-text">Settings</span>
+                </a>
+            </div>
+            <div id="btn4-container" class="menu-button-container">
+                <div class="button-icon">
+                    <img src="img/icons/Mobile.png" alt="Button 4 Icon">
+                </div>
+                <a id="btn4" class="menu-button" href="/mobile">
+                    <span class="button-text">Mobile</span>
+                </a>
+            </div>
+            <div id="btn5-container" class="menu-button-container">
+                <div class="button-icon">
+                    <img src="img/icons/Premium.png" alt="Button 5 Icon">
+                </div>
+                <a id="btn5" class="menu-button" href="/premium">
+                    <span class="button-text">Premium</span>
+                </a>
+            </div>
+        </div>
+        <div class="ad">
+            <img id="adv-img" src="img/adv_menu.png" alt="Ad">
+            <button id="remove-ads-button">Remove Ads</button>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table-container">
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <table class="player-info-table">
+                                    <tr>
+                                        <td>
+                                            <div class="avatar-icon">
+                                                <img src="img/avatars/Avatar6.png">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="grey-line">
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <a class="avatar-name">Your friend<br></a>
+                                                <a class="avatar-nickname">@your_friend</a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <table class="defeated-figures">
+                                                <tr>
+                                                    <td id="defeated-figures-container-1-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-2-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-3-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-4-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-5-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-6-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-7-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-8-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P.png" alt="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="defeated-figures-container-9-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/R.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-10-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/N.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-11-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/B.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-12-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/Q.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-13-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/K.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-14-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/B.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-15-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/N.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-16-1"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/R.png" alt="">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <div class="timer-container">
+                                                <div class="timer-icon">
+                                                    <img src="img/icons/timer.png" alt="">
+                                                    <span class="timer-text">
+                                                        <a>10:05</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="board-table">
+                                    <tr>
+                                        <td class="cell" id="cell56"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell57"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell58"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell59"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell60"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell61"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell62"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell63"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell48"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell49"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell50"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell51"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell52"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell53"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell54"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell55"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell40"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell41"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell42"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell43"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell44"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell45"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell46"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell47"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell32"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell33"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell34"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell35"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell36"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell37"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell38"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell39"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell24"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell25"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell26"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell27"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell28"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell29"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell30"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell31"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell16"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell17"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell18"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell19"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell20"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell21"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell22"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell23"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell8"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell9"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell10"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell11"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell12"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell13"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell14"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell15"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell" id="cell0"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell1"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell2"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell3"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell4"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell5"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell6"><img src="img/pieces/pak1/P.png"></td>
+                                        <td class="cell" id="cell7"><img src="img/pieces/pak1/P.png"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="player-info-table">
+                                    <tr>
+                                        <td>
+                                            <div class="avatar-icon">
+                                                <img src="">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="grey-line">
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <a class="avatar-name"><br></a>
+                                                <a class="avatar-nickname"></a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <table class="defeated-figures">
+                                                <tr>
+                                                    <td id="defeated-figures-container-1-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-2-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-3-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-4-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-5-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-6-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-7-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-8-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/P2.png" alt="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="defeated-figures-container-9-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/R2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-10-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/N2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-11-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/B2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-12-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/Q2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-13-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/K2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-14-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/B2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-15-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/N2.png" alt="">
+                                                    </td>
+                                                    <td id="defeated-figures-container-16-0"
+                                                        class="defeated-figures-container">
+                                                        <img src="img/pieces/pak1/R2.png" alt="">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <div class="timer-container">
+                                                <div class="timer-icon">
+                                                    <img src="img/icons/timer.png" alt="">
+                                                    <span class="timer-text">
+                                                        <a>10:05</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="move-text-container">
+                                    <a class="move-text"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="move-buttons-container">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

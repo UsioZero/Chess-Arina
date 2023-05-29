@@ -1,0 +1,50 @@
+body {
+    background-image: url('../../img/bgs/bg.png'); /* Replace 'background.jpg' with the actual path to your background image */
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 40px;
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.registration-button, .login-button {
+    background-color: #C69A42;
+    color: white;
+    font-size: 30px;
+    width: 220px;
+    height: 90px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.registration-button {
+    position: absolute;
+    top: 80%;
+    left: 85%;
+    margin: 50px;
+}
+
+.login-button {
+    position: absolute;
+    top: 80%;
+    margin: 50px;
+}
