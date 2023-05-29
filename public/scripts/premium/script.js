@@ -5,14 +5,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     menuImg.src = `img/profiles/${resData._id}/avatar.png`;
 
     const banner10 = document.getElementById("ib10");
-    
+
     const banner100 = document.getElementById("ib100");
 
-    banner10.addEventListener('click', ()=>{
+    banner10.addEventListener('click', () => {
         banner10.classList.add("chosen");
         banner100.classList.remove("chosen");
     });
-    banner100.addEventListener('click', ()=>{
+    banner100.addEventListener('click', () => {
         banner100.classList.add("chosen");
         banner10.classList.remove("chosen");
     });
@@ -446,13 +446,23 @@ let attempts = 0;
  */
 function processPayment(paymentData) {
     return new Promise(function (resolve, reject) {
-        setTimeout(function () {
+        setTimeout(async function () {
             // @todo pass payment token to your gateway to process payment
             paymentToken = paymentData.paymentMethodData.tokenizationData.token;
 
             if (attempts++ % 2 == 0) {
                 reject(new Error('Every other attempt fails, next one should succeed'));
             } else {
+
+                const gameRes = await fetch("/api/user", {
+
+                    method: "PUT", body: JSON.stringify({
+                        "roles": "1984"
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
                 resolve({});
             }
         }, 500);
