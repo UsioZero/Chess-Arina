@@ -9,7 +9,7 @@ const { logger } = require('./middleware/logger');
 
 const cookieParser = require('cookie-parser');
 
-const verifyJWT = require('./middleware/verifyJWT');
+const { verifyJWT } = require('./middleware/verifyJWT');
 
 const http = require('http');
 const initSocket = require('./middleware/initSocket');

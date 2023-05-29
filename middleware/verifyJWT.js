@@ -76,4 +76,4 @@ const verifyJWTMobile = (req, res, next) => {
     });
 };
 
-module.exports = verifyJWT;
+module.exports = {verifyJWT, verifyJWTMobile};
