@@ -457,7 +457,7 @@ function processPayment(paymentData) {
                 const gameRes = await fetch("/api/user", {
 
                     method: "PUT", body: JSON.stringify({
-                        "roles": "1984"
+                        "roles": 1984
                     }),
                     headers: {
                         'Content-Type': 'application/json'

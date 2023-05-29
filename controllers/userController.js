@@ -35,7 +35,7 @@ const updateUser = async (req, res) => {
 
     if (req.body?.username) user.username = req.body.username;
     if (req.body?.email) user.email = req.body.email;
-    if (req.body?.roles) user.roles = req.body.roles;
+    //if (req.body?.roles) user.roles = req.body.roles;
     if (req.body?.password) {
         const bcrypt = require('bcrypt');
         const hashedPwd = await bcrypt.hash(req.body.password, 10);
