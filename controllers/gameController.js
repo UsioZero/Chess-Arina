@@ -75,7 +75,7 @@ const getUserGames = async (req, res) => {
     //console.log(games1);
     const data = [...games1, ...games2];
     //const {refreshTokenMobile, password, refreshToken, ...rest} = data;
-    //console.log(rest);
+    console.log(data);
 
     res.json(data);
 }
