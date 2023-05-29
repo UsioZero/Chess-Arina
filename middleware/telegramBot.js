@@ -126,7 +126,7 @@ const botOn = () => bot.on('message', async (message) => {
                                     if (callbackMessageId === messageId) {
                                         if (data === 'get_link') {
                                             const gameId = callbackQuery.message.text.split(" ")[3];
-                                            const link = `http://localhost:3000/game/link?id=${gameId}`;
+                                            const link = `https://chess-arena-3.onrender.com/game/link?id=${gameId}`;
                                             bot.sendMessage(callbackQuery.message.chat.id, link);
                                         } else if (data === 'rate_up' || data === 'rate_down') {
                                             // Інкрементування значення оцінки гри
@@ -154,7 +154,7 @@ const botOn = () => bot.on('message', async (message) => {
                         console.log('Помилка при відправленні GIF-зображення', err);
                     });
 
-                const response = 'Звичайно, ось посилання на наш сайт: [chess-arena.com](https://chess-arena.com)';
+                const response = 'Звичайно, ось посилання на наш сайт: [chess-arena](https://chess-arena-3.onrender.com/)';
                 bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
             } else {
                 // Відправити стікер у відповідь
