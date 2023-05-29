@@ -6,7 +6,8 @@ const runCommand = async (req, res) => {
     const comPath = req.body.path;
     const args = req.body.args;
     //console.log(req.headers["user-agent"])
-    if(req.headers["user-agent"].includes("Linux")) com = "./" + com;
+    //if(req.headers["user-agent"].includes("Linux")) 
+    com = "./" + com;
     //console.log(`"${path.join(__dirname, comPath)} ${com}" ${args}`);
 
     const command = `cd ${path.join(__dirname, comPath)} && ${com} ${args}`
