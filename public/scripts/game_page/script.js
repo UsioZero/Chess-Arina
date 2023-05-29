@@ -414,7 +414,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Додавання обробників подій на кожну клітину
     cells.forEach(function (cell) {
+      
       async function clickHandler() {
+        
         var cellId = parseInt(this.id.replace('cell', '')); // Отримання індексу клітини
 
         if (clickSequence.length === 0) {
@@ -458,7 +460,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
             const { side, pieceType } = getPieceInfo(document.getElementById(`cell${start}`).firstChild.getAttribute('src'));
             const { apieceType, aside } = getAtteckedPieceInfo(document.getElementById(`cell${end}`).firstChild.getAttribute('src'));
-
+            console.log(castlings);
             let base = `${fen} ${en_passant} ${castlings[0]} ${castlings[1]} ${castlings[2]} ${castlings[3]} ${move_ctr} ${validMove[0]} ${validMove[1]} ${side} ${pieceType} ${apieceType} ${aside} ${validMove[2]}`;
 
             document.getElementById('cell' + validMove[1]).firstChild.src = document.getElementById('cell' + validMove[0]).firstChild.src;
@@ -482,6 +484,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const comPath = '../web/engine';
             const com = 'a';
             isWhiteMove = !isWhiteMove;
+            console.log(castlings);
             const responceCOM = await fetch('/runComm', {
               method: 'POST',
               headers: {
@@ -493,6 +496,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             const dataArr = resDataForGame.result.split("\n").map(el => el.replace("\r", ""));
             fen = dataArr[0];
+
             en_passant = dataArr[1];
             for (let i = 0; i < 4; i++) {
               if (castlings[i]!=0){
@@ -516,7 +520,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.log(dataArr);
             //console.log (isCheck);
             //isWhiteMove = !isWhiteMove;
+
             refreshBoard(fen, 'w', legalMoves);
+
             addEventToCells(false);
             if (dataArr.length == 8) {
               if (dataArr[7] == 1) {
@@ -538,7 +544,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
           } else {
             clickSequence = [];
-
             cells.forEach(function (cell) {
               cell.style.border = '';
             });

@@ -23,11 +23,10 @@ int main(int argc, const char *argv[])
 
     get_short_fen = std::string(argv[1]);
     en_passant = atoi(argv[2]);
-    // std::cout << unsigned(std::uint8_t(en_passant));
-    w_l_castling = argv[3];
-    w_s_castling = argv[4];
-    b_l_castling = argv[5];
-    b_s_castling = argv[6];
+    w_l_castling = atoi(argv[3]);
+    w_s_castling = atoi(argv[4]);
+    b_l_castling = atoi(argv[5]);
+    b_s_castling = atoi(argv[6]);
     move_ctr = atof(argv[7]);
     from = atoi(argv[8]);
     to = atoi(argv[9]);
@@ -53,21 +52,17 @@ int main(int argc, const char *argv[])
     Move cm(from, to, as, at, dt, ds, flag);
     position.move(cm);
     side = !side;
-    // std::cout << position;
-    //  std::cout<<short_fen;
-    //  std::cout<<en_passant;
-    //  std::cout<<w_l_castling;
-    //  std::cout<<w_s_castling;
-    //  std::cout<<b_l_castling;
-    //  std::cout<<b_s_castling;
-    //  std::cout<<move_ctr;
-
     std::cout << position.pieces.getShortFEN() << '\n';
     std::cout << unsigned(position.en_passant) << '\n';
+
     std::cout << position.w_l_castling << '\n';
+
     std::cout << position.w_s_castling << '\n';
+
     std::cout << position.b_l_castling << '\n';
+
     std::cout << position.b_s_castling << '\n';
+
     std::cout << position.move_ctr << '\n';
     MoveList legalmoves = LegalMoveGeneration::generate(position, side, false);
     for (int i = 0; i < legalmoves.size(); i++)
