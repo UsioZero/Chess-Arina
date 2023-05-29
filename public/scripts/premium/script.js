@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     const menuImg = document.querySelector("#btn1-container div img");
     menuImg.src = `img/profiles/${resData._id}/avatar.png`;
 
+    const banner10 = document.getElementById("ib10");
+    
+    const banner100 = document.getElementById("ib100");
+
+    banner10.addEventListener('click', ()=>{
+        banner10.classList.add("chosen");
+        banner100.classList.remove("chosen");
+    });
+    banner100.addEventListener('click', ()=>{
+        banner100.classList.add("chosen");
+        banner10.classList.remove("chosen");
+    });
+
     onGooglePayLoaded();
 
     //start game modal
