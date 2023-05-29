@@ -65,13 +65,13 @@ const handleLoginMobile = async (req, res) => {
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' } //Change to 5-15 min
+            { expiresIn: '1d' } //Change to 5-15 min
         );
         //create JWTs
         const refreshToken = jwt.sign(
             { "username": foundUser.username },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' } //Change to ???
+            { expiresIn: '30d' } //Change to ???
         );
         //Saving refresh token with cur user
         foundUser.refreshTokenMobile = refreshToken;
