@@ -64,7 +64,7 @@ router.route('/game-mobile')
     .get(verifyJWTMobile, gameController.getUserGames)
 
 router.route('/game-mobile/:id')
-    .get(verifyJWTMobile, userController.getUserById);
+    .get(userController.getUserById);
 
 router.post('/fileUpload',
     verifyJWT,
