@@ -12,7 +12,7 @@ const fileSizeLimiter = require('../middleware/fileSizeLimiter');
 const gameController = require('../controllers/gameController');
 const userController = require('../controllers/userController');
 
-router.get('/', verifyJWT, (req, res) => {
+router.get('^/$|/index.html', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
     res.sendFile(path.join(__dirname, '../views/main', 'index.html'));
 });
