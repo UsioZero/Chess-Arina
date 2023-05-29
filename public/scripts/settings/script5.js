@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let oldPassword = "123";
-  let isVisible = true;
-
+  
+  const tmp = await fetch("/api/user");
+  const dataTmp = await tmp.json();
+  const optData = dataTmp.options;
+  let isVisible = optData.is_profile_visible;
   const oldPasswordInput = document.getElementById("old-password");
   const newPasswordInput = document.getElementById("new-password");
   const confirmationInput = document.getElementById("confirm-password");
@@ -12,35 +15,65 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Set the initial state of the checkboxes
   if (isVisible) {
     anyoneCheckbox.checked = true;
+    nooneCheckbox.checked = false;
   } else {
     nooneCheckbox.checked = true;
+    anyoneCheckbox.checked = false;
   }
 
   // Add event listeners to the checkboxes
-  anyoneCheckbox.addEventListener("change", () => {
+  anyoneCheckbox.addEventListener("change", async () => {
     nooneCheckbox.checked = !anyoneCheckbox.checked;
     isVisible = anyoneCheckbox.checked;
-    console.log(isVisible);
+    optData.is_profile_visible = isVisible;
+    const gameRes = await fetch("/api/user", {
+
+      method: "PUT", body: JSON.stringify({
+        "options": optData      
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   });
 
-  nooneCheckbox.addEventListener("change", () => {
+  nooneCheckbox.addEventListener("change", async () => {
     anyoneCheckbox.checked = !nooneCheckbox.checked;
     isVisible = !nooneCheckbox.checked;
-    console.log(isVisible);
+    optData.is_profile_visible = isVisible;
+    const gameRes = await fetch("/api/user", {
+    method: "PUT", body: JSON.stringify({
+      "options": optData      
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
   });
 
   // Add event listener to the save button
-  saveButton.addEventListener("click", () => {
+  saveButton.addEventListener("click", async () => {
+
+   
+
     let oldPasswordValue = oldPasswordInput.value;
     let newPasswordValue = newPasswordInput.value;
     let confirmationValue = confirmationInput.value;
-
-    if (oldPasswordValue === oldPassword && newPasswordValue === confirmationValue) {
-      oldPassword = newPasswordValue;
+    console.log(dataTmp);
+    if (newPasswordValue === confirmationValue) {
+      dataTmp.password = newPasswordValue;
       oldPasswordInput.value = "";
       newPasswordInput.value = "";
       confirmationInput.value = "";
-      console.log(oldPassword);
+      const gameRes = await fetch("/api/user", {
+
+        method: "PUT", body: JSON.stringify({
+          "password": dataTmp.password     
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
     } else {
       alert("Wrong passwords");
     }
