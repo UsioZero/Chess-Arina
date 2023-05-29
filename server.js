@@ -17,7 +17,7 @@ const server = http.createServer(app);
 
 
 // tg bot
-const botOn = require('./middleware/telegramBot');
+//const botOn = require('./middleware/telegramBot');
 
 // db import
 const mongoose = require('mongoose');
@@ -44,7 +44,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // tg bot on
-botOn();
+//botOn();
 
 // access static data
 app.use(express.static(path.join(__dirname, '/public')));
