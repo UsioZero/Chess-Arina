@@ -62,7 +62,7 @@ const updateGame = async (req, res) => {
 
 const getUserGames = async (req, res) => {
     if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
-
+    console.log(req.user);
     const user = await User.findOne({username: req.user});
     const user_id = user.id;
 
