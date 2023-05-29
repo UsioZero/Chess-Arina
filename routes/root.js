@@ -10,6 +10,7 @@ const filesPayloadExists = require('../middleware/filesPayloadExists');
 const fileExtLimiter = require('../middleware/fileExtLimiter');
 const fileSizeLimiter = require('../middleware/fileSizeLimiter');
 const gameController = require('../controllers/gameController');
+const userController = require('../controllers/userController');
 
 router.get('/', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
@@ -62,12 +63,15 @@ router.post('/runComm', (req, res) =>
 router.route('/game-mobile')
     .get(verifyJWTMobile, gameController.getUserGames)
 
+router.route('/game-mobile/:id')
+    .get(verifyJWTMobile, userController.getUserById);
+
 router.post('/fileUpload',
     verifyJWT,
     fileUpload({ createParentPath: true }),
     filesPayloadExists,
     fileExtLimiter(['.png']),
-    fileSizeLimiter, 
+    fileSizeLimiter,
     fileSaver)
 
 module.exports = router;
