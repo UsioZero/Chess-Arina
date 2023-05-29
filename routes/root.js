@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const { verifyJWT } = require('../middleware/verifyJWT');
+const { verifyJWT, verifyJWTMobile } = require('../middleware/verifyJWT');
 const runCommand = require('../middleware/runCommand');
 const fileSaver = require('../middleware/fileSaver');
 const fileUpload = require('express-fileupload');
 const filesPayloadExists = require('../middleware/filesPayloadExists');
 const fileExtLimiter = require('../middleware/fileExtLimiter');
 const fileSizeLimiter = require('../middleware/fileSizeLimiter');
+const gameController = require('../controllers/gameController');
 
 router.get('/', verifyJWT, (req, res) => {
     //if(!isAuthorized(req)) res.
@@ -57,6 +58,9 @@ router.get('/premium', verifyJWT, (req, res) => {
 router.post('/runComm', (req, res) =>
     runCommand(req, res)
 );
+
+router.route('/game-mobile')
+    .get(verifyJWTMobile, gameController.getUserGames)
 
 router.post('/fileUpload',
     verifyJWT,

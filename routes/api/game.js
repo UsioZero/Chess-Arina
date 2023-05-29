@@ -11,7 +11,4 @@ router.route('/')
 router.route('/:id')
     .get(gameController.getGameById);
 
-router.route('/mobile')
-    .get(verifyJWTMobile, gameController.getUserGames)
-
 module.exports = router;
