@@ -43,6 +43,7 @@ const updateUser = async (req, res) => {
     }
     if (req.body?.options) user.options = req.body.options;
     if (req.body?.gameList) user.gameList = req.body.gameList;
+    if(req.body?.roles) user.roles.Premium = 1984;
 
     const result = await user.save();
     console.log(result);
