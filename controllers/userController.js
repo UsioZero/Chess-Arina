@@ -1,13 +1,13 @@
 const User = require('../model/User');
 
-// change
+
 const getAllUser = async (req, res) => {
     const food = await Food.find();
     if (!food) return res.sendStatus(204).json({ 'message': 'No food at all!' });
     res.json(food)
 }
 
-// change
+
 const createNewFood = async (req, res) => {
     if (!req?.body?.name) {
         return res.sendStatus(400).json({ 'message': 'Name are required!' });
@@ -24,7 +24,6 @@ const createNewFood = async (req, res) => {
     }
 }
 
-// change
 const updateUser = async (req, res) => {
     if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
 
@@ -35,7 +34,7 @@ const updateUser = async (req, res) => {
 
     if (req.body?.username) user.username = req.body.username;
     if (req.body?.email) user.email = req.body.email;
-    //if (req.body?.roles) user.roles = req.body.roles;
+  
     if (req.body?.password) {
         const bcrypt = require('bcrypt');
         const hashedPwd = await bcrypt.hash(req.body.password, 10);
@@ -50,7 +49,6 @@ const updateUser = async (req, res) => {
     res.json(result);
 }
 
-// change
 const deleteFood = async (req, res) => {
     if (!req?.body?.id) return res.status(400).json({ 'message': 'Food ID required' });
 
@@ -71,7 +69,7 @@ const getUser = async (req, res) => {
     }
     const data = user._doc;
     const { refreshTokenMobile, password, refreshToken, ...rest } = data;
-    //console.log(rest);
+
 
     res.json(rest);
 }
@@ -87,10 +85,7 @@ const getUserById = async (req, res) => {
 }
 
 module.exports = {
-    // getAllUser,
-    // createNewFood,
-    // updateFood,
-    // deleteFood,
+
     updateUser,
     getUser,
     getUserById

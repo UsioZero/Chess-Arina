@@ -27,18 +27,15 @@ document.addEventListener("DOMContentLoaded", async function () {
   else {
     inputPremium.value = "(Not owned)";
   }
-  // Get a list of all country names using the REST Countries API
+
   fetch("https://restcountries.com/v2/all")
     .then(response => response.json())
     .then(data => {
       let countryNames = data.map(country => country.name);
 
-      // Add an event listener to the input element with ID "input-country"
       let inputCountry = document.getElementById("input-country");
       inputCountry.addEventListener("input", function () {
         let inputValue = inputCountry.value.trim();
-
-        // Check if the input value is a valid country name
         if (countryNames.includes(inputValue)) {
           inputCountry.style.color = "black";
           isValidCountry = true;
@@ -54,9 +51,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let saveButton = document.querySelector(".save-button");
 
-  // Add a click event listener to the "Save" button
+
   saveButton.addEventListener("click", async function () {
-    // Get the values of the input fields and save them to the dataArray array
+
     dataArray[0] = inputName.value;
     if (isValidCountry) {
       dataArray[2] = inputCountry.value;
@@ -71,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     else {
       dataArray[4] = "";
     }
-    // Log the updated dataArray array to the console
+
     const tmp = await fetch("/api/user");
     const dataTmp = await tmp.json();
     const optData = dataTmp.options;
@@ -89,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         'Content-Type': 'application/json'
       }
     });
-    //console.log(dataArray);
+
   });
 
 
@@ -97,31 +94,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   menuImg.src = `img/profiles/${resData._id}/avatar.png`;
 
 
-
-  //start game modal
-  // Get the modal
-
-  //start game modal
-  // Get the modal
   var modal = document.getElementById("modal");
 
-  // Get the button that opens the modal
   var btn = document.getElementById("open-modal");
 
-  // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
-  // When the user clicks the button, open the modal
+
   btn.onclick = function () {
     modal.style.display = "block";
   }
 
-  // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     modal.style.display = "none";
   }
 
-  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -225,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     startGameData.push(thirdButtonInnerHTML);
 
-    //console.log(startGameData);
+
     if (startGameData[0] == "hu") {
 
       fetch("/api/game", {
@@ -246,7 +233,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }).then(res => res.json()).then(data => {
         let link = `/game/link?id=${data._id}`;
-        //console.log(gameData);
 
         window.location.href = `/game/?link=${link}`;
       })

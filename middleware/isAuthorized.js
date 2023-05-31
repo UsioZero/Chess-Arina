@@ -4,7 +4,7 @@ const isAuthorized = (req) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) return false;
     const token = authHeader.split(' ')[1];
-    //console.log(`token - ${token}`);
+
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,

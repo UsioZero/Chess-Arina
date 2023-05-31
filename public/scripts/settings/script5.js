@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const nooneCheckbox = document.getElementById("noone-checkbox");
   const saveButton = document.querySelector(".save-button-sequrity");
 
-  // Set the initial state of the checkboxes
+
   if (isVisible) {
     anyoneCheckbox.checked = true;
     nooneCheckbox.checked = false;
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     anyoneCheckbox.checked = false;
   }
 
-  // Add event listeners to the checkboxes
+
   anyoneCheckbox.addEventListener("change", async () => {
     nooneCheckbox.checked = !anyoneCheckbox.checked;
     isVisible = anyoneCheckbox.checked;
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   });
 
-  // Add event listener to the save button
+
   saveButton.addEventListener("click", async () => {
 
    
@@ -89,27 +89,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 
-  //start game modal
-  // Get the modal
+
   var modal = document.getElementById("modal");
 
-  // Get the button that opens the modal
   var btn = document.getElementById("open-modal");
 
-  // Get the <span> element that closes the modal
+
   var span = document.getElementsByClassName("close")[0];
 
-  // When the user clicks the button, open the modal
+
   btn.onclick = function () {
     modal.style.display = "block";
   }
 
-  // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     modal.style.display = "none";
   }
 
-  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -213,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     startGameData.push(thirdButtonInnerHTML);
 
-    //console.log(startGameData);
+
     if (startGameData[0] == "hu") {
 
       fetch("/api/game", {
@@ -234,7 +230,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }).then(res=>res.json()).then(data=>{
         let link = `/game/link?id=${data._id}`;
-        //console.log(gameData);
+
   
         window.location.href = `/game/?link=${link}`;
       })

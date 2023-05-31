@@ -20,7 +20,7 @@ const verifyJWT = (req, res, next) => {
 
                 jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
                     if (err) {
-                        // Refresh token is invalid or expired, redirect to '/unauth'
+
                         return res.redirect('/unauth');
                     }
 
@@ -28,7 +28,7 @@ const verifyJWT = (req, res, next) => {
                     if (!foundUser) return res.redirect('/unauth');
                     const roles = Object.values(foundUser.roles);
 
-                    // Generate a new access token
+                  
                     const accessToken = jwt.sign(
                         {
                             "UserInfo": {
@@ -38,17 +38,16 @@ const verifyJWT = (req, res, next) => {
                             }
                         },
                         process.env.ACCESS_TOKEN_SECRET,
-                        { expiresIn: '15m' } //Change to 5-15 min
+                        { expiresIn: '15m' } 
                     );
 
-                    // Set the new access token as an HTTP-only cookie
+
                     res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 60 * 60 * 1000 })
 
-                    // Add the decoded token information to the request object
+            
                     req.user = foundUser.username;
                     req.roles = roles;
 
-                    // Continue to the next middleware or route handler
                     next();
                 });
             } else {

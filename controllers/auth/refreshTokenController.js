@@ -14,7 +14,7 @@ const handleRefreshToken = async (req, res) => {
         (err, decode) => {
             if (err || foundUser.username !== decode.username) return res.sendStatus(403);
             const roles = Object.values(foundUser.roles);
-            //create JWTs
+
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
@@ -24,7 +24,7 @@ const handleRefreshToken = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15s' } //Change to 5-15 min
+                { expiresIn: '15s' } 
             );
             res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
         }

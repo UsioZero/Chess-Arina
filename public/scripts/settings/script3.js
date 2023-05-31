@@ -1,29 +1,28 @@
 window.addEventListener("load", async function () {
 
 
-  // Set the base value to 1
+
   const tmp = await fetch("/api/user");
     const dataTmp = await tmp.json();
     const optData = dataTmp.options;
   var base = optData.theme;
 
-  // Loop through the objects with ids "theme-{i}" and "theme-{i}-button", where i is from 1 to 4
+
   for (var i = 1; i <= 4; i++) {
-    // Get the td element with id "theme-{i}"
+
     var themeTd = document.getElementById(`theme-${i}`);
-    // Get the td element with id "theme-{i}-button"
+
     var themeButtonTd = document.getElementById(`theme-${i}-button`);
 
-    // If i is equal to the base value, set the active class for the td and its img
     if (i === base) {
-      // themeTd.classList.add("active-theme");
+
       themeTd.getElementsByTagName("img")[0].classList.add("active-theme");
       themeButtonTd.getElementsByTagName("div")[0].classList.add("active-checkbox");
     }
   }
 
   const themes = document.querySelectorAll('[id^="theme-"]');
-  //const themeButtons = document.querySelectorAll('[id^="theme-"][id$="-button"]');
+
   console.log(themes);
   themes.forEach((button) => {
     const index = parseInt(button.id.split("-")[1]);
@@ -57,27 +56,19 @@ window.addEventListener("load", async function () {
 
 
 
-  //start game modal
-  // Get the modal
   var modal = document.getElementById("modal");
 
-  // Get the button that opens the modal
   var btn = document.getElementById("open-modal");
 
-  // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
-  // When the user clicks the button, open the modal
   btn.onclick = function () {
     modal.style.display = "block";
   }
 
-  // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     modal.style.display = "none";
   }
-
-  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -181,7 +172,6 @@ window.addEventListener("load", async function () {
     }
     startGameData.push(thirdButtonInnerHTML);
 
-    //console.log(startGameData);
     if (startGameData[0] == "hu") {
 
       fetch("/api/game", {
@@ -202,8 +192,7 @@ window.addEventListener("load", async function () {
         }
       }).then(res=>res.json()).then(data=>{
         let link = `/game/link?id=${data._id}`;
-        //console.log(gameData);
-  
+    
         window.location.href = `/game/?link=${link}`;
       })
       

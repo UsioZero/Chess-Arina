@@ -1,8 +1,4 @@
 
-// <div id="container"></div>
-//<script async
-// src="https://pay.google.com/gp/p/js/pay.js"
-//  onload="onGooglePayLoaded()"></script> 
 
 
 /**
@@ -236,9 +232,7 @@ function getGoogleTransactionInfo() {
 }
 
 
-/**
- * Show Google Pay payment sheet when Google Pay payment button is clicked
- */
+
 function onGooglePaymentButtonClicked() {
     const paymentDataRequest = getGooglePaymentDataRequest();
     paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
@@ -257,7 +251,6 @@ let attempts = 0;
 function processPayment(paymentData) {
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
-            // @todo pass payment token to your gateway to process payment
             paymentToken = paymentData.paymentMethodData.tokenizationData.token;
 
             if (attempts++ % 2 == 0) {

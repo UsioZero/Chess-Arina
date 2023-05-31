@@ -15,22 +15,21 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
     ];
 
-    // Отримання посилання на елемент таблиці
+
     var table = document.querySelector('.top-table');
 
-    // Отримання всіх рядків таблиці, крім першого (шапки)
+
     var rows = table.querySelectorAll('tr');
 
-    // Проходження по рядках та заміна значень
     for (var i = 0; i < dataArray.length; i++) {
         var row = rows[i];
         var data = dataArray[i];
 
-        // Заміна значення src у тегу <img>
+
         var avatarImg = row.querySelector('.avatar-img');
         avatarImg.src = data.avatar;
 
-        // Заміна значення innerHTML у тегах <td>
+
         var nameTd = row.querySelector('td:nth-child(2)');
         var usernameTd = row.querySelector('td:nth-child(3)');
         var locationTd = row.querySelector('td:nth-child(4)');
@@ -67,19 +66,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     }
     console.log(stat);
-    //     <tr>
-    //     <td><img class="avatar-stat" src="img/avatars/Avatar3.png"></td>
-    //     <td>@user1</td>
-    //     <td>01.04.23</td>
-    //     <td><img class="pawn-image" src="img/pieces/pak1/P.png"></td>
-    //     <td>1</td>
-    //     <td>10|5</td>
-    //     <td>0</td>
-    //     <td><img class="pawn-image" src="img/pieces/pak1/P2.png"></td>
-    //     <td>13:30</td>
-    //     <td>@user2</td>
-    //     <td><img class="avatar-stat" src="img/avatars/Avatar1.png"></td>
-    //   </tr>
+
     for (let i = 0; i < ctr2; i++) {
         const responce1 = await fetch(`/api/user/${stat[i].user1}`);
         const resData1 = await responce1.json();
@@ -189,27 +176,20 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     });
 
-    //start game modal
-    // Get the modal
+
     var modal = document.getElementById("modal");
 
-    // Get the button that opens the modal
     var btn = document.getElementById("open-modal");
-
-    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal
     btn.onclick = function () {
         modal.style.display = "block";
     }
 
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -313,7 +293,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         startGameData.push(thirdButtonInnerHTML);
 
-        //console.log(startGameData);
         if (startGameData[0] == "hu") {
 
             fetch("/api/game", {
@@ -334,7 +313,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             }).then(res => res.json()).then(data => {
                 let link = `/game/link?id=${data._id}`;
-                //console.log(gameData);
+
 
                 window.location.href = `/game/?link=${link}`;
             })

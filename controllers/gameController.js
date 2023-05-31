@@ -1,14 +1,13 @@
 const Game = require('../model/Game');
 const User = require('../model/User');
 
-// change
+
 const getAllGames = async (req, res) => {
     const game = await Game.find();
     if(!game) return res.sendStatus(204).json({'message': 'No games at all!'});
     res.json(game)
 }
 
-// change
 const createNewGame = async (req, res) => {
     if (!req?.body?.user1) {
         return res.sendStatus(400).json({ 'message': 'User1 are required!' });
@@ -27,7 +26,7 @@ const createNewGame = async (req, res) => {
     }
 }
 
-// change
+
 const updateGame = async (req, res) => {
     console.log(req.body);
     if (!req?.body?.id) {
@@ -48,17 +47,7 @@ const updateGame = async (req, res) => {
     res.json(result);
 }
 
-// change
-// const deleteFood = async (req, res) => {
-//     if(!req?.body?.id) return res.status(400).json({ 'message': 'Food ID required'});
 
-//     const food_one = await Food.findOne({ _id: req.body.id}).exec();
-//     if(!food_one){
-//         return res.status(204).json({"message": `No food with ID ${req.body.id}.`});
-//     }
-//     const result = await food_one.deleteOne({ _id: req.body.id});
-//     res.json(result);
-// }
 
 const getUserGames = async (req, res) => {
     if (!req?.user) return res.status(400).json({ 'message': 'User ID required' });
@@ -72,10 +61,9 @@ const getUserGames = async (req, res) => {
     if (!games1 && !games2) {
         return res.status(204).json({ "message": `No games with user ${req.user}.` });
     }
-    //console.log(games1);
+
     const data = [...games1, ...games2];
-    //const {refreshTokenMobile, password, refreshToken, ...rest} = data;
-    //console.log(data);
+
     console.log('authd');
     res.json(data);
 }

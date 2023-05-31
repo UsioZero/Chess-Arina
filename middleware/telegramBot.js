@@ -1,7 +1,6 @@
 const { tgBotLogger } = require('./logger');
 const Game = require("../model/Game");
 const path = require('path');
-//telegram bot
 const TelegramBot = require('node-telegram-bot-api');
 const token = '6041726880:AAFwmy2N7zaF5G9_JnaofZvVH3OwVZXecaE';
 const bot = new TelegramBot(token, { polling: true });
@@ -15,17 +14,16 @@ const botOn = () => bot.on('message', async (message) => {
     if (message.text) {
         const messageText = message.text;
 
-        // Обробка команди /help або /commands
         if (messageText.startsWith('/help') || messageText.startsWith('/commands')) {
             if (messageText === '/help' || messageText === '/commands') {
                 const commandList = [
                     '/spectate - Переглянути активні ігри',
                     '/main - Отримати посилання на сайт'
-                    // Додайте інші команди за потреби
+  
                 ];
                 const gifPath = path.join(__dirname, '../public', 'img', 'gif4.mp4');
 
-                // Відправка GIF-зображення як документу
+
                 bot.sendDocument(chatId, gifPath)
                     .then(() => {
                         tgBotLogger('GIF-зображення відправлено', chatId);
@@ -44,11 +42,11 @@ const botOn = () => bot.on('message', async (message) => {
                     });
             }
         } else {
-            // Обробка команди /start
+   
             if (messageText.startsWith('/start')) {
                 const gifPath = path.join(__dirname, '../public', 'img', 'gif2.mp4');
 
-                // Відправка GIF-зображення як документу
+               
                 bot.sendDocument(chatId, gifPath)
                     .then(() => {
                         tgBotLogger('GIF-зображення відправлено', chatId);
@@ -60,7 +58,7 @@ const botOn = () => bot.on('message', async (message) => {
                 const response = 'Вітаю! Бот запущено. Для перегляду команд використайте /help або /commands.';
                 bot.sendMessage(chatId, response);
             } else if (messageText.startsWith('/spectate')) {
-                // Обробка команди /spectate
+        
                 let activeGames = 0;
                 let stat = [];
                 const gameData = await Game.find();
@@ -84,7 +82,6 @@ const botOn = () => bot.on('message', async (message) => {
 
                     const gifPath = path.join(__dirname, '../public', 'img', 'gif3.mp4');
 
-                    // Відправка GIF-зображення як документу
                     bot.sendDocument(chatId, gifPath)
                         .then(() => {
                             tgBotLogger('GIF-зображення відправлено', chatId);
@@ -129,8 +126,7 @@ const botOn = () => bot.on('message', async (message) => {
                                             const link = `https://chess-arena-3.onrender.com/game/link?id=${gameId}`;
                                             bot.sendMessage(callbackQuery.message.chat.id, link);
                                         } else if (data === 'rate_up' || data === 'rate_down') {
-                                            // Інкрементування значення оцінки гри
-                                            // Ваша логіка для збереження оцінки гри
+                                 
                                             bot.answerCallbackQuery(callbackQuery.id, 'Дякуємо за вашу оцінку!');
                                         }
                                     }
@@ -142,10 +138,9 @@ const botOn = () => bot.on('message', async (message) => {
                         });
                 }
             } else if (messageText.startsWith('/main')) {
-                // Обробка команди /main
+
                 const gifPath = path.join(__dirname, '../public', 'img', 'gif5.mp4');
 
-                // Відправка GIF-зображення як документу
                 bot.sendDocument(chatId, gifPath)
                     .then(() => {
                         tgBotLogger('GIF-зображення відправлено', chatId);
@@ -157,10 +152,10 @@ const botOn = () => bot.on('message', async (message) => {
                 const response = 'Звичайно, ось посилання на наш сайт: [chess-arena](https://chess-arena-3.onrender.com/)';
                 bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
             } else {
-                // Відправити стікер у відповідь
+
                 const gifPath = path.join(__dirname, '../public', 'img', 'gif6.mp4');
 
-                // Відправка GIF-зображення як документу
+
                 bot.sendDocument(chatId, gifPath)
                     .then(() => {
                         tgBotLogger('GIF-зображення відправлено', chatId);

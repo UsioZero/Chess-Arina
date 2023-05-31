@@ -38,9 +38,9 @@ $(document).ready(async function () {
     }
   ];
 
-  var currentIndex = 0; // Current pattern index
+  var currentIndex = 0; 
 
-  // Function to update the text and images based on the current pattern index
+
   function updatePattern() {
     $("#strip-title").text(patterns[currentIndex].title);
     $("#content-image-1").attr("src", patterns[currentIndex].img1);
@@ -48,40 +48,38 @@ $(document).ready(async function () {
     $("#content-image-3").attr("src", patterns[currentIndex].dialog);
   }
 
-  // Button click event handler for "Next" button
+
   $("#btn7").on("click", function () {
-    currentIndex = (currentIndex + 1) % patterns.length; // Increment index with wrap-around
+    currentIndex = (currentIndex + 1) % patterns.length; 
     updatePattern();
   });
 
-  // Button click event handler for "Previous" button
+
   $("#btn6").on("click", function () {
-    currentIndex = (currentIndex - 1 + patterns.length) % patterns.length; // Decrement index with wrap-around
+    currentIndex = (currentIndex - 1 + patterns.length) % patterns.length; 
     updatePattern();
   });
 
 
-  //start game modal
-  // Get the modal
+
   var modal = document.getElementById("modal");
 
-  // Get the button that opens the modal
+
   var btn = document.getElementById("open-modal");
 
-  // Get the <span> element that closes the modal
+
   var span = document.getElementsByClassName("close")[0];
 
-  // When the user clicks the button, open the modal
+
   btn.onclick = function () {
     modal.style.display = "block";
   }
 
-  // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     modal.style.display = "none";
   }
 
-  // When the user clicks anywhere outside of the modal, close it
+
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -185,7 +183,7 @@ $(document).ready(async function () {
     }
     startGameData.push(thirdButtonInnerHTML);
 
-    //console.log(startGameData);
+
     if (startGameData[0] == "hu") {
 
       fetch("/api/game", {
@@ -206,7 +204,7 @@ $(document).ready(async function () {
         }
       }).then(res=>res.json()).then(data=>{
         let link = `/game/link?id=${data._id}`;
-        //console.log(gameData);
+
   
         window.location.href = `/game/?link=${link}`;
       })
