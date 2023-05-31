@@ -185,8 +185,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 /**
  * Define the version of the Google Pay API referenced when creating your
  * configuration
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#PaymentDataRequest|apiVersion in PaymentDataRequest}
  */
 const baseRequest = {
     apiVersion: 2,
@@ -195,17 +193,12 @@ const baseRequest = {
 
 /**
  * Card networks supported by your site and your gateway
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#CardParameters|CardParameters}
  * @todo confirm card networks supported by your site and gateway
  */
 const allowedCardNetworks = ["MASTERCARD", "VISA"];
 
 /**
  * Card authentication methods supported by your site and your gateway
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#CardParameters|CardParameters}
- * @todo confirm your processor supports Android device tokens for your
  * supported card networks
  */
 const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
@@ -215,9 +208,6 @@ const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
  *
  * The Google Pay API response will return an encrypted payment method capable
  * of being charged by a supported gateway after payer authorization
- *
- * @todo check with your gateway on the parameters to pass
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#gateway|PaymentMethodTokenizationSpecification}
  */
 const tokenizationSpecification = {
     type: 'PAYMENT_GATEWAY',
@@ -230,8 +220,6 @@ const tokenizationSpecification = {
 /**
  * Describe your site's support for the CARD payment method and its required
  * fields
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#CardParameters|CardParameters}
  */
 const baseCardPaymentMethod = {
     type: 'CARD',
@@ -244,8 +232,6 @@ const baseCardPaymentMethod = {
 /**
  * Describe your site's support for the CARD payment method including optional
  * fields
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#CardParameters|CardParameters}
  */
 const cardPaymentMethod = Object.assign(
     {},
@@ -257,8 +243,6 @@ const cardPaymentMethod = Object.assign(
 
 /**
  * An initialized google.payments.api.PaymentsClient object or null if not yet set
- *
- * @see {@link getGooglePaymentsClient}
  */
 let paymentsClient = null;
 
@@ -269,8 +253,6 @@ let paymentsClient = null;
  * Each member of allowedPaymentMethods should contain only the required fields,
  * allowing reuse of this base request when determining a viewer's ability
  * to pay and later requesting a supported payment method
- *
- * @returns {object} Google Pay API version, payment methods supported by the site
  */
 function getGoogleIsReadyToPayRequest() {
     return Object.assign(
@@ -284,9 +266,6 @@ function getGoogleIsReadyToPayRequest() {
 
 /**
  * Configure support for the Google Pay API
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#PaymentDataRequest|PaymentDataRequest}
- * @returns {object} PaymentDataRequest fields
  */
 function getGooglePaymentDataRequest() {
     const paymentDataRequest = Object.assign({}, baseRequest);
@@ -306,9 +285,6 @@ function getGooglePaymentDataRequest() {
 
 /**
  * Return an active PaymentsClient or initialize
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/client#PaymentsClient|PaymentsClient constructor}
- * @returns {google.payments.api.PaymentsClient} Google Pay API client
  */
 function getGooglePaymentsClient() {
     if (paymentsClient === null) {
@@ -324,12 +300,6 @@ function getGooglePaymentsClient() {
 
 /**
  * Handles authorize payments callback intents.
- *
- * @param {object} paymentData response from Google Pay API after a payer approves payment through user gesture.
- * @see {@link https://developers.google.com/pay/api/web/reference/response-objects#PaymentData object reference}
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/response-objects#PaymentAuthorizationResult}
- * @returns Promise<{object}> Promise of PaymentAuthorizationResult object to acknowledge the payment authorization status.
  */
 function onPaymentAuthorized(paymentData) {
     return new Promise(function (resolve, reject) {
@@ -373,9 +343,6 @@ function onGooglePayLoaded() {
 
 /**
  * Add a Google Pay purchase button alongside an existing checkout button
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#ButtonOptions|Button options}
- * @see {@link https://developers.google.com/pay/api/web/guides/brand-guidelines|Google Pay brand guidelines}
  */
 function addGooglePayButton() {
     const paymentsClient = getGooglePaymentsClient();
@@ -386,9 +353,6 @@ function addGooglePayButton() {
 
 /**
  * Provide Google Pay API with a payment amount, currency, and amount status
- *
- * @see {@link https://developers.google.com/pay/api/web/reference/request-objects#TransactionInfo|TransactionInfo}
- * @returns {object} transaction info, suitable for use as transactionInfo property of PaymentDataRequest
  */
 function getGoogleTransactionInfo() {
     return {
@@ -427,9 +391,6 @@ function onGooglePaymentButtonClicked() {
 let attempts = 0;
 /**
  * Process payment data returned by the Google Pay API
- *
- * @param {object} paymentData response from Google Pay API after user approves payment
- * @see {@link https://developers.google.com/pay/api/web/reference/response-objects#PaymentData|PaymentData object reference}
  */
 function processPayment(paymentData) {
     return new Promise(function (resolve, reject) {
